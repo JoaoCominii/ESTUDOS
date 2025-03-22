@@ -12,7 +12,7 @@ public class TimeDuendes {
 
         for(int i=0; i < N; i++) // Guardar N nomes e idades dos duendes
         {
-            nomes[i] = scanner.nextLine();
+            nomes[i] = scanner.next();
             idades[i] = scanner.nextInt();
             scanner.nextLine();
         }
