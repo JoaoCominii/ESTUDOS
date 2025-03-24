@@ -16,7 +16,7 @@ class ListaLinear{
         {
             System.out.println("Erro ao inserir.");
         }
-        for(int i = 0; i < n; i++)
+        for(int i = n; i > 0; i--)
         {
             array[i + 1] = array[i];
         }
@@ -40,7 +40,7 @@ class ListaLinear{
         {
             System.out.println("Erro ao inserir.");
         }
-        for(int i = n; i < pos; i--)
+        for(int i = n; i > pos; i--)
         {
             array[i] = array[i- 1];
         }
@@ -92,10 +92,11 @@ class ListaLinear{
 
 // Imprime os elementos da lista, metodo iterativo
 public void mostrar(){
-    for(int i = 0; i < array.length; i++)
+    for(int i = 0; i < n; i++)
     {
         System.out.print(array[i] + " ");
     }
+    System.out.println("]");
 }
 
 // pesquisa se o elemento esta presente na lista, retornando verdadeiro em caso afirmativo
