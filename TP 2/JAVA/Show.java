@@ -147,7 +147,22 @@ class Show {
         try (BufferedReader br = new BufferedReader(new FileReader("/tmp/disneyplus.csv"))) {
             String line = br.readLine(); // Ignorar o cabeçalho
             while ((line = br.readLine()) != null) {
-                String[] partes = linha.split(",");
+                String[] partes = new String[11]; // Array para armazenar os campos
+                StringBuilder campo = new StringBuilder();
+                boolean dentroDeAspas = false;
+                int i = 0; // indice para o array partes
+                for (char c : line.toCharArray()) {
+                    if (c == '"') {
+                        dentroDeAspas = !dentroDeAspas; // Alterna o estado de dentro de aspas
+                    } else if (c == ',' && !dentroDeAspas) {
+                        partes[i++] = campo.toString().trim();
+                        campo.setLength(0); // Limpa o StringBuilder para o próximo campo
+                    } else {
+                        campo.append(c); // Adiciona o caractere ao campo
+                    }
+                }
+                partes[i] = campo.toString().trim(); // Adiciona o último campo
+                // Atribui os valores aos atributos da classe
                 this.setShow_ID(partes[0]);
                 this.setType(partes[1]);
                 this.setTitle(partes[2] != null ? partes[2] : "NaN");
