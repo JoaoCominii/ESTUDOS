@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 
 class Show {
@@ -245,4 +246,40 @@ private void ordenarBubbleSort(String[] array) {
         }
     }
 }
+}
+
+
+public class TP02Q1 {
+    public static void main(String[] args) {
+
+        // Carrega todos os Shows do arquivo CSV
+        Show[] todosShows = Show.Ler();
+
+        // Array para armazenar os 300 Shows
+        Show[] showsSelecionados = new Show[300];
+        int contador = 0;
+
+        // Usa Scanner para ler os IDs do teclado
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String id = scanner.nextLine();
+            if (id.equals("FIM")) { // Finaliza ao receber "FIM"
+                break;
+            }
+
+            // Busca o Show com o ID fornecido
+            for (Show show : todosShows) {
+                if (show != null && show.getShow_ID().equals(id)) {
+                    showsSelecionados[contador++] = show;
+                    break;
+                }
+            }
+        }
+        scanner.close(); // Fecha o Scanner
+
+        // Exibe os Shows selecionados usando o método imprimir
+        for (int i = 0; i < contador; i++) {
+            System.out.println(showsSelecionados[i].imprimir());
+        }
+    }
 }
