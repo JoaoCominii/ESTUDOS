@@ -1,6 +1,11 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
 
 
 class Show {
@@ -262,4 +267,152 @@ private void ordenarBubbleSort(String[] array) {
         }
     }
 }
+}
+
+
+
+public class TP02Q18 {
+
+    // Método principal de ordenação com QuickSort
+    public static void sort(Show[] shows, int n) {
+        int[] contadores = new int[2]; // [0] = comparações, [1] = movimentações
+        long inicio = System.nanoTime(); // Marca o tempo de início
+
+        quicksort(shows, 0, n - 1, contadores);
+
+        long fim = System.nanoTime();
+        long tempoTotal = fim - inicio;
+
+        // Cria o arquivo de log com os contadores e tempo total
+        try (FileWriter writer = new FileWriter("matricula_quicksort.txt")) {
+            writer.write("00846713\t" + "Comparações: " + contadores[0] + "\t" +
+                         "Movimentações: " + contadores[1] + "\t" +
+                         "TempoTotal: " + tempoTotal + "ns");
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
+    }
+
+    private static void quicksort(Show[] array, int esq, int dir, int[] contadores) {
+        if (esq >= dir) {
+            return;
+        }
+        
+        int i = esq, j = dir;
+        int k = 10;
+        Show pivo = array[(esq + dir) / 2];
+
+        while (i <= j) {
+            // Avança "i" enquanto o elemento na posição i for menor que o pivô
+            while ((i <= dir) && (comparaShows(array[i], pivo) < 0)) {
+                contadores[0]++; 
+                i++;
+            }     
+
+            // Retrocede "j" enquanto o elemento na posição j for maior que o pivô
+            while ((j >= esq) && (comparaShows(array[j], pivo) > 0)) {
+                contadores[0]++;
+                j--;
+            }
+
+            // Se os índices ainda não se cruzaram, troca os elementos
+            if (i <= j) {
+                swap(array, i, j, contadores);
+                i++;
+                j--;
+            }
+        }
+
+        // Chamada recursiva para as partições, respeitando os limites
+        if (esq < j)
+            quicksort(array, esq, j, contadores);
+        if (i < k && i < dir)
+            quicksort(array, i, dir, contadores);
+    }
+
+    // Troca os elementos nas posições i e j e registra 3 movimentações
+    private static void swap(Show[] array, int i, int j, int[] contadores) {
+        Show temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+        contadores[1] += 3;
+    }
+
+    // Compara dois objetos Show usando date_added como chave principal e, em caso de empate, Title
+    private static int comparaShows(Show s1, Show s2) {
+        if (s1 == null && s2 == null) return 0;
+        if (s1 == null) return 1;  // Coloca os não-nulos antes dos nulos
+        if (s2 == null) return -1;
+
+        String data1 = s1.getDate_Added();
+        String data2 = s2.getDate_Added();
+        if (data1 == null) data1 = "";
+        if (data2 == null) data2 = "";
+
+        data1 = converterDataParaFormatoISO(data1);
+        data2 = converterDataParaFormatoISO(data2);
+
+        int cmp = data1.compareTo(data2);
+        if (cmp != 0) {
+            return cmp;
+        }
+
+        // Se as datas forem iguais, desempata pelo title
+        String titulo1 = s1.getTitle();
+        String titulo2 = s2.getTitle();
+        if (titulo1 == null) titulo1 = "";
+        if (titulo2 == null) titulo2 = "";
+        return titulo1.compareTo(titulo2);
+    }
+
+        private static String converterDataParaFormatoISO(String data) {
+        try {
+            // Define o formato original e o desejado
+            SimpleDateFormat formatoOriginal = new SimpleDateFormat("MMMM d, yyyy");
+            SimpleDateFormat formatoISO = new SimpleDateFormat("yyyy-MM-dd");
+
+            // Faz a conversão
+            Date date = formatoOriginal.parse(data);
+            return formatoISO.format(date);
+        } catch (ParseException e) {
+            // Em caso de erro, retorna uma string vazia
+            return "";
+        }
+    }
+
+
+    public static void main(String[] args) {
+        // Carrega todos os shows do arquivo CSV (método Show.Ler())
+        Show[] todosShows = Show.Ler();
+        
+        // Array para armazenar os 300 shows selecionados
+        Show[] showsSelecionados = new Show[300];
+        int contador = 0;
+
+        // Lê os IDs do teclado
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String id = scanner.nextLine();
+            if (id.equals("FIM")) {
+                break;
+            }
+            for (Show show : todosShows) {
+                if (show != null && show.getShow_ID().equals(id)) {
+                    showsSelecionados[contador++] = show;
+                    break;
+                }
+            }
+        }
+        scanner.close();
+
+        // Ordena os shows selecionados usando QuickSort
+        sort(showsSelecionados, contador);
+
+        // Exibe os shows ordenados utilizando o método imprimir()
+        for (int i = 0; i < 10; i++) {
+            if (showsSelecionados[i] != null) {
+                System.out.println(showsSelecionados[i].imprimir());
+            }
+        }
+    }
 }

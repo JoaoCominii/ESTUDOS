@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
+
 
 
 class Show {
@@ -148,7 +151,7 @@ class Show {
         String listedInFormatado = "[" + String.join(", ", removerEspacos(this.Listed_In)) + "]";
     
         // Retorna a string formatada com os arrays, mesmo quando estão vazios com as informações do Show
-        return ("=> " + getShow_ID().trim() + " ## " + getTitle().trim() + " ## " + getType().trim() + " ## " + getDirector().trim() + " ## "
+        return ("=> " + getShow_ID().trim() + " ## " + getType().trim() + " ## " + getTitle().trim() + " ## " + getDirector().trim() + " ## "
                 + castFormatado + " ## " + getCountry().trim() + " ## " + Date_Added.trim()
                 + " ## " + getRelease_Year() + " ## " + getRating().trim() + " ## " + getDuration().trim() + " ## "
                 + listedInFormatado + " ##");
@@ -261,5 +264,75 @@ private void ordenarBubbleSort(String[] array) {
             }
         }
     }
+}
+}
+
+
+public class TP02Q3 {
+ public static void main(String[] args) {
+
+        // Marca o tempo de início
+        long inicio = System.nanoTime();
+        
+        // Carrega todos os Shows do arquivo CSV
+        Show[] todosShows = Show.Ler();
+
+        // Array para armazenar os 300 Shows
+        Show[] showsSelecionados = new Show[300];
+        int contador = 0;
+        int comparacoes = 0; // Contador de comparações
+
+        // Usa Scanner para ler os IDs do teclado
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String id = scanner.nextLine();
+            if (id.equals("FIM")) { // Finaliza ao receber "FIM"
+                break;
+            }
+
+
+            for (Show show : todosShows) {
+                comparacoes++;
+                if (show != null && show.getShow_ID().equals(id)) {
+                    showsSelecionados[contador++] = show;
+                    break; // Interrompe o laço ao encontrar o show correspondente
+                }
+            }
+        }
+
+        // le os nomes dos shows e verifica se estão no array de shows selecionados
+        while (scanner.hasNextLine()) {
+            String nome = scanner.nextLine();
+            if (nome.equals("FIM")) { // Finaliza ao receber "FIM"
+                break;
+            }
+
+            boolean encontrado = false; // Variável para verificar se o show foi encontrado
+            // Verifica se o show está no array de shows selecionados
+            for(Show show : showsSelecionados) {
+                comparacoes++;
+                if (show != null && show.getTitle().equals(nome)) {
+                    System.out.println("SIM");
+                    encontrado = true; 
+                    break; // Interrompe o laço ao encontrar o show correspondente
+                }
+            }
+            if(!encontrado) {
+                System.out.println("NAO"); 
+            }
+        }
+        scanner.close(); 
+
+        // Calcula o tempo total de execução
+        long fim = System.nanoTime();
+        long tempoTotal = fim - inicio; 
+
+        // Escreva arquivo de log
+        try(FileWriter writer = new FileWriter("matricula_sequencial.txt")) {
+            writer.write("00846713\t" + "Comparações: " + comparacoes + "\t"+ "TempoTotal: " + tempoTotal + "ns");
+            writer.write("\n"); // Adiciona uma nova linha após cada entrada
+        }catch (IOException e) {
+            System.err.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
 }
 }

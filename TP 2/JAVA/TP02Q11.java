@@ -1,7 +1,9 @@
+
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-
+import java.util.Scanner;
 
 class Show {
 
@@ -146,14 +148,14 @@ class Show {
         // Remove os espaços de cada elemento do array Cast e Listed_In
         String castFormatado = "[" + String.join(", ", removerEspacos(this.Cast)) + "]";
         String listedInFormatado = "[" + String.join(", ", removerEspacos(this.Listed_In)) + "]";
-    
+
         // Retorna a string formatada com os arrays, mesmo quando estão vazios com as informações do Show
         return ("=> " + getShow_ID().trim() + " ## " + getTitle().trim() + " ## " + getType().trim() + " ## " + getDirector().trim() + " ## "
                 + castFormatado + " ## " + getCountry().trim() + " ## " + Date_Added.trim()
                 + " ## " + getRelease_Year() + " ## " + getRating().trim() + " ## " + getDuration().trim() + " ## "
                 + listedInFormatado + " ##");
     }
-    
+
     // Método auxiliar para remover espaços dos elementos de um array de strings
     private String[] removerEspacos(String[] array) {
         String[] resultado = new String[array.length];
@@ -162,10 +164,9 @@ class Show {
         }
         return resultado;
     }
-    
 
     // Método clone: cria uma cópia do objeto Show
-    public String clone () {
+    public String clone() {
         Show cloneShow = new Show(this.Show_ID, this.Type, this.Title, this.Director, this.Cast, this.Country, this.Date_Added, this.Release_Year, this.Rating, this.Duration, this.Listed_In);
         return cloneShow.imprimir();
     }
@@ -179,7 +180,6 @@ class Show {
         try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
             String linha;
             boolean primeiraLinha = true;
-
 
             while ((linha = br.readLine()) != null && contador < 1368) {
                 if (primeiraLinha) { // Ignora cabeçalho
@@ -202,23 +202,23 @@ class Show {
                 String[] cast = valores[4].split(",");
                 String[] listedIn = valores[10].split(",");
                 Show show = new Show(
-                    valores[0], // Show_ID
-                    valores[1], // Type
-                    valores[2], // Title
-                    valores[3], // Director
-                    cast, // Cast
-                    valores[5], // Country
-                    valores[6], // Date_Added
-                    Integer.parseInt(valores[7]), // Release_Year
-                    valores[8], // Rating
-                    valores[9], // Duration
-                    listedIn // Listed_In
+                        valores[0], // Show_ID
+                        valores[1], // Type
+                        valores[2], // Title
+                        valores[3], // Director
+                        cast, // Cast
+                        valores[5], // Country
+                        valores[6], // Date_Added
+                        Integer.parseInt(valores[7]), // Release_Year
+                        valores[8], // Rating
+                        valores[9], // Duration
+                        listedIn // Listed_In
                 );
 
                 // Adiciona o objeto no array
                 shows[contador++] = show;
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         } catch (NumberFormatException e) {
             System.err.println("Erro ao converter ano de lançamento: " + e.getMessage());
@@ -227,9 +227,7 @@ class Show {
         return shows;
     }
 
-
-
-/*
+    /*
 * Método ordenarBubbleSort:
  * Ordena um array de strings em ordem alfabética, removendo espaços e convertendo para minúsculas.
  * O Bubble Sort (Ordenação por Bolha) é um algoritmo de ordenação simples e intuitivo 
@@ -240,26 +238,156 @@ class Show {
  * O processo continua até que o array esteja ordenado, ou seja, não haja mais trocas necessárias.
  * O algoritmo Bubble Sort é simples, mas não é o mais eficiente para grandes conjuntos de dados.
  * Ele tem complexidade de tempo O(n^2) no pior caso, onde n é o número de elementos no array.
- */
-private void ordenarBubbleSort(String[] array) {
-    int n = array.length;
-    // Passagens pelo array (n vezes no máximo)
-    for (int i = 0; i < n - 1; i++) {
-        // Comparações entre elementos consecutivos (n-i-1 vezes no máximo)
-        // O último elemento já está na posição correta após cada passagem
-        for (int j = 0; j < n - i - 1; j++) {
-            // Remove espaços e força para minúsculas para comparação
-            String atual = array[j].trim().toLowerCase();
-            String proximo = array[j + 1].trim().toLowerCase();
+     */
+    private void ordenarBubbleSort(String[] array) {
+        int n = array.length;
+        // Passagens pelo array (n vezes no máximo)
+        for (int i = 0; i < n - 1; i++) {
+            // Comparações entre elementos consecutivos (n-i-1 vezes no máximo)
+            // O último elemento já está na posição correta após cada passagem
+            for (int j = 0; j < n - i - 1; j++) {
+                // Remove espaços e força para minúsculas para comparação
+                String atual = array[j].trim().toLowerCase();
+                String proximo = array[j + 1].trim().toLowerCase();
 
-            // Troca os elementos se estiverem fora de ordem
-            if (atual.compareTo(proximo) > 0) { // Verifica a ordem alfabética
-                // Troca os elementos
-                String temp = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = temp;
+                // Troca os elementos se estiverem fora de ordem
+                if (atual.compareTo(proximo) > 0) { // Verifica a ordem alfabética
+                    // Troca os elementos
+                    String temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
             }
         }
     }
+
 }
+
+public class TP02Q11 {
+
+    // Método para ordenar usando Counting Sort
+    public static void ordenarCountingSort(Show[] shows, int tamanho) {
+        long inicio = System.nanoTime(); // Marca o tempo de início
+        int comparacoes = 0;
+        int movimentacoes = 0;
+
+        // Determina o menor e maior Release Year
+        int menorAno = Integer.MAX_VALUE;
+        int maiorAno = Integer.MIN_VALUE;
+
+        for (Show show : shows) {
+            if (show != null) {
+                menorAno = Math.min(menorAno, show.getRelease_Year());
+                maiorAno = Math.max(maiorAno, show.getRelease_Year());
+            }
+        }
+
+        // Cria o array de contagem com base nos Release Years
+        int range = maiorAno - menorAno + 1;
+        int[] count = new int[range];
+        Show[] ordenado = new Show[tamanho];
+
+        // Inicializa o array de contagem com zeros
+        for (int i = 0; i < range; i++) {
+            count[i] = 0;
+        }
+
+        // Conta o número de ocorrências de cada Release Year
+        for (int i = 0; i < tamanho; i++) {
+            if (shows[i] != null) {
+                comparacoes++;
+                int index = shows[i].getRelease_Year() - menorAno;
+                count[index]++;
+            }
+        }
+
+        // Converte o array de contagem para armazenar as posições finais
+        for (int i = 1; i < range; i++) {
+            count[i] += count[i - 1];
+        }
+
+        // Ordena os elementos no array auxiliar de forma estável
+        for (int i = tamanho - 1; i >= 0; i--) {
+            if (shows[i] != null) {
+                movimentacoes++;
+                int index = shows[i].getRelease_Year() - menorAno;
+                int pos = --count[index]; // Determina a posição final
+                ordenado[pos] = shows[i]; // Insere o show na posição correta
+            }
+        }
+
+        // Copia os elementos ordenados do array auxiliar para o array original
+        for (int i = 0; i < tamanho; i++) {
+            movimentacoes++;
+            shows[i] = ordenado[i];
+        }
+
+        // Desempata usando o Title
+        desempatarPorTitle(shows, tamanho, comparacoes, movimentacoes);
+
+        // Calcula o tempo total de execução
+        long fim = System.nanoTime();
+        long tempoTotal = fim - inicio;
+
+        // Escreve o arquivo de log
+        try (FileWriter writer = new FileWriter("matricula_countingsort.txt")) {
+            writer.write("00846713\t" + "Comparações: " + comparacoes + "\t"
+                    + "Movimentações: " + movimentacoes + "\t"
+                    + "TempoTotal: " + tempoTotal + "ns");
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
+    }
+
+    // Método para desempatar pelo campo Title após o Counting Sort
+    private static void desempatarPorTitle(Show[] shows, int tamanho, int comparacoes, int movimentacoes) {
+        for (int i = 1; i < tamanho; i++) {
+            Show tmp = shows[i];
+            int j = i - 1;
+
+            while (j >= 0 && shows[j] != null && tmp != null
+                    && shows[j].getRelease_Year() == tmp.getRelease_Year() // Verifica se há empate no Release Year
+                    && shows[j].getTitle().compareTo(tmp.getTitle()) > 0) { // Desempate pelo Title
+                comparacoes++;
+                shows[j + 1] = shows[j];
+                movimentacoes++;
+                j--;
+            }
+            shows[j + 1] = tmp; // Insere na posição correta
+        }
+    }
+
+    public static void main(String[] args) {
+        Show[] todosShows = Show.Ler();
+        Show[] showsSelecionados = new Show[300];
+        int contador = 0;
+
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String id = scanner.nextLine();
+            if (id.equals("FIM")) {
+                break;
+            }
+
+            for (Show show : todosShows) {
+                if (show != null && show.getShow_ID().equals(id)) {
+                    showsSelecionados[contador++] = show;
+                    break;
+                }
+            }
+        }
+
+        ordenarCountingSort(showsSelecionados, contador);
+
+        // Exibe os Shows ordenados
+        for (int i = 0; i < contador; i++) {
+            if (showsSelecionados[i] != null) {
+                System.out.println(showsSelecionados[i].imprimir());
+            } else {
+                System.err.println("Erro: show nulo encontrado na posição " + i);
+            }
+        }
+
+        scanner.close();
+    }
 }

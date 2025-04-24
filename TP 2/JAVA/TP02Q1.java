@@ -46,6 +46,7 @@ class Show {
         this.Rating = Rating != null ? Rating : "NaN";
         this.Duration = Duration != null ? Duration : "NaN";
         this.Listed_In = Listed_In != null ? Listed_In : new String[0];
+        // Ordena alfabeticamente os arrays Cast e Listed_In com ordenação BubbleSort
         ordenarBubbleSort(this.Cast);
         ordenarBubbleSort(this.Listed_In);
     }
@@ -141,13 +142,14 @@ class Show {
         ordenarBubbleSort(this.Listed_In);
     }
 
+    // Método imprimir: formata os dados do Show para exibição
     public String imprimir() {
         // Remove os espaços de cada elemento do array Cast e Listed_In
         String castFormatado = "[" + String.join(", ", removerEspacos(this.Cast)) + "]";
         String listedInFormatado = "[" + String.join(", ", removerEspacos(this.Listed_In)) + "]";
     
-        // Retorna a string formatada com os arrays, mesmo quando estão vazios
-        return ("=> " + getShow_ID().trim() + " ## " + getType().trim() + " ## " + getTitle().trim() + " ## " + getDirector().trim() + " ## "
+        // Retorna a string formatada com os arrays, mesmo quando estão vazios com as informações do Show
+        return ("=> " + getShow_ID().trim() + " ## " + getTitle().trim() + " ## " + getType().trim() + " ## " + getDirector().trim() + " ## "
                 + castFormatado + " ## " + getCountry().trim() + " ## " + Date_Added.trim()
                 + " ## " + getRelease_Year() + " ## " + getRating().trim() + " ## " + getDuration().trim() + " ## "
                 + listedInFormatado + " ##");
@@ -163,7 +165,7 @@ class Show {
     }
     
 
-    // metodo clone
+    // Método clone: cria uma cópia do objeto Show
     public String clone () {
         Show cloneShow = new Show(this.Show_ID, this.Type, this.Title, this.Director, this.Cast, this.Country, this.Date_Added, this.Release_Year, this.Rating, this.Duration, this.Listed_In);
         return cloneShow.imprimir();
@@ -171,7 +173,7 @@ class Show {
 
     // Método para ler os dados do arquivo CSV
     public static Show[] Ler() {
-        String caminhoArquivo = "/tmp/DisneyPlus.csv";
+        String caminhoArquivo = "/tmp/disneyplus.csv";
         Show[] shows = new Show[1368]; // Definindo tamanho inicial do array
         int contador = 0;
 
@@ -228,15 +230,30 @@ class Show {
 
 
 
-// Método para ordenação manual usando Bubble Sort
+/*
+* Método ordenarBubbleSort:
+ * Ordena um array de strings em ordem alfabética, removendo espaços e convertendo para minúsculas.
+ * O Bubble Sort (Ordenação por Bolha) é um algoritmo de ordenação simples e intuitivo 
+ * Que funciona ao comparar pares consecutivos de elementos em um array e realizar trocas quando necessário, até que o array esteja completamente ordenado.
+ * A cada "passagem", os maiores elementos "flutuam" para o topo (final do array), como bolhas em um líquido.
+ * Durante uma passagem, dois elementos consecutivos são comparados array[j] e array[j + 1].
+ * Se o elemento atual (array[j]) for maior que o próximo (array[j + 1]), eles são trocados de lugar.
+ * O processo continua até que o array esteja ordenado, ou seja, não haja mais trocas necessárias.
+ * O algoritmo Bubble Sort é simples, mas não é o mais eficiente para grandes conjuntos de dados.
+ * Ele tem complexidade de tempo O(n^2) no pior caso, onde n é o número de elementos no array.
+ */
 private void ordenarBubbleSort(String[] array) {
     int n = array.length;
+    // Passagens pelo array (n vezes no máximo)
     for (int i = 0; i < n - 1; i++) {
+        // Comparações entre elementos consecutivos (n-i-1 vezes no máximo)
+        // O último elemento já está na posição correta após cada passagem
         for (int j = 0; j < n - i - 1; j++) {
             // Remove espaços e força para minúsculas para comparação
             String atual = array[j].trim().toLowerCase();
             String proximo = array[j + 1].trim().toLowerCase();
 
+            // Troca os elementos se estiverem fora de ordem
             if (atual.compareTo(proximo) > 0) { // Verifica a ordem alfabética
                 // Troca os elementos
                 String temp = array[j];
@@ -267,15 +284,25 @@ public class TP02Q1 {
                 break;
             }
 
-            // Busca o Show com o ID fornecido
+            /*
+             * Este é um laço "for-each", utilizado para iterar sobre todos os elementos do array todosShows.
+             * Em cada iteração, a variável 'show' representa um objeto 'Show' do array.
+             * Isso permite acessar cada show individualmente para realizar verificações ou manipulações.
+             * como buscar um show específico com base no ID fornecido.
+             * 
+             * A cada passagem do laço, a variavel show recebe o próximo elemento do array todosShows e se compara com o ID fornecido.
+             * Se o ID do show for igual ao ID fornecido, o show é adicionado ao array showsSelecionados.
+             * Se o ID não for encontrado, o laço continua até o final do array.
+             * Se o ID for encontrado, o laço é interrompido com o comando break.
+             */
             for (Show show : todosShows) {
                 if (show != null && show.getShow_ID().equals(id)) {
                     showsSelecionados[contador++] = show;
-                    break;
+                    break; // Interrompe o laço ao encontrar o show correspondente
                 }
             }
         }
-        scanner.close(); // Fecha o Scanner
+        scanner.close(); 
 
         // Exibe os Shows selecionados usando o método imprimir
         for (int i = 0; i < contador; i++) {

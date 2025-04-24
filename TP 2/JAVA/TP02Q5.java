@@ -1,7 +1,9 @@
+
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-
+import java.util.Scanner;
 
 class Show {
 
@@ -146,14 +148,14 @@ class Show {
         // Remove os espaços de cada elemento do array Cast e Listed_In
         String castFormatado = "[" + String.join(", ", removerEspacos(this.Cast)) + "]";
         String listedInFormatado = "[" + String.join(", ", removerEspacos(this.Listed_In)) + "]";
-    
+
         // Retorna a string formatada com os arrays, mesmo quando estão vazios com as informações do Show
         return ("=> " + getShow_ID().trim() + " ## " + getTitle().trim() + " ## " + getType().trim() + " ## " + getDirector().trim() + " ## "
                 + castFormatado + " ## " + getCountry().trim() + " ## " + Date_Added.trim()
                 + " ## " + getRelease_Year() + " ## " + getRating().trim() + " ## " + getDuration().trim() + " ## "
                 + listedInFormatado + " ##");
     }
-    
+
     // Método auxiliar para remover espaços dos elementos de um array de strings
     private String[] removerEspacos(String[] array) {
         String[] resultado = new String[array.length];
@@ -162,10 +164,9 @@ class Show {
         }
         return resultado;
     }
-    
 
     // Método clone: cria uma cópia do objeto Show
-    public String clone () {
+    public String clone() {
         Show cloneShow = new Show(this.Show_ID, this.Type, this.Title, this.Director, this.Cast, this.Country, this.Date_Added, this.Release_Year, this.Rating, this.Duration, this.Listed_In);
         return cloneShow.imprimir();
     }
@@ -179,7 +180,6 @@ class Show {
         try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
             String linha;
             boolean primeiraLinha = true;
-
 
             while ((linha = br.readLine()) != null && contador < 1368) {
                 if (primeiraLinha) { // Ignora cabeçalho
@@ -202,23 +202,23 @@ class Show {
                 String[] cast = valores[4].split(",");
                 String[] listedIn = valores[10].split(",");
                 Show show = new Show(
-                    valores[0], // Show_ID
-                    valores[1], // Type
-                    valores[2], // Title
-                    valores[3], // Director
-                    cast, // Cast
-                    valores[5], // Country
-                    valores[6], // Date_Added
-                    Integer.parseInt(valores[7]), // Release_Year
-                    valores[8], // Rating
-                    valores[9], // Duration
-                    listedIn // Listed_In
+                        valores[0], // Show_ID
+                        valores[1], // Type
+                        valores[2], // Title
+                        valores[3], // Director
+                        cast, // Cast
+                        valores[5], // Country
+                        valores[6], // Date_Added
+                        Integer.parseInt(valores[7]), // Release_Year
+                        valores[8], // Rating
+                        valores[9], // Duration
+                        listedIn // Listed_In
                 );
 
                 // Adiciona o objeto no array
                 shows[contador++] = show;
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         } catch (NumberFormatException e) {
             System.err.println("Erro ao converter ano de lançamento: " + e.getMessage());
@@ -227,9 +227,7 @@ class Show {
         return shows;
     }
 
-
-
-/*
+    /*
 * Método ordenarBubbleSort:
  * Ordena um array de strings em ordem alfabética, removendo espaços e convertendo para minúsculas.
  * O Bubble Sort (Ordenação por Bolha) é um algoritmo de ordenação simples e intuitivo 
@@ -240,26 +238,104 @@ class Show {
  * O processo continua até que o array esteja ordenado, ou seja, não haja mais trocas necessárias.
  * O algoritmo Bubble Sort é simples, mas não é o mais eficiente para grandes conjuntos de dados.
  * Ele tem complexidade de tempo O(n^2) no pior caso, onde n é o número de elementos no array.
- */
-private void ordenarBubbleSort(String[] array) {
-    int n = array.length;
-    // Passagens pelo array (n vezes no máximo)
-    for (int i = 0; i < n - 1; i++) {
-        // Comparações entre elementos consecutivos (n-i-1 vezes no máximo)
-        // O último elemento já está na posição correta após cada passagem
-        for (int j = 0; j < n - i - 1; j++) {
-            // Remove espaços e força para minúsculas para comparação
-            String atual = array[j].trim().toLowerCase();
-            String proximo = array[j + 1].trim().toLowerCase();
+     */
+    private void ordenarBubbleSort(String[] array) {
+        int n = array.length;
+        // Passagens pelo array (n vezes no máximo)
+        for (int i = 0; i < n - 1; i++) {
+            // Comparações entre elementos consecutivos (n-i-1 vezes no máximo)
+            // O último elemento já está na posição correta após cada passagem
+            for (int j = 0; j < n - i - 1; j++) {
+                // Remove espaços e força para minúsculas para comparação
+                String atual = array[j].trim().toLowerCase();
+                String proximo = array[j + 1].trim().toLowerCase();
 
-            // Troca os elementos se estiverem fora de ordem
-            if (atual.compareTo(proximo) > 0) { // Verifica a ordem alfabética
-                // Troca os elementos
-                String temp = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = temp;
+                // Troca os elementos se estiverem fora de ordem
+                if (atual.compareTo(proximo) > 0) { // Verifica a ordem alfabética
+                    // Troca os elementos
+                    String temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
             }
         }
     }
+
 }
+
+public class TP02Q5 {
+    // Ordenação por seleção
+    // O algoritmo Selection Sort (Ordenação por Seleção) é um método simples de ordenação que funciona ao dividir o array em duas partes: a parte ordenada e a parte não ordenada.
+    // A cada iteração, o menor elemento da parte não ordenada é selecionado e trocado com o primeiro elemento da parte não ordenada.
+    // O processo continua até que toda a lista esteja ordenada.
+    // O algoritmo Selection Sort é fácil de entender e implementar, mas não é o mais eficiente para grandes conjuntos de dados.
+    // Ele tem complexidade de tempo O(n^2) no pior caso, onde n é o número de elementos no array.
+
+    public static void ordenarSelecao(Show[] shows, int n) {
+        // Marca o tempo de início
+        long inicio = System.nanoTime();
+        int comparacoes = 0;
+        int movimentacoes = 0;
+
+        for (int i = 0; i < (n - 1); i++) {
+            int menor = i;
+
+            for (int j = (i + 1); j < n; j++) {
+                comparacoes++;
+                if (shows[menor].getTitle().compareTo(shows[j].getTitle()) > 0) {
+                    menor = j;
+                }
+            }
+            Show temp = shows[menor];
+            shows[menor] = shows[i];
+            shows[i] = temp;
+            movimentacoes += 3;
+        }
+
+        // Calcula o tempo total de execução
+        long fim = System.nanoTime(); 
+        long tempoTotal = fim - inicio;
+        // Escreva arquivo de log
+        try (FileWriter writer = new FileWriter("matricula_selecao.txt")) {
+            writer.write("00846713\t" + "Comparações: " + comparacoes + "\t"+ "Movimentações: " + movimentacoes + "\t" + "TempoTotal: " + tempoTotal + "ns");
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
+
+    }
+
+    public static void main(String[] args) {
+
+        // Carrega todos os Shows do arquivo CSV
+        Show[] todosShows = Show.Ler();
+
+        // Array para armazenar os 300 Shows
+        Show[] showsSelecionados = new Show[300];
+        int contador = 0;
+
+        // Usa Scanner para ler os IDs do teclado
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String id = scanner.nextLine();
+            if (id.equals("FIM")) { // Finaliza ao receber "FIM"
+                break;
+            }
+
+            for (Show show : todosShows) {
+                if (show != null && show.getShow_ID().equals(id)) {
+                    showsSelecionados[contador++] = show;
+                    break; // Interrompe o laço ao encontrar o show correspondente
+                }
+            }
+        }
+
+        // Ordena os Shows selecionados pelo título
+        ordenarSelecao(showsSelecionados, contador);
+
+        // Exibe os Shows selecionados usando o método imprimir
+        for (int i = 0; i < contador; i++) {
+            System.out.println(showsSelecionados[i].imprimir());
+        }
+        scanner.close();
+    }
 }
