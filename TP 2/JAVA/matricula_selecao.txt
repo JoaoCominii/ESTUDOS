@@ -1,1 +1,0 @@
-00846713	Comparações: 2945	Movimentações: 30	TempoTotal: 282100ns
