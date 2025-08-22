@@ -69,3 +69,62 @@
             * REGISTRO -> Conjunto de campos relacionados armazenados fisicamente como uma unidade.
             * CAMPO -> Menor unidade de dados armazenada fisicamente, contém um valor específico.
             * ÍNDICE -> Estrutura auxiliar que acelera o acesso aos dados através de ponteiros.
+12. O que é um Esquema de BD?
+    R: É a descrição do banco de dados, os metadados.
+    - É especificado no projeto e não muda com muita frequência
+    - Existem convenções para se construir um diagrama que representa o esquema do Banco de Dados
+    - DIAGRAMA DE ESQUEMA -> Representação de um esquema 
+        -> O diagrama de esquema apresenta a estrutura dos elementos mas não apresenta
+        as instâncias dos elementos 
+13. O que é uma Instância de BD?
+    R: Uma instância de banco de dados é o conjunto de dados armazenados em um determinado momento. 
+    Ou seja, representa o conteúdo real do banco de dados em um instante específico, 
+    enquanto o esquema define a estrutura. 
+    A instância pode mudar frequentemente conforme os dados são inseridos, removidos ou modificados.
+        Exemplo: Em um banco de dados de uma biblioteca, o esquema define as tabelas "Livros" e "Usuários". A instância é o conjunto de registros atuais nessas tabelas, ou seja, todos os livros e usuários cadastrados naquele momento. Se um novo livro for adicionado, a instância muda, mas o esquema permanece igual.
+    Existem estados diferentes das instâncias:
+     1. ESTADO VAZIO -> esquema especificado, mas sem dados armazenados
+     2. ESTADO INICIAL -> Banco de dados carregado com dados iniciais 
+     - Estado se altera ao fazer CRUD 
+14. Quais as vantagens de se adotar uma Arquitetura de Três Esquemas para implementar um BD?
+    R: Uma abordagem que permite visualização do esquema em diferentes níveis
+    1. AUTODESCRIÇÂO -> Metadados descritivos em diferentes níveis de abstração, de acordo
+    com características estruturais
+    2. SUPORTE A MÚLTIPLAS VISÔES -> Usuários tem acesso restrito ao banco de dados para atender a necessidades
+    específicas
+    3. INDEPENDÊNCIA DE APLICAÇÂO -> Estrutura do BD é armazenada separadamente da aplicação, garantido que
+    se a estrutura mudar não necessariamente a aplicação sofrerá alterações
+15. Quais níveis existem em uma Arquitetura de Três Esquemas?
+    R: 
+    1. NIVEL EXTERNO 
+        - ESQUEMA EXTERNO -> visões de úsuarios
+        - Cada visão descreve uma parte do BD em que o usuário está interessado ocultando as outras
+        - Implementado com modelo de dados representativo
+    2. NIVEL CONCEITUAL
+        - ESQUEMA CONCEITUAL -> Estrutura do BD
+        - Descrição de tipos de dados, entidades, relacionamentos, restrições e operações de usuário
+        - Oculta detalhes do armazenamento físico
+    3. NIVEL INTERNO
+        - ESQUEMA FÍSICO -> Estrutura do armazenamento físico do BD
+        - Descrição de detalhes de armazenamento de dados e caminhos de acesso 
+16. O que é Mapeamento em uma Arquitetura de Três Esquemas?
+    R: É a transformação de requisições e resultados entre níveis.
+        - O SGBD transforma uma solicitação feita pelo usuário em uma solicitação no ESQUEMA CONCEITUAL
+        e em seguida em uma solicitação no ESQUEMA INTERNO para que o processamento de dados possa ser realizado
+17. O que é Independência de Dados e qual sua importância para um SBD?
+    R: É a capacidade de se alterar o esquema em um nível sem precisar alterar os outros.
+        - LÓGICA -> Capacidade de se alterar o esquema conceitual sem alterar o externo 
+                - Exemplo: Suponha que, no esquema conceitual de um banco de dados de uma escola, 
+                seja adicionado um novo atributo "data_de_nascimento" à entidade "Aluno".
+                Os programas e visões externas que não utilizam esse atributo continuam funcionando normalmente, 
+                sem necessidade de alteração, pois a mudança foi feita apenas no esquema conceitual.
+        - FÍSICA -> Capacidade de alterar o esquema interno sem alterar o conceitual 
+            - Exemplo: Suponha que o administrador do banco de dados decida mudar a forma de armazenamento dos dados 
+            dos alunos, como trocar o tipo de índice utilizado ou mover os arquivos de dados para outro disco. 
+            Essas alterações melhoram o desempenho ou a organização física, mas não afetam o esquema conceitual 
+            nem os programas que acessam o banco de dados.
+18. O que é uma Linguagem de Consulta?
+    R: É uma linguagem de alto nível, pode recuperar muitos registros em uma única instrução
+19. Cite as linguagens incorporadas na linguagem SQL.
+    R: Linguagem de consulta estruturada que combina VDL, DDL, SDL, DML, bem como instruções para espeficação
+    de restrições, evolução de esquemas e outros recursos.
