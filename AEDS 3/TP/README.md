@@ -1,73 +1,76 @@
-
 ## Introdução
 Este é um trabalho prático da disciplina de Algoritmos e Estruturas de Dados III (AEDS III) do curso de Ciência da Computação da Pontifícia Universidade Católica de Minas Gerais.
-- Trabalho feito por: João Comini César de Andrade
+### Grupo: 
+- Henrique Lourenço Pinto Coelho
+- João Comini César de Andrade
+- Rafael de Melo Alves Vilaça
 
 ## Tema Do Sistema
-### Sistema de Gerenciamento de Aluguel de Jogos
-O sistema permitirá o cadastro e gerenciamento de clientes, itens (jogos) e aluguéis, com funcionalidades para registrar transações, controlar disponibilidade e gerar estatísticas.
+### Sistema de Gerenciamento de Venda e Biblioteca de Jogos
+O sistema permite o cadastro e gerenciamento de clientes, jogos, compras e visualização de sua bibliotecas de jogos, com funcionalidades para registrar transações, controlar a biblioteca de cada cliente e gerar estatísticas de uso.
 
 ## Descrição do Problema
 
-Atualmente, muitas locadoras ou colecionadores utilizam planilhas ou anotações manuais para gerenciar o aluguel de jogos. Além disso, muitos jogadores não têm acesso aos jogos mais caros devido ao alto custo de aquisição, o que limita a experiência e o acesso à diversão e cultura digital. Pensando nisso, decidimos criar um sistema de aluguel de jogos para democratizar o acesso a títulos variados e de alto valor.
+Atualmente, muitos jogadores e colecionadores utilizam planilhas ou anotações manuais para gerenciar suas bibliotecas de jogos e compras. Isso dificulta o controle da biblioteca, o acompanhamento de compras e o acesso a estatísticas sobre uso e gastos. Além disso, com a existência de diversas plataformas digitais de jogos, como Steam, Ubisoft Connect, Epic Games, entre outras, é comum que as pessoas se percam em meio à sua coleção, não sabendo exatamente onde determinado jogo está disponível ou se já possuem um título específico. Pensando nisso, decidimos criar um sistema de gerenciamento de biblioteca e venda de jogos para organizar e facilitar o acesso a essas informações.
 
-Esses métodos manuais geram problemas como:
-- Dificuldade para encontrar rapidamente informações sobre clientes e itens alugados.
-- Falta de padronização no registro de aluguéis e devoluções.
+Problemas enfrentados:
+- Dificuldade para encontrar rapidamente informações sobre clientes, jogos e compras.
+- Falta de padronização no registro de compras e adição de jogos à biblioteca.
 - Risco de perda de dados e inconsistências.
-- Ausência de um histórico centralizado para estatísticas e controle de estoque.
+- Ausência de um histórico centralizado para estatísticas e controle de acervo.
+- Dificuldade em localizar em qual plataforma um jogo está disponível ou se já foi adquirido, devido à fragmentação das bibliotecas em múltiplas plataformas.
 
 O sistema proposto visa resolver esses problemas oferecendo uma plataforma digital para:
-  1. Cadastrar clientes, itens (jogos) e aluguéis.
-  2. Registrar aluguéis e devoluções, controlando disponibilidade dos itens.
-  3. Pesquisar clientes por nome e jogos por título (casamento de padrões).
-  4. Garantir segurança das informações com criptografia de senhas.
-  5. Otimizar buscas com índices B+ e hash extensível.
-  6. Armazenar dados de forma compactada para economia de espaço.
+  1. Cadastrar clientes, jogos, compras e bibliotecas.
+  2. Registrar compras e adição de jogos à biblioteca de cada cliente.
+  3. Consultar a biblioteca de jogos de cada cliente.
+  4. Pesquisar clientes por nome e jogos por título.
+  5. Garantir segurança das informações com criptografia de senhas.
+  6. Otimizar buscas e consultas a biblioteca.
+  7. Armazenar dados de forma compactada para economia de espaço.
 
 ## Objetivo do Trabalho
 Desenvolver um sistema que:
-- Permita CRUD de Clientes, Itens (Jogos) e Aluguéis.
-- Implemente pelo menos um relacionamento 1:N (Cliente → Aluguéis; um cliente pode ter vários aluguéis).
-- Implemente pelo menos um relacionamento N:N (Itens podem estar em vários aluguéis e um aluguel pode conter vários itens, modelado por tabela intermediária).
+- Permita CRUD de Clientes, Jogos, Compras e Bibliotecas.
+- Implemente relacionamentos 1:N (Cliente → Biblioteca, Cliente → Compra) e N:N (Compra ↔ Jogos, Biblioteca ↔ Jogos).
 - Utilize persistência em arquivos binários com cabeçalho e exclusão lógica (lápide).
-- Ofereça busca rápida e ordenada por índices B+ e hash extensível.
-- Implemente criptografia XOR para senhas de usuários.
+- Ofereça busca eficiente por índices.
+- Implemente criptografia para senhas de usuários.
 - Disponibilize compactação/descompactação dos arquivos de dados.
-- Permita pesquisa por nome de cliente e por título de jogo (BM ou KMP).
+- Permita pesquisa por nome de cliente e por título de jogo.
 
 ## Requisitos Funcionais (RF)
-- **RF01:** Cadastrar cliente (nome, data de nascimento, e-mail, lista de telefones (multivalorado), endereço).
-- **RF02:** Cadastrar item (jogo) com: título, gênero, plataforma, ano de lançamento, preço de aluguel (real), lista de tags (multivalorado).
-- **RF03:** Registrar aluguel com: cliente, data de início, data de devolução prevista, valor total (real), itens alugados (N:N).
-- **RF04:** Registrar devolução e atualizar disponibilidade dos itens.
+- **RF01:** Cadastrar cliente (nome, e-mail, senha, data de cadastro).
+- **RF02:** Cadastrar jogo com: nome, descrição, tamanho (GB), classificação etária, gêneros(atributo multivalorado), plataforma, nota de avaliação, preço.
+- **RF03:** Registrar compra com: cliente, data da compra, valor total, status, jogos adquiridos (N:N).
+- **RF04:** Gerenciar biblioteca de jogos de cada cliente, incluindo data de adição, tempo jogado, status do jogo.
 - **RF05:** Listar registros ativos e permitir exclusão lógica.
-- **RF06:** Pesquisar cliente por nome e jogo por título usando BM ou KMP.
+- **RF06:** Pesquisar cliente por nome e jogo por título.
 
 ## Requisitos Não Funcionais (RNF)
 - **RNF01:** Interface gráfica (HTML/CSS)
 - **RNF02:** Persistência em arquivos binários com cabeçalho (com informações de controle, como número de registros e último ID).
-- **RNF03:** Uso de índices B+ e hash extensível para buscas.
-- **RNF04:** Criptografia XOR para senhas.
-- **RNF05:** Compactação Huffman ou LZW para arquivos de dados.
+- **RNF03:** Uso de índices para buscas eficientes.
+- **RNF04:** Criptografia para senhas.
+- **RNF05:** Compactação para arquivos de dados.
 
 ## Atores
-- **Administrador:** Gerencia cadastros, aluguéis e itens.
-- **Usuário/Cliente:** Consulta informações sobre jogos disponíveis, seus próprios aluguéis e histórico.
+- **Cliente:** Gerencia sua biblioteca, realiza compras e consulta informações sobre jogos e histórico de compras.
+- **Administrador:** Gerencia cadastros, compras e jogos.
 
 ## Diagrama de Caso de Uso
-![Diagrama de Caso de Uso]()
+![Diagrama de Caso de Uso](CasosDeUso.jpg)
 
 ## Diagrama Entidade-Relacionamento
-![DER]()
+![DER](DER.jpg)
 
 ## Arquitetura Proposta
 
 O sistema seguirá o padrão **MVC + DAO**, onde:
-- **Model:** Classes de domínio (Cliente, Item/Jogo, Aluguel, Tabela intermediária de Itens do Aluguel).
+- **Model:** Classes de domínio (Cliente, Jogo, Compra, Biblioteca, Compra_Jogo, Biblioteca_Jogo).
 - **DAO (Data Access Object):** Responsável pela persistência dos dados em arquivos binários e seus acessos, utilizando cabeçalhos e exclusão lógica (lápide).
 - **Controller:** Regras de negócio e controle de fluxo da aplicação.
 - **View:** Interface gráfica para interação com o usuário (HTML/CSS).
 
 ## Diagrama de Arquitetura em Camadas
-![Diagrama de Arquitetura em Camadas]()
+![Diagrama de Arquitetura em Camadas](Arquitetura.jpg)
