@@ -1,0 +1,5 @@
+CODE/src/main/data -> (base de dados) A pasta data contém todos os arquivos binários gerados pelo "SGBD" ex: Tarefas.db
+CODE/src/main/java/app -> A pasta app contém a aplicação/teste do projeto ex: Teste.java / Principal.java
+CODE/src/main/java/interfaces -> A pasta interfaces contém as interfaces do projeto. Ex: Registro.java, RegistroHashExtensivel.java
+CODE/src/main/java/model -> A pasta model contém os modelos de entidades do projeto. Ex: Tarefa.java / Cliente.java
+CODE/src/main/java/service -> A pasta service contém os arquivos de gerenciamento do banco de dados em arquivo e outras funcionalidades de serviço. Ex: HashExtensivel.java

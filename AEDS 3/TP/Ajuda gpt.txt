@@ -1,0 +1,23 @@
+Como retomar depois (roteiro curto)
+
+O que eu já deixei padronizado:
+Modelos em model/ (implementam Registro com toByteArray/fromByteArray).
+DAOs em dao/ usando Arquivo<T>.
+Views/menus em view/ (cada entidade tem MenuX e ListarX).
+Formatador central em util/OutputFormatter.
+Testes em teste/.
+Para adicionar outra tabela no futuro:
+Criar model/NovaEntidade.java (campos, serialização; se houver multivalorados: gravar int count + each UTF).
+Criar dao/NovaEntidadeDAO.java (wrapper de Arquivo).
+Criar view/MenuNovaEntidade.java (CRUD) e view/ListarNovaEntidade.java.
+Adicionar formatNovaEntidade(...) em util/OutputFormatter.
+Criar teste/TestNovaEntidade.java para validar.
+Adicionar opção no view/Principal.java.
+Se quiser, da próxima vez eu faço tudo isso a partir do mesmo repositório (posso seguir exatamente o padrão).
+Comandos úteis para testar/retomar localmente
+
+Compilar tudo: $files = Get-ChildItem -Recurse -Filter *.java | ForEach-Object { $_.FullName } & javac -d . $files
+Rodar o menu principal: & java view.Principal
+Rodar um teste específico: & java teste.TestJogo & java teste.TestCompra
+Fecho por aqui?
+
