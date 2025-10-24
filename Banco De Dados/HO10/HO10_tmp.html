@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HO10.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="ho10">HO10</h1>
+<h2 id="enunciado">Enunciado:</h2>
+<p>Construir um índice primário e índices secundários (para cada chave estrangeira) para cada arquivo (tabela) presente no modelo relacional abaixo, apresentando a blocagem (fator de bloco), o número de blocos necessários para armazenar o arquivo de índice, o espaço desperdiçado por bloco em cada arquivo de índice, o espaço total gasto para armazenar cada arquivo de índice e o número de acessos a blocos necessários para recuperar um registro usando cada índice construído.</p>
+<p><img src="file:///c:/Users/jujuc/Desktop/ESTUDOS/Banco De Dados/HO10/SVL-DSC-v1.0.png" alt="DSC"></p>
+<p>Considere que o ponteiro para blocos de disco tem 16B, que o tamanho de bloco de disco é de 2KB, que os arquivos possuem registros de tamanho fixo, não espalhados e que eles têm a seguinte configuração de número de registros e tamanhos de campos:</p>
+<ul>
+<li>Atores (10.000 registros) → Codigo (16B), Nome (160B)</li>
+<li>Clientes (100.000 registros) → CPF (11B), Nome (160B), Endereco (200B), Telefone (16B),</li>
+<li>DataNascimento (12B), Sexo (1B)</li>
+<li>Filmes (2.000.000 registros) → Codigo (16B), Nome (160B), Genero (80B)</li>
+<li>Funcionarios (3.500 registros) → CPF (11B), Nome (160B)</li>
+<li>Midias (10.000.000 registros) → Identificador (24B), Tipo (8B), PrecoDiaria (24B)</li>
+<li>Aluguel (20.000.000 registros)  → DataLocacao (12B), DataDevolucao (10B), ValorPagar (24B)</li>
+<li>Pagamentos (50.000.000 registros) → Codigo (48B), Data (12B), Valor (24B)</li>
+<li>AtoresEmFilmes (1.000.000 registros)
+Observem a existência de chaves estrangeiras que obviamente devem ser consideradas como campos integrantes dos arquivos.</li>
+</ul>
+<h2 id="respostas">Respostas:</h2>
+<ul>
+<li><strong>Dados do problema:</strong>
+<ul>
+<li>Tamanho do Ponteiro: 16B</li>
+<li>Tamanho do Bloco de Disco: 2KB (ou seja, 2048 Bytes)</li>
+</ul>
+</li>
+<li><strong>Formulas que serão usadas:</strong>
+<ul>
+<li>Tamanho do Registro de Dados (R): Soma dos tamanhos dos campos da tabela.</li>
+<li>Fator de Bloco do Arquivo de Dados (F): $F = \lfloor \frac{\text{Tamanho do Bloco}}{R} \rfloor$</li>
+<li>Número de Blocos do Arquivo de Dados ($B$): $B = \lceil \frac{\text{Número de Registros}}{F} \rceil$</li>
+<li>Tamanho do Registro de Índice ($R_{indice}$): $R_{indice} = \text{Tamanho do Campo Indexado} + \text{Tamanho do Ponteiro}$</li>
+<li>Fator de Bloco do Arquivo de Índice ($F_{indice}$): $F_{indice} = \lfloor \frac{\text{Tamanho do Bloco}}{R_{indice}} \rfloor$</li>
+<li>Número de Registros do Índice ($r_{indice}$):
+<ul>
+<li>Para Índice Primário: $r_{indice} = B$ (esparso)</li>
+<li>Para Índice Secundário: $r_{indice} = \text{Número de Registros da Tabela}$ (denso)</li>
+</ul>
+</li>
+<li>Número de Blocos do Arquivo de Índice ($B_{indice}$): $B_{indice} = \lceil \frac{r_{indice}}{F_{indice}} \rceil$</li>
+<li>Espaço Desperdiçado por Bloco (em blocos cheios): $\text{Tamanho do Bloco} - (F_{indice} \times R_{indice})$</li>
+<li>Espaço Total do Índice: $B_{indice} \times \text{Tamanho do Bloco}$</li>
+<li>Número de Acessos a Bloco: $A = \lceil \log_{2}(B_{indice}) \rceil + 1$ (o +1 é para acessar o bloco de dados final). Log de 2 na calculadora -&gt; log x / log 2</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>Tabela <strong>ATORES</strong></li>
+</ol>
+<ul>
+<li>DADOS: 10.000 registros. PK: Codigo (16B). Campos: Codigo (16B), Nome (160B).</li>
+<li><strong>Cálculos do Arquivo de Dados:</strong>
+<ul>
+<li>$R = 16 + 160 = 176B$</li>
+<li>$F = \lfloor \frac{2048}{176} \rfloor = 11$</li>
+<li>$B = \lceil \frac{10000}{11} \rceil = 910$ blocos</li>
+</ul>
+</li>
+<li><strong>Índice Primário em <code>Codigo</code></strong>
+<ul>
+<li>$R_{indice} = 16 + 16 = 32B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{32} \rfloor = 64$</li>
+<li>$r_{indice} = 910$</li>
+<li>$B_{indice} = \lceil \frac{910}{64} \rceil = 15$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 64</li>
+<li><strong>Número de Blocos do Índice:</strong> 15</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (64 \times 32) = 0B$</li>
+<li><strong>Espaço Total do Índice:</strong> $15 \times 2048B = 30.720B$ (30KB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(15) \rceil + 1 = 4 + 1 = 5$</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>Tabela <strong>CLIENTES</strong></li>
+</ol>
+<ul>
+<li>DADOS: 100.000 registros. PK: CPF (11B). Campos: CPF (11B), Nome (160B), Endereco (200B), Telefone (16B), DataNascimento (12B), Sexo (1B).</li>
+<li><strong>Cálculos do Arquivo de Dados:</strong>
+<ul>
+<li>$R = 11 + 160 + 200 + 16 + 12 + 1 = 400B$</li>
+<li>$F = \lfloor \frac{2048}{400} \rfloor = 5$</li>
+<li>$B = \lceil \frac{100000}{5} \rceil = 20.000$ blocos</li>
+</ul>
+</li>
+<li><strong>Índice Primário em <code>CPF</code></strong>
+<ul>
+<li>$R_{indice} = 11 + 16 = 27B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{27} \rfloor = 75$</li>
+<li>$r_{indice} = 20.000$</li>
+<li>$B_{indice} = \lceil \frac{20000}{75} \rceil = 267$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 75</li>
+<li><strong>Número de Blocos do Índice:</strong> 267</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (75 \times 27) = 23B$</li>
+<li><strong>Espaço Total do Índice:</strong> $267 \times 2048B = 546.816B$ (534KB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(267) \rceil + 1 = 9 + 1 = 10$</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>Tabela <strong>FILMES</strong></li>
+</ol>
+<ul>
+<li>DADOS: 2.000.000 registros. PK: Codigo (16B). Campos: Codigo (16B), Nome (160B), Genero (80B).</li>
+<li><strong>Cálculos do Arquivo de Dados:</strong>
+<ul>
+<li>$R = 16 + 160 + 80 = 256B$</li>
+<li>$F = \lfloor \frac{2048}{256} \rfloor = 8$</li>
+<li>$B = \lceil \frac{2000000}{8} \rceil = 250.000$ blocos</li>
+</ul>
+</li>
+<li><strong>Índice Primário em <code>Codigo</code></strong>
+<ul>
+<li>$R_{indice} = 16 + 16 = 32B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{32} \rfloor = 64$</li>
+<li>$r_{indice} = 250.000$</li>
+<li>$B_{indice} = \lceil \frac{250000}{64} \rceil = 3.907$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 64</li>
+<li><strong>Número de Blocos do Índice:</strong> 3.907</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (64 \times 32) = 0B$</li>
+<li><strong>Espaço Total do Índice:</strong> $3.907 \times 2048B = 8.001.536B$ (7.63MB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(3907) \rceil + 1 = 12 + 1 = 13$</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>Tabela <strong>FUNCIONARIOS</strong></li>
+</ol>
+<ul>
+<li>DADOS: 3.500 registros. PK: CPF (11B). FK: CPF_Supervisor (11B). Campos: CPF (11B), Nome (160B), CPF_Supervisor (11B).</li>
+<li><strong>Cálculos do Arquivo de Dados:</strong>
+<ul>
+<li>$R = 11 + 160 + 11 = 182B$</li>
+<li>$F = \lfloor \frac{2048}{182} \rfloor = 11$</li>
+<li>$B = \lceil \frac{3500}{11} \rceil = 319$ blocos</li>
+</ul>
+</li>
+<li><strong>Índice Primário em <code>CPF</code></strong>
+<ul>
+<li>$R_{indice} = 11 + 16 = 27B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{27} \rfloor = 75$</li>
+<li>$r_{indice} = 319$</li>
+<li>$B_{indice} = \lceil \frac{319}{75} \rceil = 5$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 75</li>
+<li><strong>Número de Blocos do Índice:</strong> 5</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (75 \times 27) = 23B$</li>
+<li><strong>Espaço Total do Índice:</strong> $5 \times 2048B = 10.240B$ (10KB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(5) \rceil + 1 = 3 + 1 = 4$</li>
+</ul>
+</li>
+<li><strong>Índice Secundário em <code>CPF_Supervisor</code></strong>
+<ul>
+<li>$R_{indice} = 11 + 16 = 27B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{27} \rfloor = 75$</li>
+<li>$r_{indice} = 3.500$</li>
+<li>$B_{indice} = \lceil \frac{3500}{75} \rceil = 47$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 75</li>
+<li><strong>Número de Blocos do Índice:</strong> 47</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (75 \times 27) = 23B$</li>
+<li><strong>Espaço Total do Índice:</strong> $47 \times 2048B = 96.256B$ (94KB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(47) \rceil + 1 = 6 + 1 = 7$</li>
+</ul>
+</li>
+</ul>
+<ol start="5">
+<li>Tabela <strong>MIDIAS</strong></li>
+</ol>
+<ul>
+<li>DADOS: 10.000.000 registros. PK: Identificador (24B). FK: CodFilme (16B). Campos: Identificador (24B), Tipo (8B), PrecoDiaria (24B), CodFilme (16B).</li>
+<li><strong>Cálculos do Arquivo de Dados:</strong>
+<ul>
+<li>$R = 24 + 8 + 24 + 16 = 72B$</li>
+<li>$F = \lfloor \frac{2048}{72} \rfloor = 28$</li>
+<li>$B = \lceil \frac{10000000}{28} \rceil = 357.143$ blocos</li>
+</ul>
+</li>
+<li><strong>Índice Primário em <code>Identificador</code></strong>
+<ul>
+<li>$R_{indice} = 24 + 16 = 40B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{40} \rfloor = 51$</li>
+<li>$r_{indice} = 357.143$</li>
+<li>$B_{indice} = \lceil \frac{357143}{51} \rceil = 7.003$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 51</li>
+<li><strong>Número de Blocos do Índice:</strong> 7.003</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (51 \times 40) = 8B$</li>
+<li><strong>Espaço Total do Índice:</strong> $7.003 \times 2048B = 14.342.144B$ (13.68MB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(7003) \rceil + 1 = 13 + 1 = 14$</li>
+</ul>
+</li>
+<li><strong>Índice Secundário em <code>CodFilme</code></strong>
+<ul>
+<li>$R_{indice} = 16 + 16 = 32B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{32} \rfloor = 64$</li>
+<li>$r_{indice} = 10.000.000$</li>
+<li>$B_{indice} = \lceil \frac{10000000}{64} \rceil = 156.250$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 64</li>
+<li><strong>Número de Blocos do Índice:</strong> 156.250</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (64 \times 32) = 0B$</li>
+<li><strong>Espaço Total do Índice:</strong> $156.250 \times 2048B = 320.000.000B$ (305.18MB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(156250) \rceil + 1 = 18 + 1 = 19$</li>
+</ul>
+</li>
+</ul>
+<ol start="6">
+<li>Tabela <strong>ALUGUEL</strong></li>
+</ol>
+<ul>
+<li>DADOS: 20.000.000 registros. PK: CPF_Cliente (11B), ID_Midia (24B), DataLocacao (12B). FKs: CPF_Cliente, ID_Midia, CPF_Funcionario (11B).</li>
+<li><strong>Cálculos do Arquivo de Dados:</strong>
+<ul>
+<li>$R = 11 + 24 + 12 + 10 + 24 + 11 = 92B$</li>
+<li>$F = \lfloor \frac{2048}{92} \rfloor = 22$</li>
+<li>$B = \lceil \frac{20000000}{22} \rceil = 909.091$ blocos</li>
+</ul>
+</li>
+<li><strong>Índice Primário em <code>(CPF_Cliente, ID_Midia, DataLocacao)</code></strong>
+<ul>
+<li>$R_{indice} = (11 + 24 + 12) + 16 = 63B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{63} \rfloor = 32$</li>
+<li>$r_{indice} = 909.091$</li>
+<li>$B_{indice} = \lceil \frac{909091}{32} \rceil = 28.410$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 32</li>
+<li><strong>Número de Blocos do Índice:</strong> 28.410</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (32 \times 63) = 32B$</li>
+<li><strong>Espaço Total do Índice:</strong> $28.410 \times 2048B = 58.183.680B$ (55.49MB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(28410) \rceil + 1 = 15 + 1 = 16$</li>
+</ul>
+</li>
+<li><strong>Índice Secundário em <code>CPF_Cliente</code></strong>
+<ul>
+<li>$R_{indice} = 11 + 16 = 27B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{27} \rfloor = 75$</li>
+<li>$r_{indice} = 20.000.000$</li>
+<li>$B_{indice} = \lceil \frac{20000000}{75} \rceil = 266.667$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 75</li>
+<li><strong>Número de Blocos do Índice:</strong> 266.667</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (75 \times 27) = 23B$</li>
+<li><strong>Espaço Total do Índice:</strong> $266.667 \times 2048B = 546.134.016B$ (520.83MB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(266667) \rceil + 1 = 19 + 1 = 20$</li>
+</ul>
+</li>
+<li><strong>Índice Secundário em <code>ID_Midia</code></strong>
+<ul>
+<li>$R_{indice} = 24 + 16 = 40B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{40} \rfloor = 51$</li>
+<li>$r_{indice} = 20.000.000$</li>
+<li>$B_{indice} = \lceil \frac{20000000}{51} \rceil = 392.157$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 51</li>
+<li><strong>Número de Blocos do Índice:</strong> 392.157</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (51 \times 40) = 8B$</li>
+<li><strong>Espaço Total do Índice:</strong> $392.157 \times 2048B = 803.137.536B$ (765.93MB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(392157) \rceil + 1 = 19 + 1 = 20$</li>
+</ul>
+</li>
+<li><strong>Índice Secundário em <code>CPF_Funcionario</code></strong>
+<ul>
+<li>$R_{indice} = 11 + 16 = 27B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{27} \rfloor = 75$</li>
+<li>$r_{indice} = 20.000.000$</li>
+<li>$B_{indice} = \lceil \frac{20000000}{75} \rceil = 266.667$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 75</li>
+<li><strong>Número de Blocos do Índice:</strong> 266.667</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (75 \times 27) = 23B$</li>
+<li><strong>Espaço Total do Índice:</strong> $266.667 \times 2048B = 546.134.016B$ (520.83MB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(266667) \rceil + 1 = 19 + 1 = 20$</li>
+</ul>
+</li>
+</ul>
+<ol start="7">
+<li>Tabela <strong>PAGAMENTOS</strong></li>
+</ol>
+<ul>
+<li>DADOS: 50.000.000 registros. PK: Codigo (48B). FK: (CPF_Cliente, ID_Midia, DataLocacao).</li>
+<li><strong>Cálculos do Arquivo de Dados:</strong>
+<ul>
+<li>$R = 48 + 11 + 24 + 12 + 12 + 24 = 131B$</li>
+<li>$F = \lfloor \frac{2048}{131} \rfloor = 15$</li>
+<li>$B = \lceil \frac{50000000}{15} \rceil = 3.333.334$ blocos</li>
+</ul>
+</li>
+<li><strong>Índice Primário em <code>Codigo</code></strong>
+<ul>
+<li>$R_{indice} = 48 + 16 = 64B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{64} \rfloor = 32$</li>
+<li>$r_{indice} = 3.333.334$</li>
+<li>$B_{indice} = \lceil \frac{3333334}{32} \rceil = 104.167$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 32</li>
+<li><strong>Número de Blocos do Índice:</strong> 104.167</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (32 \times 64) = 0B$</li>
+<li><strong>Espaço Total do Índice:</strong> $104.167 \times 2048B = 213.334.016B$ (203.45MB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(104167) \rceil + 1 = 17 + 1 = 18$</li>
+</ul>
+</li>
+<li><strong>Índice Secundário em <code>(CPF_Cliente, ID_Midia, DataLocacao)</code></strong>
+<ul>
+<li>$R_{indice} = (11 + 24 + 12) + 16 = 63B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{63} \rfloor = 32$</li>
+<li>$r_{indice} = 50.000.000$</li>
+<li>$B_{indice} = \lceil \frac{50000000}{32} \rceil = 1.562.500$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 32</li>
+<li><strong>Número de Blocos do Índice:</strong> 1.562.500</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (32 \times 63) = 32B$</li>
+<li><strong>Espaço Total do Índice:</strong> $1.562.500 \times 2048B = 3.200.000.000B$ (3.05GB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(1562500) \rceil + 1 = 21 + 1 = 22$</li>
+</ul>
+</li>
+</ul>
+<ol start="8">
+<li>Tabela <strong>ATORESEMFILMES</strong></li>
+</ol>
+<ul>
+<li>DADOS: 1.000.000 registros. PK: CodFilme (16B), CodAtor (16B). FKs: CodFilme, CodAtor.</li>
+<li><strong>Cálculos do Arquivo de Dados:</strong>
+<ul>
+<li>$R = 16 + 16 = 32B$</li>
+<li>$F = \lfloor \frac{2048}{32} \rfloor = 64$</li>
+<li>$B = \lceil \frac{1000000}{64} \rceil = 15.625$ blocos</li>
+</ul>
+</li>
+<li><strong>Índice Primário em <code>(CodFilme, CodAtor)</code></strong>
+<ul>
+<li>$R_{indice} = (16 + 16) + 16 = 48B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{48} \rfloor = 42$</li>
+<li>$r_{indice} = 15.625$</li>
+<li>$B_{indice} = \lceil \frac{15625}{42} \rceil = 373$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 42</li>
+<li><strong>Número de Blocos do Índice:</strong> 373</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (42 \times 48) = 32B$</li>
+<li><strong>Espaço Total do Índice:</strong> $373 \times 2048B = 763.904B$ (746KB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(373) \rceil + 1 = 9 + 1 = 10$</li>
+</ul>
+</li>
+<li><strong>Índice Secundário em <code>CodAtor</code></strong>
+<ul>
+<li>(Necessário pois o índice primário não otimiza buscas apenas por <code>CodAtor</code>)</li>
+<li>$R_{indice} = 16 + 16 = 32B$</li>
+<li>$F_{indice} = \lfloor \frac{2048}{32} \rfloor = 64$</li>
+<li>$r_{indice} = 1.000.000$</li>
+<li>$B_{indice} = \lceil \frac{1000000}{64} \rceil = 15.625$ blocos</li>
+<li><strong>Blocagem (Fator de Bloco):</strong> 64</li>
+<li><strong>Número de Blocos do Índice:</strong> 15.625</li>
+<li><strong>Espaço Desperdiçado por Bloco:</strong> $2048 - (64 \times 32) = 0B$</li>
+<li><strong>Espaço Total do Índice:</strong> $15.625 \times 2048B = 32.000.000B$ (30.52MB)</li>
+<li><strong>Acessos a Bloco:</strong> $\lceil \log_{2}(15625) \rceil + 1 = 14 + 1 = 15$</li>
+</ul>
+</li>
+</ul>
+
+</body>
+</html>
