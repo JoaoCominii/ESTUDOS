@@ -1,0 +1,230 @@
+{
+  "main": {
+    "id": "6da4b320295d144e",
+    "type": "split",
+    "children": [
+      {
+        "id": "241577c71f731259",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ecf9f9706efeefb0",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "7717bdff7bd4f019",
+    "type": "split",
+    "children": [
+      {
+        "id": "65cf33739b251364",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9ea496919739eef7",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "c2005ec95f1ce1f1",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "fa1243c4a2754faa",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "6861b9fa0f986ed7",
+    "type": "split",
+    "children": [
+      {
+        "id": "57838da2a293aaba",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fd28e47b1e20a50d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "📁 01 - Matérias/📁 Inteligência Artificial/📁 1 - Teoria/2026-02-24 - Introdução à IA e AM.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for 2026-02-24 - Introdução à IA e AM"
+            }
+          },
+          {
+            "id": "b23cbf394826dbfc",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "📁 01 - Matérias/📁 Inteligência Artificial/📁 1 - Teoria/2026-02-24 - Introdução à IA e AM.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from 2026-02-24 - Introdução à IA e AM"
+            }
+          },
+          {
+            "id": "b05aec7efbd048c5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "6ed11e2f0f5a9eba",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "54269ceed545006b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "📁 01 - Matérias/📁 Inteligência Artificial/📁 1 - Teoria/2026-02-24 - Introdução à IA e AM.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of 2026-02-24 - Introdução à IA e AM"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "9ea496919739eef7",
+  "lastOpenFiles": [
+    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/12-02-2026 - Introdução ao Aprendizado de Máquina.md",
+    "📁 01 - Matérias/📁 Inteligência Artificial/2 - Listas/Lista de Exercícios #1 – Introdução à IA e ao Aprendizado de Máquina.md",
+    "📁 02 - Templates/Classificação.md",
+    "Regressão.md",
+    "Pasted image 20260224141602.png",
+    "Pasted image 20260224134949.png",
+    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/4 - Árvores de Decisão - Como Calcular.pdf",
+    "📁 01 - Matérias/📁 Inteligência Artificial/2 - Listas/Lista 1 - Introdução a IA e AM.pdf",
+    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/10-02-2026 - Introdução à IA e AM.md",
+    "Pasted image 20260224145523.png",
+    "Pasted image 20260224145446.png",
+    "Pasted image 20260224145439.png",
+    "Pasted image 20260224145109.png",
+    "Pasted image 20260224144805.png",
+    "Pasted image 20260224144512.png",
+    "Pasted image 20260224144508.png",
+    "Pasted image 20260224144216.png",
+    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/2 - Introdução ao Aprendizado de Máquina.pdf",
+    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/3 - Árvores de Decisão.pdf",
+    "📁 01 - Matérias/LP/Trabalho/ENUNCIADO/2025_2_LP_CC_PLU_M_Trabalho.pdf",
+    "📁 01 - Matérias/LP/Exercicios/Exercicio 03/LP_CC_Exercicio03 (1).pdf",
+    "📁 01 - Matérias/LP/Exercicios/Exercicio 03/Exercicio03.md",
+    "📁 01 - Matérias/LP/Exercicios/Exercicio 02/LP_CC_Exercicio02.pdf",
+    "📁 01 - Matérias/LP/Exercicios/Exercicio 02/Exercicio02.md",
+    "📁 01 - Matérias/LP/Trabalho/Trabalho LP - Swift.pdf",
+    "📁 01 - Matérias/LP/Trabalho/ENUNCIADO",
+    "📁 01 - Matérias/LP/Trabalho/A_Linguagem_de_Programação_Swift__Uma_Análise_Crítica_de_Seus_Paradigmas_e_Aplicações_de_Mercado.pdf",
+    "📁 01 - Matérias/CALCULO 2/Trabalho/CODIGO/README.md",
+    "📁 01 - Matérias/Banco De Dados/HO11/HO11.md",
+    "📁 01 - Matérias/Banco De Dados/HO10/HO10.md",
+    "📁 01 - Matérias/Banco De Dados/HO09/H009.md",
+    "📁 01 - Matérias/Banco De Dados/HO08/HO08.md",
+    "📁 01 - Matérias/Banco De Dados/HO07/HO07.md",
+    "📁 01 - Matérias/Banco De Dados/HO06/HO06.md",
+    "📁 01 - Matérias/Banco De Dados/HO05/HO05.md",
+    "📁 01 - Matérias/Banco De Dados/HO04/HO04.md",
+    "📁 01 - Matérias/Banco De Dados/HO03/HO03.md",
+    "📁 01 - Matérias/Banco De Dados/HO02/HO02.md",
+    "📁 01 - Matérias/Banco De Dados/HO01/HO01.md",
+    "📁 01 - Matérias/Banco De Dados/AS03/AS03.md",
+    "📁 01 - Matérias/Banco De Dados/instrucoes.md",
+    "📁 01 - Matérias/AEDS 3/TP/CODE/TP-PARTE5.md",
+    "📁 01 - Matérias/AEDS 3/TP/CODE/TP-PARTE4.md",
+    "📁 01 - Matérias/AEDS 3/TP/CODE/TP-PARTE3.md",
+    "📁 01 - Matérias/AEDS 3/TP/CODE/TP-PARTE2.md"
+  ]
+}
