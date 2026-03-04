@@ -4,17 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "241577c71f731259",
+        "id": "0a5c1d309e148510",
         "type": "tabs",
         "children": [
           {
-            "id": "ecf9f9706efeefb0",
+            "id": "1db4de9410dae598",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "type": "pdf",
+              "state": {
+                "file": "Matérias/Teoria dos Grafos e Computabilidade/1 - Teoria/03-Representação de grafo.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "03-Representação de grafo"
             }
           }
         ]
@@ -40,7 +42,7 @@
                 "autoReveal": false
               },
               "icon": "lucide-folder-closed",
-              "title": "Files"
+              "title": "Explorador de arquivos"
             }
           },
           {
@@ -170,61 +172,62 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Open quick switcher": false,
-      "graph:Open graph view": false,
-      "canvas:Create new canvas": false,
-      "daily-notes:Open today's daily note": false,
-      "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false
     }
   },
-  "active": "9ea496919739eef7",
+  "active": "1db4de9410dae598",
   "lastOpenFiles": [
-    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/12-02-2026 - Introdução ao Aprendizado de Máquina.md",
-    "📁 01 - Matérias/📁 Inteligência Artificial/2 - Listas/Lista de Exercícios #1 – Introdução à IA e ao Aprendizado de Máquina.md",
-    "📁 02 - Templates/Classificação.md",
-    "Regressão.md",
-    "Pasted image 20260224141602.png",
-    "Pasted image 20260224134949.png",
-    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/4 - Árvores de Decisão - Como Calcular.pdf",
-    "📁 01 - Matérias/📁 Inteligência Artificial/2 - Listas/Lista 1 - Introdução a IA e AM.pdf",
-    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/10-02-2026 - Introdução à IA e AM.md",
-    "Pasted image 20260224145523.png",
-    "Pasted image 20260224145446.png",
-    "Pasted image 20260224145439.png",
-    "Pasted image 20260224145109.png",
-    "Pasted image 20260224144805.png",
-    "Pasted image 20260224144512.png",
-    "Pasted image 20260224144508.png",
-    "Pasted image 20260224144216.png",
-    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/2 - Introdução ao Aprendizado de Máquina.pdf",
-    "📁 01 - Matérias/📁 Inteligência Artificial/1 - Teoria/3 - Árvores de Decisão.pdf",
-    "📁 01 - Matérias/LP/Trabalho/ENUNCIADO/2025_2_LP_CC_PLU_M_Trabalho.pdf",
-    "📁 01 - Matérias/LP/Exercicios/Exercicio 03/LP_CC_Exercicio03 (1).pdf",
-    "📁 01 - Matérias/LP/Exercicios/Exercicio 03/Exercicio03.md",
-    "📁 01 - Matérias/LP/Exercicios/Exercicio 02/LP_CC_Exercicio02.pdf",
-    "📁 01 - Matérias/LP/Exercicios/Exercicio 02/Exercicio02.md",
-    "📁 01 - Matérias/LP/Trabalho/Trabalho LP - Swift.pdf",
-    "📁 01 - Matérias/LP/Trabalho/ENUNCIADO",
-    "📁 01 - Matérias/LP/Trabalho/A_Linguagem_de_Programação_Swift__Uma_Análise_Crítica_de_Seus_Paradigmas_e_Aplicações_de_Mercado.pdf",
-    "📁 01 - Matérias/CALCULO 2/Trabalho/CODIGO/README.md",
-    "📁 01 - Matérias/Banco De Dados/HO11/HO11.md",
-    "📁 01 - Matérias/Banco De Dados/HO10/HO10.md",
-    "📁 01 - Matérias/Banco De Dados/HO09/H009.md",
-    "📁 01 - Matérias/Banco De Dados/HO08/HO08.md",
-    "📁 01 - Matérias/Banco De Dados/HO07/HO07.md",
-    "📁 01 - Matérias/Banco De Dados/HO06/HO06.md",
-    "📁 01 - Matérias/Banco De Dados/HO05/HO05.md",
-    "📁 01 - Matérias/Banco De Dados/HO04/HO04.md",
-    "📁 01 - Matérias/Banco De Dados/HO03/HO03.md",
-    "📁 01 - Matérias/Banco De Dados/HO02/HO02.md",
-    "📁 01 - Matérias/Banco De Dados/HO01/HO01.md",
-    "📁 01 - Matérias/Banco De Dados/AS03/AS03.md",
-    "📁 01 - Matérias/Banco De Dados/instrucoes.md",
-    "📁 01 - Matérias/AEDS 3/TP/CODE/TP-PARTE5.md",
-    "📁 01 - Matérias/AEDS 3/TP/CODE/TP-PARTE4.md",
-    "📁 01 - Matérias/AEDS 3/TP/CODE/TP-PARTE3.md",
-    "📁 01 - Matérias/AEDS 3/TP/CODE/TP-PARTE2.md"
+    "Matérias/Teoria dos Grafos e Computabilidade/2 - Projetos/Implementação N.01 - Representação de Grafos/graph-test-50000-1.txt",
+    "Matérias/Teoria dos Grafos e Computabilidade/2 - Projetos/Implementação N.01 - Representação de Grafos/graph-test-100-1.txt",
+    "📁 01 - Matérias/Teoria dos Grafos e Computabilidade/1 - Teoria/03-Representação de grafo.pdf",
+    "Matérias/AEDS 3/TP/CODE/dados/keys/public.key",
+    "Matérias/AEDS 3/TP/CODE/dados/jogos/jogos.db",
+    "Matérias/AEDS 3/TP/CODE/dados/jogos/preco_idx.db",
+    "Matérias/AEDS 3/TP/CODE/dados/keys/private.key",
+    "Matérias/AEDS 3/TP/CODE/dados/jogos/indice_jogo_compra.db",
+    "Matérias/AEDS 3/TP/CODE/dados/comprajogo/comprajogo.db",
+    "Matérias/AEDS 3/TP/CODE/dados/compras/indice_compra_jogo.db",
+    "Matérias/AEDS 3/TP/CODE/dados/compras/compras.db",
+    "Matérias/AEDS 3/TP/CODE/img/DER.jpg",
+    "Matérias/AEDS 3/TP/CODE/img/CasosDeUso.jpg",
+    "Matérias/AEDS 3/TP/CODE/img/Arquitetura.jpg",
+    "Matérias/LP/Exercicios/Exercicio 03/Interpretador.png",
+    "Matérias/LP/Exercicios/Exercicio 03/Exercicio03.md",
+    "Matérias/LP/Exercicios/Exercicio 03/Compilador.png",
+    "Matérias/LP/Exercicios/Exercicio 02/Exercicio02.md",
+    "Matérias/CALCULO 2/Trabalho/CODIGO/README.md",
+    "Matérias/AEDS 3/TP/CODE/TP-PARTE4.md",
+    "Matérias/AEDS 3/TP/CODE/TP-PARTE3.md",
+    "Matérias/AEDS 3/TP/CODE/TP-PARTE2.md",
+    "Matérias/AEDS 3/TP/CODE/TP-PARTE5.md",
+    "Matérias/AEDS 3/TP/CODE/README_BACKUP.md",
+    "Matérias/AEDS 3/TP/CODE/README.md",
+    "Matérias/AC 2/EXERCICIOS/Exercicio 01/mult4x4.png",
+    "Matérias/Inteligência Artificial/1 - Teoria/12-02-2026 - Introdução ao Aprendizado de Máquina.md",
+    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #1 – Introdução à IA e ao Aprendizado de Máquina.md",
+    "Matérias/Inteligência Artificial/1 - Teoria/19-02-2026 - Árvores de decisão.md",
+    "Matérias/Inteligência Artificial/1 - Teoria/10-02-2026 - Introdução à IA e AM.md",
+    "Matérias/Banco De Dados/TP/PeDeGalinha.png",
+    "Matérias/Banco De Dados/TP/DSC-TP.png",
+    "Matérias/Banco De Dados/TP/DER-TP-BD.png",
+    "Matérias/Banco De Dados/HO11/SVL-DSC-v1.0.png",
+    "Matérias/Banco De Dados/HO11/HO11.md",
+    "Matérias/Banco De Dados/HO10/HO10.md",
+    "Matérias/Banco De Dados/HO09/H009.md",
+    "Matérias/Banco De Dados/HO08/HO08.md",
+    "Matérias/Banco De Dados/HO06/HO06.md",
+    "Matérias/Banco De Dados/HO07/HO07.md",
+    "Matérias/Banco De Dados/HO05/HO05.md",
+    "Matérias/Banco De Dados/HO04/HO04.md",
+    "Matérias/Banco De Dados/HO03/HO03.md",
+    "Matérias/Banco De Dados/HO02/HO02.md",
+    "Matérias/Banco De Dados/HO01/HO01.md",
+    "Matérias/Banco De Dados/AS03/AS03.md"
   ]
 }

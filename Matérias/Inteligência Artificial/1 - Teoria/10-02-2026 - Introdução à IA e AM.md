@@ -21,7 +21,7 @@
 - Foi nesse encontro que o termo *Artificial Intelligence* foi usado pela primeira vez
 ### 👥 Principais participantes
 -  John McCarthy (principal idealizador do evento e criador do termo "Artificial Intelligence")
-- - Marvin Minsky
+-  Marvin Minsky
 - Claude Shannon
 - Nathaniel Rochester
 - Ray Solomonoff
