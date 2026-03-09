@@ -22,7 +22,7 @@ public class RepresentacaoGrafo {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Digite o nome do arquivo de entrada:");
         String nomeArquivo = scanner.nextLine();
-        System.out.print("Digite o número do vértice desejado:");
+        System.out.print("Digite o numero do vertice desejado:");
         int verticeDesejado = scanner.nextInt();
 
         try{
@@ -65,16 +65,16 @@ public class RepresentacaoGrafo {
             br.close();
 
             if (verticeDesejado < 1 || verticeDesejado > n) {
-                System.out.println("Vértice inválido.");
+                System.out.println("Vertice inválido.");
                 return;
             }
             
-            System.err.println("Informações do vertice:" + verticeDesejado);
+            System.err.println("Informacoes do vertice:" + verticeDesejado);
             // Grau de saída
             int grauSaida = adjSaida.get(verticeDesejado).size();
             // Grau de entrada
             int grauEntrada = adjEntrada.get(verticeDesejado).size();
-            System.out.println("Grau de saída: " + grauSaida);
+            System.out.println("Grau de saida: " + grauSaida);
             System.out.println("Grau de entrada: " + grauEntrada);
 
             System.out.println("Sucessores: " + adjSaida.get(verticeDesejado));
