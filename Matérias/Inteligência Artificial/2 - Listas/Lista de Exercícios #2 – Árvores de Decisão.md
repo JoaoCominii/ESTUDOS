@@ -36,18 +36,18 @@
 	4. subtrai da entropia original
 	Ganho de cada atributo:
 
-| Atributo | Ganho |
-| :--- | :--- |
-| Alternativo | 0.000 |
-| Bar | 0.000 |
-| SexSab | 0.021 |
-| Fome | 0.196 |
-| Cliente | **0.541** |
-| Preco | 0.196 |
-| Chuva | 0.021 |
-| Res | 0.021 |
-| Tipo | 0.000 |
-| Tempo | 0.208 |
+| Atributo    | Ganho     |
+| :---------- | :-------- |
+| Alternativo | 0.000     |
+| Bar         | 0.000     |
+| SexSab      | 0.021     |
+| Fome        | 0.196     |
+| Cliente     | **0.541** |
+| Preco       | 0.196     |
+| Chuva       | 0.021     |
+| Res         | 0.021     |
+| Tipo        | 0.000     |
+| Tempo       | 0.208     |
 Como cliente tem o maior ganho de informações ele será o nó raiz
 
 2.  Qual atributo estará no segundo nível da árvore? Faça os cálculos e apresente a árvore gerada até o segundo nível.
@@ -59,7 +59,7 @@ Como cliente tem o maior ganho de informações ele será o nó raiz
 	O maior ganho é quando tem Alguns clientes.
 	Segundo nível:
 	Agora dividimos por **Tempo**.
-	O atributo que aparece no **segundo nível da árvore** é **Tempo**, utilizado para dividir o ramo onde **Cliente = Cheio**.
+	O atributo que aparece no segundo nível da árvore é Tempo utilizado para dividir o ramo onde Cliente = Cheio.
 
 ## Questão 03. Leia o artigo “A comparative study of decision tree ID3 and C4.5” que está no CANVAS e responda:
 1. Quais as diferenças entre os algoritmos de árvore ID3 e C4.5?
@@ -100,3 +100,22 @@ Se petal_length > 2.45 → outra classe
 2. Iris-setosa
 3. Iris-virginica
 4. Iris-virginica
+
+## Questão 05. Considere a seguinte matriz de confusão obtida para o problema do restaurante (i.e., o objetivo era decidir se espero uma mesa em um restaurante) por meio de uma Árvore de Decisão:
+
+Quais são os valores das métricas abaixo para cada uma das classes (SIM/NÃO)?
+
+|     | TVP   | TFN  | TFP  | TVN   | Precisão | Recall | F1   |
+| --- | ----- | ---- | ---- | ----- | -------- | ------ | ---- |
+| SIM | 15/18 | 3/18 | 5/20 | 15/20 | 0,75     | 0,83   | 0,79 |
+| NÃO | 10/15 | 5/15 | 3/13 | 10/13 | 0,77     | 0,67   | 0,72 |
+## Questão 06. Considere agora uma matriz de confusão obtida por meio de uma Árvore de Decisão para um problema genérico de classificação de quatro classes:
+
+Quais são os valores das métricas abaixo para cada uma das classes A, B, C e D?
+
+|     | TVP   | TFN   | TFP  | TVN   | Precisão | Recall | F1   |
+| --- | ----- | ----- | ---- | ----- | -------- | ------ | ---- |
+| A   | 10/17 | 7/17  | 7/17 | 10/17 | 0,58     | 0,58   | 0,59 |
+| B   | 15/18 | 3/18  | 8/23 | 15/23 | 0,65     | 0,83   | 0,73 |
+| C   | 20/30 | 10/30 | 6/26 | 20/26 | 0,76     | 0,66   | 0,72 |
+| D   | 50/57 | 7/57  | 6/56 | 50/56 | 0,89     | 0,87   | 0,89 |

@@ -4,97 +4,31 @@
     "type": "split",
     "children": [
       {
-        "id": "d79574891230f3e6",
+        "id": "6f3b9ef2a18d0202",
         "type": "tabs",
         "children": [
           {
-            "id": "23eeb43947e3bafd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #2 – Árvores de Decisão.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Lista de Exercícios #2 – Árvores de Decisão"
-            }
-          },
-          {
-            "id": "5b685cc10eab16fc",
+            "id": "31b911ea6d36c646",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Matérias/Inteligência Artificial/2 - Listas/Lista 2 - Árvores de Decisão.pdf"
+                "file": "Matérias/Inteligência Artificial/2 - Listas/Lista 3 - Amostragem, Ensembles e Naive Bayes.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Lista 2 - Árvores de Decisão"
+              "title": "Lista 3 - Amostragem, Ensembles e Naive Bayes"
             }
           },
           {
-            "id": "3dd94363ff76e187",
+            "id": "eef960e90e7689a3",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Matérias/Inteligência Artificial/1 - Teoria/4 - Árvores de Decisão - Como Calcular.pdf"
+                "file": "Matérias/Inteligência Artificial/1 - Teoria/8 - Naive Bayes.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "4 - Árvores de Decisão - Como Calcular"
-            }
-          },
-          {
-            "id": "853f4b18bd218988",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Matérias/Inteligência Artificial/1 - Teoria/19-02-2026 - Árvores de decisão.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "19-02-2026 - Árvores de decisão"
-            }
-          },
-          {
-            "id": "c7bd4079a66208a2",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Matérias/Inteligência Artificial/1 - Teoria/24-02-2026 - Árvores de Decisão Cálculo do Ganho.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "24-02-2026 - Árvores de Decisão Cálculo do Ganho"
-            }
-          },
-          {
-            "id": "2f723de096259b0a",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Matérias/Inteligência Artificial/1 - Teoria/4 - Árvores de Decisão - Como Calcular.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "4 - Árvores de Decisão - Como Calcular"
-            }
-          },
-          {
-            "id": "f0485b51523b673b",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Matérias/Inteligência Artificial/1 - Teoria/4 - Árvores de Decisão - Como Calcular.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "4 - Árvores de Decisão - Como Calcular"
+              "title": "8 - Naive Bayes"
             }
           }
         ]
@@ -259,34 +193,37 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "23eeb43947e3bafd",
+  "active": "31b911ea6d36c646",
   "lastOpenFiles": [
-    "Matérias/Inteligência Artificial/2 - Listas/Lista 2 - Árvores de Decisão.pdf",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/linux/flutter/ephemeral",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/windows/flutter/ephemeral/generated_config.cmake",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/windows/flutter/ephemeral",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build/f7fa4893fec2ea6cc4eecc687fbdafe0/_composite.stamp",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build/f7fa4893fec2ea6cc4eecc687fbdafe0/gen_dart_plugin_registrant.stamp",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build/f7fa4893fec2ea6cc4eecc687fbdafe0/gen_localizations.stamp",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build/f7fa4893fec2ea6cc4eecc687fbdafe0",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/lib/main.dart",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/lib/EntradaCheckBox.dart",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/lib/CampoTexto.dart",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/web/icons/Icon-maskable-512.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/web/icons/Icon-maskable-192.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/web/icons/Icon-512.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/web/icons/Icon-192.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/web/favicon.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png",
+    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md",
+    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #3 – Amostragem, Ensemble Learning e Naive Bayes.md",
     "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #2 – Árvores de Decisão.md",
-    "Matérias/Inteligência Artificial/1 - Teoria/A comparative study of decision tree ID3 and C4.5.pdf",
-    "Matérias/Inteligência Artificial/1 - Teoria/Não confirmado 737525.crdownload",
-    "Matérias/Inteligência Artificial/2 - Listas/iris.csv",
-    "Matérias/Inteligência Artificial/2 - Listas/Não confirmado 348193.crdownload",
-    "Matérias/Inteligência Artificial/1 - Teoria/4 - Árvores de Decisão - Como Calcular.pdf",
     "Matérias/Inteligência Artificial/1 - Teoria/19-02-2026 - Árvores de decisão.md",
-    "Matérias/Inteligência Artificial/1 - Teoria/5 - Árvores de Decisão - Métricas de avaliação.pdf",
-    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #1 – Joao Comini.pdf",
-    "Matérias/Inteligência Artificial/2 - Listas/restaurante.csv",
-    "Matérias/Inteligência Artificial/2 - Listas/Não confirmado 701810.crdownload",
     "Matérias/Inteligência Artificial/1 - Teoria/24-02-2026 - Árvores de Decisão Cálculo do Ganho.md",
     "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #1 – Introdução à IA e ao Aprendizado de Máquina.md",
-    "Pasted image 20260305151933.png",
-    "Pasted image 20260305150925.png",
-    "Pasted image 20260305150459.png",
-    "Pasted image 20260305150455.png",
-    "Pasted image 20260305150340.png",
     "Matérias/Inteligência Artificial/1 - Teoria/10-02-2026 - Introdução à IA e AM.md",
-    "Matérias/AEDS 3/TP/CODE/img/DER.jpg",
-    "Matérias/AEDS 3/TP/CODE/img/CasosDeUso.jpg",
-    "Matérias/AEDS 3/TP/CODE/img/Arquitetura.jpg",
-    "Matérias/LP/Exercicios/Exercicio 03/Interpretador.png",
     "Matérias/LP/Exercicios/Exercicio 03/Exercicio03.md",
-    "Matérias/LP/Exercicios/Exercicio 03/Compilador.png",
     "Matérias/LP/Exercicios/Exercicio 02/Exercicio02.md",
     "Matérias/CALCULO 2/Trabalho/CODIGO/README.md",
     "Matérias/AEDS 3/TP/CODE/TP-PARTE4.md",
@@ -303,8 +240,6 @@
     "Matérias/Banco De Dados/HO06/HO06.md",
     "Matérias/Banco De Dados/HO07/HO07.md",
     "Matérias/Banco De Dados/HO05/HO05.md",
-    "Matérias/Banco De Dados/HO04/HO04.md",
-    "Matérias/Banco De Dados/HO03/HO03.md",
-    "Matérias/Banco De Dados/HO02/HO02.md"
+    "Matérias/Banco De Dados/HO04/HO04.md"
   ]
 }
