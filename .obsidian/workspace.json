@@ -4,31 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "6f3b9ef2a18d0202",
+        "id": "af957101fa8b2411",
         "type": "tabs",
         "children": [
           {
-            "id": "31b911ea6d36c646",
+            "id": "ebbde773b57bc2b2",
             "type": "leaf",
             "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Matérias/Inteligência Artificial/2 - Listas/Lista 3 - Amostragem, Ensembles e Naive Bayes.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "Lista 3 - Amostragem, Ensembles e Naive Bayes"
-            }
-          },
-          {
-            "id": "eef960e90e7689a3",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Matérias/Inteligência Artificial/1 - Teoria/8 - Naive Bayes.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "8 - Naive Bayes"
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Nova aba"
             }
           }
         ]
@@ -81,14 +67,15 @@
               "type": "bookmarks",
               "state": {},
               "icon": "lucide-bookmark",
-              "title": "Bookmarks"
+              "title": "Marcadores"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "6861b9fa0f986ed7",
@@ -104,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "📁 01 - Matérias/📁 Inteligência Artificial/📁 1 - Teoria/2026-02-24 - Introdução à IA e AM.md",
+                "file": "Matérias/Inteligência Artificial/2 - Listas/[SOLUÇÃO] Lista 2 - Árvores de Decisão.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,7 +101,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for 2026-02-24 - Introdução à IA e AM"
+              "title": "Links inversos para [SOLUÇÃO] Lista 2 - Árvores de Decisão"
             }
           },
           {
@@ -193,19 +180,24 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "31b911ea6d36c646",
+  "active": "ebbde773b57bc2b2",
   "lastOpenFiles": [
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/linux/flutter/ephemeral",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/windows/flutter/ephemeral/generated_config.cmake",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/windows/flutter/ephemeral",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build/f7fa4893fec2ea6cc4eecc687fbdafe0/_composite.stamp",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build/f7fa4893fec2ea6cc4eecc687fbdafe0/gen_dart_plugin_registrant.stamp",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build/f7fa4893fec2ea6cc4eecc687fbdafe0/gen_localizations.stamp",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build/f7fa4893fec2ea6cc4eecc687fbdafe0",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/build",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/lib/main.dart",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/lib/EntradaCheckBox.dart",
-    "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/lib/CampoTexto.dart",
+    "Matérias/Inteligência Artificial/5 - Revisões/Revisão - Prova 1.pdf",
+    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #2 – Joao Comini.pdf",
+    "Matérias/Inteligência Artificial/2 - Listas/[SOLUÇÃO] Lista 2 - Árvores de Decisão.pdf",
+    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #2 – Árvores de Decisão.md",
+    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #1 – Joao Comini.pdf",
+    "Matérias/Inteligência Artificial/2 - Listas/[SOLUÇÃO] Lista 1 - Introdução a IA e AM.pdf",
+    "Matérias/Inteligência Artificial/1 - Teoria/Pre-Processamento/Parte 7 - Processamento - Redução de dimensionalidade.pdf",
+    "Matérias/Inteligência Artificial/1 - Teoria/3 - Árvores de Decisão.pdf",
+    "Matérias/Inteligência Artificial/1 - Teoria/4 - Árvores de Decisão - Como Calcular.pdf",
+    "Matérias/Inteligência Artificial/1 - Teoria/5 - Árvores de Decisão - Métricas de avaliação.pdf",
+    "Matérias/Inteligência Artificial/1 - Teoria/24-02-2026 - Árvores de Decisão Cálculo do Ganho.md",
+    "Matérias/Inteligência Artificial/1 - Teoria/10 - Algoritmo Apriori.pdf",
+    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #4 – Joao Comini.pdf",
+    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #3 – Amostragem, Ensemble Learning e Naive Bayes.md",
+    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #4 – Associação e Pré-processamento de Dados.md",
+    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #1 – Introdução à IA e ao Aprendizado de Máquina.md",
     "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/web/icons/Icon-maskable-512.png",
     "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/web/icons/Icon-maskable-192.png",
     "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/web/icons/Icon-512.png",
@@ -217,11 +209,7 @@
     "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png",
     "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png",
     "Matérias/Laboratório de Desenvolvimento para Dispositivos Móveis/Projetos/tela_cadastro/tela_cadastro/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md",
-    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #3 – Amostragem, Ensemble Learning e Naive Bayes.md",
-    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #2 – Árvores de Decisão.md",
     "Matérias/Inteligência Artificial/1 - Teoria/19-02-2026 - Árvores de decisão.md",
-    "Matérias/Inteligência Artificial/1 - Teoria/24-02-2026 - Árvores de Decisão Cálculo do Ganho.md",
-    "Matérias/Inteligência Artificial/2 - Listas/Lista de Exercícios #1 – Introdução à IA e ao Aprendizado de Máquina.md",
     "Matérias/Inteligência Artificial/1 - Teoria/10-02-2026 - Introdução à IA e AM.md",
     "Matérias/LP/Exercicios/Exercicio 03/Exercicio03.md",
     "Matérias/LP/Exercicios/Exercicio 02/Exercicio02.md",
@@ -239,7 +227,6 @@
     "Matérias/Banco De Dados/HO08/HO08.md",
     "Matérias/Banco De Dados/HO06/HO06.md",
     "Matérias/Banco De Dados/HO07/HO07.md",
-    "Matérias/Banco De Dados/HO05/HO05.md",
-    "Matérias/Banco De Dados/HO04/HO04.md"
+    "Matérias/Banco De Dados/HO05/HO05.md"
   ]
 }
