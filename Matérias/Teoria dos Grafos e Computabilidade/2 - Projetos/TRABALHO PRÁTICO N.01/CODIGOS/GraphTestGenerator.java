@@ -41,7 +41,6 @@ public class GraphTestGenerator {
     private static final String TIPO_EULERIANO = "euleriano";
     private static final String TIPO_SEMI_EULERIANO = "semi-euleriano";
     private static final String TIPO_NAO_EULERIANO = "nao-euleriano";
-    private static final String TIPO_COM_PONTE = "com-ponte";
 
     public static void main(String[] args) {
         String pastaSaida = args.length >= 1 ? args[0] : ".";
@@ -60,7 +59,7 @@ public class GraphTestGenerator {
             System.out.println("Arquivos de teste gerados com sucesso em: " + new File(pastaSaida).getAbsolutePath());
             System.out.println("Seed utilizada: " + seed);
             System.out.println("Instancias por teste: " + instanciasPorTeste);
-            System.out.println("Tipos gerados: euleriano, semi-euleriano, nao-euleriano e com-ponte (validacao). ");
+            System.out.println("Tipos gerados: euleriano, semi-euleriano, nao-euleriano.");
         } catch (IOException e) {
             System.out.println("Erro ao gerar arquivos: " + e.getMessage());
         }
@@ -77,13 +76,11 @@ public class GraphTestGenerator {
                 GraphData euleriano = gerarGrafoEuleriano(n, random);
                 GraphData semiEuleriano = gerarGrafoSemiEuleriano(n, random);
                 GraphData naoEuleriano = gerarGrafoNaoEuleriano(n, random);
-                GraphData comPonte = gerarGrafoComPonteGarantida(n, random);
 
                 String sufixo = String.format("-%02d.txt", i);
                 escreverGrafoEmArquivo(euleriano, new File(pasta, "grafo-euleriano-" + n + sufixo));
                 escreverGrafoEmArquivo(semiEuleriano, new File(pasta, "grafo-semi-euleriano-" + n + sufixo));
                 escreverGrafoEmArquivo(naoEuleriano, new File(pasta, "grafo-nao-euleriano-" + n + sufixo));
-                escreverGrafoEmArquivo(comPonte, new File(pasta, "grafo-" + TIPO_COM_PONTE + "-" + n + sufixo));
             }
         }
     }
@@ -114,8 +111,54 @@ public class GraphTestGenerator {
         int u = grupoA.get(random.nextInt(grupoA.size()));
         int v = grupoB.get(random.nextInt(grupoB.size()));
         g.adicionarAresta(u, v);
+        
+        int targetArestas = n - 1 + random.nextInt((int)(0.2 * n) + 1);
+        adicionarBlocosCicloPreservandoPonte(g, targetArestas, random, grupoA, grupoB);
 
         return g;
+    }
+
+    private static void adicionarBlocosCicloPreservandoPonte(GraphData g, int targetArestas, Random random,
+                                                              List<Integer> grupoA, List<Integer> grupoB) {
+        // Adiciona blocos APENAS dentro de cada grupo para preservar a ponte
+        while (g.getNumeroArestas() < targetArestas) {
+            // 50% de chance de adicionar no grupo A, 50% no grupo B
+            List<Integer> grupo = random.nextBoolean() ? grupoA : grupoB;
+            
+            if (grupo.size() < 4) continue;
+            
+            // Sorteia 4 vértices APENAS deste grupo
+            int idx1 = random.nextInt(grupo.size());
+            int idx2 = random.nextInt(grupo.size());
+            int idx3 = random.nextInt(grupo.size());
+            int idx4 = random.nextInt(grupo.size());
+            
+            Set<Integer> conjunto = new HashSet<>();
+            conjunto.add(grupo.get(idx1));
+            conjunto.add(grupo.get(idx2));
+            conjunto.add(grupo.get(idx3));
+            conjunto.add(grupo.get(idx4));
+            
+            if (conjunto.size() < 4) continue;
+            
+            int[] v = new int[4];
+            int i = 0;
+            for (int u : conjunto) {
+                v[i++] = u;
+            }
+            
+            int a = v[0], b = v[1], c = v[2], d = v[3];
+            
+            if (g.existeAresta(a, b) || g.existeAresta(b, c) || 
+                g.existeAresta(c, d) || g.existeAresta(d, a)) {
+                continue;
+            }
+            
+            g.adicionarAresta(a, b);
+            g.adicionarAresta(b, c);
+            g.adicionarAresta(c, d);
+            g.adicionarAresta(d, a);
+        }
     }
 
     private static void adicionarCicloHamiltonianoAleatorio(GraphData g, List<Integer> vertices, Random random) {
@@ -129,6 +172,75 @@ public class GraphTestGenerator {
         }
     }
 
+    private static void adicionarBlocosCicloPreservandoParidade(GraphData g, int targetArestas, Random random) {
+        // Adiciona blocos de 4 arestas que formam ciclos
+        // Cada bloco: (a,b), (b,c), (c,d), (d,a) - mantém paridade de cada vértice par
+        while (g.getNumeroArestas() < targetArestas) {
+            int[] v = sortearVerticesDistintos(g.n, 4, random);
+            int a = v[0], b = v[1], c = v[2], d = v[3];
+            
+            if (g.existeAresta(a, b) || g.existeAresta(b, c) || 
+                g.existeAresta(c, d) || g.existeAresta(d, a)) {
+                continue;
+            }
+            
+            g.adicionarAresta(a, b);
+            g.adicionarAresta(b, c);
+            g.adicionarAresta(c, d);
+            g.adicionarAresta(d, a);
+        }
+    }
+
+    private static void adicionarBlocosCicloPreservandoParidadeSemiEuleriano(GraphData g, int targetArestas, 
+                                                                             Random random, int vimparA, int vimparB) {
+        // Adiciona blocos de 4 arestas APENAS entre vértices que não são os dois vértices de grau ímpar
+        // Isso preserva a propriedade de exatamente 2 vértices com grau ímpar
+        List<Integer> verticesInterior = new ArrayList<>();
+        for (int i = 1; i <= g.n; i++) {
+            if (i != vimparA && i != vimparB) {
+                verticesInterior.add(i);
+            }
+        }
+        
+        if (verticesInterior.size() < 4) {
+            return; // Não é possível adicionar blocos
+        }
+        
+        while (g.getNumeroArestas() < targetArestas) {
+            // Sorteia 4 vértices APENAS do interior (não os 2 ímpares)
+            int idx1 = random.nextInt(verticesInterior.size());
+            int idx2 = random.nextInt(verticesInterior.size());
+            int idx3 = random.nextInt(verticesInterior.size());
+            int idx4 = random.nextInt(verticesInterior.size());
+            
+            Set<Integer> conjunto = new HashSet<>();
+            conjunto.add(verticesInterior.get(idx1));
+            conjunto.add(verticesInterior.get(idx2));
+            conjunto.add(verticesInterior.get(idx3));
+            conjunto.add(verticesInterior.get(idx4));
+            
+            if (conjunto.size() < 4) continue; // Precisa de 4 distintos
+            
+            int[] v = new int[4];
+            int i = 0;
+            for (int u : conjunto) {
+                v[i++] = u;
+            }
+            
+            int a = v[0], b = v[1], c = v[2], d = v[3];
+            
+            if (g.existeAresta(a, b) || g.existeAresta(b, c) || 
+                g.existeAresta(c, d) || g.existeAresta(d, a)) {
+                continue;
+            }
+            
+            g.adicionarAresta(a, b);
+            g.adicionarAresta(b, c);
+            g.adicionarAresta(c, d);
+            g.adicionarAresta(d, a);
+        }
+    }
+
     private static GraphData gerarGrafoEuleriano(int n, Random random) {
         if (n < 3) {
             throw new IllegalArgumentException("Para gerar grafo euleriano simples e conexo, n deve ser >= 3.");
@@ -136,6 +248,10 @@ public class GraphTestGenerator {
 
         GraphData g = new GraphData(n);
         adicionarCicloHamiltonianoAleatorio(g, random);
+        
+        int targetArestas = n - 1 + random.nextInt((int)(0.2 * n) + 1);
+        adicionarBlocosCicloPreservandoParidade(g, targetArestas, random);
+        
         return g;
     }
 
@@ -145,7 +261,15 @@ public class GraphTestGenerator {
         }
 
         GraphData g = new GraphData(n);
-        adicionarCaminhoHamiltonianoAleatorio(g, random);
+        List<Integer> ordem = adicionarCaminhoHamiltonianoAleatorio(g, random);
+        
+        // Os dois vértices de grau ímpar são o primeiro e o último do caminho
+        int verticeImparA = ordem.get(0);
+        int verticeImparB = ordem.get(ordem.size() - 1);
+        
+        int targetArestas = n - 1 + random.nextInt((int)(0.2 * n) + 1);
+        adicionarBlocosCicloPreservandoParidadeSemiEuleriano(g, targetArestas, random, verticeImparA, verticeImparB);
+        
         return g;
     }
 
@@ -161,7 +285,27 @@ public class GraphTestGenerator {
         if (!adicionou) {
             throw new IllegalStateException("Nao foi possivel gerar grafo nao-euleriano esparso.");
         }
+        
+        int targetArestas = n - 1 + random.nextInt((int)(0.2 * n) + 1);
+        adicionarArestasAleatoriasNaoEuleriano(g, targetArestas, random);
+        
         return g;
+    }
+
+    private static void adicionarArestasAleatoriasNaoEuleriano(GraphData g, int targetArestas, Random random) {
+        // Para não-euleriano, pode adicionar arestas aleatoriamente (já começou não-euleriano)
+        int maxTentativas = Math.max(100000, targetArestas * 50);
+        int tentativas = 0;
+        
+        while (g.getNumeroArestas() < targetArestas && tentativas < maxTentativas) {
+            tentativas++;
+            int u = 1 + random.nextInt(g.n);
+            int v = 1 + random.nextInt(g.n);
+            
+            if (u != v && !g.existeAresta(u, v)) {
+                g.adicionarAresta(u, v);
+            }
+        }
     }
 
     private static void adicionarCicloHamiltonianoAleatorio(GraphData g, Random random) {
