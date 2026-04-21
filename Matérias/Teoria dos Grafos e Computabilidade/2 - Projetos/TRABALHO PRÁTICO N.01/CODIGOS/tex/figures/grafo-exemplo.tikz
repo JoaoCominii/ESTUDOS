@@ -1,0 +1,10 @@
+\begin{tikzpicture}[scale=1.5, every node/.style={circle, draw, minimum size=0.6cm, font=\small}]
+    % Posicionar os vértices
+    \node (0) at (0, 1) {0};
+    \node (1) at (-1, 0) {1};
+    \node (2) at (1, 0) {2};
+    
+    % Desenhar as arestas
+    \draw (0) -- (1) node[midway, above left] {a};
+    \draw (0) -- (2) node[midway, above right] {b};
+\end{tikzpicture}
