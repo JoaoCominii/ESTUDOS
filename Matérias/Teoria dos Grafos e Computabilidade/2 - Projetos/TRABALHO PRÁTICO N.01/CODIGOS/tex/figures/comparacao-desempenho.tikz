@@ -1,0 +1,26 @@
+\begin{tikzpicture}[scale=0.9]
+\begin{axis}[
+    title=Comparação de Desempenho (Escala Logarítmica),
+    xlabel=$n$ (número de vértices),
+    ylabel=Tempo médio (ms),
+    ymode=log,
+    xmode=log,
+    legend pos=north west,
+    grid=major,
+    width=12cm,
+    height=8cm
+]
+\addplot[mark=o, blue] coordinates {(100, 0.724) (1000, 5.623) (10000, 723.297) (100000, 202405.209)};
+\addlegendentry{Naive Euleriano}
+\addplot[mark=square, blue, dashed] coordinates {(100, 0.620) (1000, 7.879) (10000, 607.483) (100000, 170766.171)};
+\addlegendentry{Tarjan Euleriano}
+\addplot[mark=triangle, red] coordinates {(100, 0.093) (1000, 3.491) (10000, 794.742) (100000, 203058.586)};
+\addlegendentry{Naive Semi-Euleriano}
+\addplot[mark=triangle, red, dashed] coordinates {(100, 0.073) (1000, 3.403) (10000, 724.938) (100000, 176978.868)};
+\addlegendentry{Tarjan Semi-Euleriano}
+\addplot[mark=diamond, green] coordinates {(100, 0.008) (1000, 0.048) (10000, 0.830) (100000, 20.215)};
+\addlegendentry{Naive Não-Euleriano}
+\addplot[mark=diamond, green, dashed] coordinates {(100, 0.008) (1000, 0.039) (10000, 0.723) (100000, 18.951)};
+\addlegendentry{Tarjan Não-Euleriano}
+\end{axis}
+\end{tikzpicture}

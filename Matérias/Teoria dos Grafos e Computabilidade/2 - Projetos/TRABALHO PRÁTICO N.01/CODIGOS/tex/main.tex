@@ -1,46 +1,102 @@
-\documentclass[12pt]{article}
+\documentclass{sbc2023}%
 
-\usepackage{sbc-template}
-\usepackage[portuguese]{babel}
-
-\usepackage{graphicx,url}
+\usepackage{graphicx}
+%\usepackage[utf8]{inputenc}
+\usepackage[misc,geometry]{ifsym} 
+\usepackage{fontspec}
+\usepackage{fontawesome}
+\usepackage{academicons}
+\usepackage{color}
+\usepackage{hyperref} 
+\usepackage{aas_macros}
+\usepackage[bottom]{footmisc}
+\usepackage{supertabular}
+\usepackage{afterpage}
+\usepackage{url}
+\usepackage{pifont}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{float}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning}
+\usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
- 
-\usepackage[utf8]{inputenc}  
 
-\graphicspath{{figures/}}
 
-\renewcommand{\figurename}{Figura}
-     
-\sloppy
+\setcitestyle{square}
 
-\title{Análise de Algoritmos de Grafos: Fleury e Detecção de Pontes}
+\definecolor{orcidlogo}{rgb}{0.37,0.48,0.13}
+\definecolor{unilogo}{rgb}{0.16, 0.26, 0.58}
+\definecolor{maillogo}{rgb}{0.58, 0.16, 0.26}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.0}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+%\hypersetup{colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue}
 
-\author{João Comini Cesar de Andrade\inst{1} }
+%%%%%%% IMPORTANT: We disable hyperlinks by default with this line, to avoid the error "\pdfendlink ended up in different nesting level" while writing.
+%\hypersetup{draft}
 
-\address{Instituto de Ciências Exatas e Informática -- Pontifícia Universidade Católica \\ de Minas Gerais
-  (PUCMG)
-  Caixa Postal 1.686 -- 30535-901 -- Belo Horizonte -- MG -- Brazil
-  \email{jccandrade@sga.pucminas.br}
+\jid{JBCS}
+\jtitle{Journal of the Brazilian Computer Society, 202X, XX:1, }
+\doi{10.5753/jbcs.202X.XXXXXX}
+\copyrightstatement{This work is licensed under a Creative Commons Attribution 4.0 International License}
+\jyear{202X}
+
+
+\title[Análise de Algoritmos de Grafos]{Análise de Algoritmos de Grafos: Fleury e Detecção de Pontes}
+
+%THE ORCID IS MANDATORY FOR EACH AUTHOR IN JBCS
+\author[João Comini 202X]{
+\affil{\textbf{João Comini Cesar de Andrade}~\textcolor{blue}{\faEnvelopeO}~~[~\textbf{Pontifícia Universidade Católica de Minas Gerais}~|~\href{mailto:jccandrade@sga.pucminas.br}{\textbf{\textit{jccandrade@sga.pucminas.br}}}~]}
 }
-\begin{document} 
 
+\begin{document}
+
+\begin{frontmatter}
 \maketitle
-     
-\begin{resumo}
-Este trabalho compara duas estratégias para detecção de pontes no algoritmo de Fleury: uma abordagem ingênua baseada em testes repetidos de conectividade (Naive) e o algoritmo de Tarjan com pré-computação linear. A análise empírica em grafos de 100 a 100.000 vértices demonstra que, enquanto ambas as estratégias apresentam desempenho comparável em grafos pequenos, o método de Tarjan alcança acelerações de 1,15--1,18 vezes em grafos grandes. Os resultados validam que o pré-processamento amortizado de Tarjan torna-se progressivamente mais vantajoso conforme o tamanho do grafo cresce, estabelecendo Tarjan como a opção preferida para aplicações práticas em larga escala.
-\end{resumo}
+
+
+\begin{mail}
+Pontifícia Universidade Católica de Minas Gerais (PUC Minas), Brasil.
+\end{mail}
+
+
+
+\begin{abstract}
+\textbf{Abstract.~}
+\noindent Este trabalho compara duas estratégias para detecção de pontes no algoritmo de Fleury: uma abordagem ingênua baseada em testes repetidos de conectividade (Naive) e o algoritmo de Tarjan com pré-computação linear. A análise empírica em grafos de 100 a 100.000 vértices demonstra que, enquanto ambas as estratégias apresentam desempenho comparável em grafos pequenos, o método de Tarjan alcança acelerações de 1,15--1,18 vezes em grafos grandes. Os resultados validam que o pré-processamento amortizado de Tarjan torna-se progressivamente mais vantajoso conforme o tamanho do grafo cresce, estabelecendo Tarjan como a opção preferida para aplicações práticas em larga escala.
+\end{abstract}
+
+\begin{keywords}
+Algoritmos de Grafos, Algoritmo de Fleury, Detecção de Pontes, Algoritmo de Tarjan, Análise de Desempenho
+\end{keywords}
+
+%\begin{license}
+%Published under the Creative Commons Attribution 4.0 International Public License (CC BY 4.0)
+%\end{license}
+
+\end{frontmatter}
+
 
 \section{Introdução}
+\label{sec:intro}
 
-O algoritmo de Fleury é um método clássico para encontrar circuitos e caminhos Eulerianos em grafos não direcionados \cite{fleury:1883}. A aplicabilidade prática do algoritmo de Fleury é notável em diversos domínios. Por exemplo, em problemas de roteirização urbana, um carteiro necessita percorrer todas as ruas de uma região exatamente uma vez, minimizando o trajeto total. Do mesmo modo, em sistemas de inspeção de dutos e redes de distribuição, garantir que todas as conexões são visitadas uma única vez é fundamental para otimizar recursos operacionais.
+O algoritmo de Fleury é um método clássico para encontrar circuitos e caminhos Eulerianos em grafos não direcionados \cite{west2001_euler}. A aplicabilidade prática do algoritmo de Fleury é notável em diversos domínios. Por exemplo, em problemas de roteirização urbana, um carteiro necessita percorrer todas as ruas de uma região exatamente uma vez, minimizando o trajeto total. Do mesmo modo, em sistemas de inspeção de dutos e redes de distribuição, garantir que todas as conexões são visitadas uma única vez é fundamental para otimizar recursos operacionais.
 
 O algoritmo de Fleury funciona de forma iterativa: a cada passo, seleciona-se uma aresta incidente ao vértice atual, com a restrição crítica de que essa aresta não deve ser uma ponte do subgrafo remanescente (exceto quando nenhuma outra opção existe). Uma \textbf{ponte} é definida como uma aresta cuja remoção desconecta o grafo ou aumenta o número de componentes conexos \cite{diestel:2017}.
 
 Para uma melhor compreensão, considere um exemplo simples: um grafo com 3 vértices e 2 arestas, onde ambas constituem pontes pois a remoção de qualquer uma delas desconecta o grafo.
+
+\begin{figure}[H]
+\centering
+\resizebox{0.6\columnwidth}{!}{
+\input{figures/grafo-exemplo.tikz}
+}
+\vspace{2mm}
+\caption{Exemplo de grafo simples com 3 vértices e 2 arestas. Ambas as arestas são pontes.}
+\label{fig:grafo-exemplo}
+\end{figure}
 
 A complexidade computacional do algoritmo de Fleury é dominada pela operação de identificação de pontes \cite{cormen:2009}. Na versão clássica, a cada aresta processada (totalizando $m$ arestas), realiza-se uma verificação de conectividade. Isso pode resultar em uma complexidade de $O(m^2 \cdot (V + E))$ na abordagem com detecção de pontes \textit{Naive}, tornando-se impraticável para grafos de grande escala.
 
@@ -72,14 +128,6 @@ Um \textbf{circuito Euleriano} de $G$ é um caminho fechado que atravessa cada a
 Um grafo é \textbf{Euleriano} se admite um circuito Euleriano, e \textbf{semi-Euleriano} se admite um caminho Euleriano (mas não circuito).
 
 \textbf{Teorema de Euler:} Um grafo conexo é Euleriano se e somente se todo vértice possui grau par \cite{diestel:2017}. Já um grafo conexo é semi-Euleriano se e somente se possui exatamente dois vértices de grau ímpar.
-
-\begin{figure}[!tb]
-\centering
-\input{figures/grafo-exemplo.tikz}
-\vspace{2mm}
-\caption{Exemplo de grafo simples com 3 vértices e 2 arestas. Ambas as arestas são pontes.}
-\label{fig:grafo-exemplo}
-\end{figure}
 
 Para comprovar a primeira parte: em um circuito Euleriano, cada vez que visitamos um vértice, gastamos duas arestas (uma para entrar, uma para sair), exceto possivelmente na primeira e última visita. Se o circuito retorna ao vértice inicial, cada visita consome duas arestas, resultando em grau par. Reciprocamente, se todos os vértices têm grau par, a conectividade do grafo garante que é possível construir tal circuito através de algoritmos iterativos como Fleury.
 
@@ -195,19 +243,18 @@ Antes de executar Fleury, verifica-se o grau de cada vértice:
     \item Caso contrário → rejeitar
 \end{itemize}
 
-
 \section{Experimentos e Resultados}
 
 Nesta seção, apresentam-se os resultados experimentais obtidos pela execução do algoritmo de Fleury usando ambas as estratégias de detecção de pontes (Naive e Tarjan) em 120 grafos de teste. Os tempos foram medidos em milissegundos e agregados por média, mediana e percentil 95.
-
 \subsection{Resultados para Grafos Eulerianos}
 
 A Tabela~\ref{tab:resultados-euleriano} apresenta os tempos de execução para grafos Eulerianos:
-
-\begin{table}[!ht]
+\begin{table}[H]
 \centering
 \caption{Tempos de execução (ms) para grafos Eulerianos}
 \label{tab:resultados-euleriano}
+
+\resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|r|r|r|r|r|r|}
 \hline
 $n$ & \multicolumn{3}{c|}{Naive} & \multicolumn{3}{c|}{Tarjan} \\
@@ -220,16 +267,20 @@ $n$ & \multicolumn{3}{c|}{Naive} & \multicolumn{3}{c|}{Tarjan} \\
 100.000 & 202405.209 & 164326.498 & 335870.962 & 170766.171 & 161222.660 & 297734.818 \\
 \hline
 \end{tabular}
+}
+
 \end{table}
 
 \subsection{Resultados para Grafos Semi-Eulerianos}
 
 A Tabela~\ref{tab:resultados-semieuleriano} apresenta os tempos para grafos Semi-Eulerianos:
 
-\begin{table}[!ht]
+\begin{table}[H]
 \centering
 \caption{Tempos de execução (ms) para grafos Semi-Eulerianos}
 \label{tab:resultados-semieuleriano}
+
+\resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|r|r|r|r|r|r|}
 \hline
 $n$ & \multicolumn{3}{c|}{Naive} & \multicolumn{3}{c|}{Tarjan} \\
@@ -242,16 +293,21 @@ $n$ & \multicolumn{3}{c|}{Naive} & \multicolumn{3}{c|}{Tarjan} \\
 100.000 & 203058.586 & 132309.505 & 481611.986 & 176978.868 & 116953.758 & 415765.099 \\
 \hline
 \end{tabular}
+}
+
 \end{table}
+
 
 \subsection{Resultados para Grafos Não-Eulerianos}
 
 A Tabela~\ref{tab:resultados-naouleriano} apresenta os tempos para grafos Não-Eulerianos (rejeição rápida, sem caminhos válidos):
 
-\begin{table}[!ht]
+\begin{table}[H]
 \centering
 \caption{Tempos de execução (ms) para grafos Não-Eulerianos}
 \label{tab:resultados-naouleriano}
+
+\resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|r|r|r|r|r|r|}
 \hline
 $n$ & \multicolumn{3}{c|}{Naive} & \multicolumn{3}{c|}{Tarjan} \\
@@ -264,14 +320,11 @@ $n$ & \multicolumn{3}{c|}{Naive} & \multicolumn{3}{c|}{Tarjan} \\
 100.000 & 20.215 & 17.468 & 30.007 & 18.951 & 16.660 & 32.922 \\
 \hline
 \end{tabular}
+}
+
 \end{table}
 
-\begin{figure}[!tb]
-\centering
-\input{figures/comparacao-desempenho.tikz}
-\caption{Comparação de tempos de execução médios entre Naive (linhas contínuas) e Tarjan (linhas tracejadas) em escala logarítmica, separados por categoria de grafo. Azul: Euleriano. Vermelho: Semi-Euleriano. Verde: Não-Euleriano.}
-\label{fig:comparacao-desempenho}
-\end{figure}
+
 
 \subsection{Análise Comparativa e Discussão}
 
@@ -279,14 +332,29 @@ Na faixa até 10.000 vértices, ambas as estratégias apresentam desempenho comp
 
 Este resultado corrobora o enquadramento teórico: Tarjan amortiza seu custo de pré-processamento $O(V + E)$ ao longo de múltiplas consultas de pontes, enquanto Naive reinveste $O(V + E)$ a cada teste. A implementação iterativa do DFS em Naive, embora evite estouro de pilha, não compensa a repetição de cálculos. Portanto, para aplicações reais com grafos grandes (acima de 10.000 vértices), recomenda-se fortemente o algoritmo de Tarjan. Para grafos menores, a simplicidade de Naive pode ser aceitável em contextos onde a latência absoluta é baixa (< 1 ms).
 
-\clearpage
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\input{figures/comparacao-desempenho.tikz}
+}
+\caption{Comparação de tempos de execução médios entre Naive (linhas contínuas) e Tarjan (linhas tracejadas) em escala logarítmica, separados por categoria de grafo. Azul: Euleriano. Vermelho: Semi-Euleriano. Verde: Não-Euleriano.}
+\label{fig:comparacao-desempenho}
+\end{figure}
 
 
 \section{Conclusão}
 
 Neste trabalho, exploramos duas estratégias distintas para detecção de pontes no contexto do algoritmo de Fleury. A comparação empírica entre a abordagem Naive (com testes repetidos de conectividade) e o algoritmo de Tarjan (com pré-processamento linear) revelou uma diferença significativa de desempenho em grafos de grande escala. Enquanto a estratégia Naive reinveste computação $O(V + E)$ a cada teste de ponte, Tarjan amortiza esse custo em uma única passagem, proporcionando ganhos de até 1,18 vezes em grafos Eulerianos com 100.000 vértices. Portanto, recomenda-se o algoritmo de Tarjan para aplicações práticas onde eficiência é crítica e o tamanho do grafo supera alguns milhares de vértices. Para grafos menores, ambas as estratégias apresentam latências aceitáveis, permitindo flexibilidade na escolha conforme necessidades específicas de implementação.
 
-\bibliography{sbc-template}
-\bibliographystyle{sbc}
+
+
+\begin{materials}
+O codigo fonte com todas as implementações pode ser encontrado no \href{https://github.com/JoaoCominii/ESTUDOS/tree/main/Mat%C3%A9rias/Teoria%20dos%20Grafos%20e%20Computabilidade/2%20-%20Projetos/TRABALHO%20PR%C3%81TICO%20N.01/CODIGOS}{repositório do github}.
+
+\end{materials}
+
+
+\bibliographystyle{apalike-sol}
+\bibliography{refs}
 
 \end{document}
