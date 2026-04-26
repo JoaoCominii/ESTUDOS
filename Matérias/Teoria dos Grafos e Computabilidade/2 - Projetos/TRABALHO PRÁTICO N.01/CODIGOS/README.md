@@ -312,5 +312,6 @@ java FleuryBenchmark amostras-10 2 10000  # Apenas Tarjan até 10K
 
 João Comini Cesar de Andrade  
 Rafael Rehfeld Martins de Oliveira
+
 PUCMG - Pontifícia Universidade Católica de Minas Gerais  
 Disciplina: Teoria dos Grafos e Computabilidade
