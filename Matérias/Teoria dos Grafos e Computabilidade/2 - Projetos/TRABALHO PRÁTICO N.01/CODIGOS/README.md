@@ -308,8 +308,9 @@ java FleuryBenchmark amostras-10 2 10000  # Apenas Tarjan até 10K
 - **Graph Theory**: Diestel, R. (2017). Graph Theory
 - **Algorithms**: Cormen, T. et al. (2009). Introduction to Algorithms
 
-## Autor
+## Autores
 
 João Comini Cesar de Andrade  
+Rafael Rehfeld Martins de Oliveira
 PUCMG - Pontifícia Universidade Católica de Minas Gerais  
 Disciplina: Teoria dos Grafos e Computabilidade
