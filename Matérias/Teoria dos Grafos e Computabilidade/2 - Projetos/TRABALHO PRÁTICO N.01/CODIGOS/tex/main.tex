@@ -47,8 +47,11 @@
 \title[Análise de Algoritmos de Grafos]{Análise de Algoritmos de Grafos: Fleury e Detecção de Pontes}
 
 %THE ORCID IS MANDATORY FOR EACH AUTHOR IN JBCS
-\author[João Comini 202X]{
-\affil{\textbf{João Comini Cesar de Andrade}~\textcolor{blue}{\faEnvelopeO}~~[~\textbf{Pontifícia Universidade Católica de Minas Gerais}~|~\href{mailto:jccandrade@sga.pucminas.br}{\textbf{\textit{jccandrade@sga.pucminas.br}}}~]}
+\author[Andrade and Oliveira 202X]{
+\affil{
+\textbf{João Comini Cesar de Andrade}~\textcolor{blue}{\faEnvelopeO}~~[~\textbf{Pontifícia Universidade Católica de Minas Gerais}~|~\href{mailto:jccandrade@sga.pucminas.br}{\textbf{\textit{jccandrade@sga.pucminas.br}}}~] \\
+\textbf{Rafael Rehfeld Martins de Oliveira}~\textcolor{blue}{\faEnvelopeO}~~[~\textbf{Pontifícia Universidade Católica de Minas Gerais}~|~\href{mailto:rafael.oliveira.1508947@sga.pucminas.br}{\textbf{\textit{rafael.oliveira.1508947@sga.pucminas.br}}}~]
+}
 }
 
 \begin{document}
@@ -105,10 +108,10 @@ Neste trabalho, investigam-se duas estratégias distintas para detectar pontes:
 \begin{enumerate}
     \item \textbf{Abordagem \textit{Naive}}: A cada iteração do algoritmo de Fleury, quando uma aresta candidata precisa ser avaliada, a estratégia \textit{Naive} remove temporariamente essa aresta do grafo e testa se o subgrafo resultante permanece conexo através de uma busca em profundidade (DFS) \cite{cormen:2009}. Se permanecer conexo, a aresta não é ponte e pode ser removida com segurança; caso contrário, é uma ponte e deve ser evitada (a menos que seja a última aresta disponível). A vantagem dessa abordagem é sua simplicidade de implementação. A desvantagem é que realiza testes repetidos de conectividade, o que é computacionalmente oneroso, especialmente em grafos densos ou grandes.
     
-    \item \textbf{Algoritmo de Tarjan}: Desenvolvido por Robert Tarjan, este algoritmo identifica \textbf{todas} as pontes de um grafo em uma única passagem linear, com complexidade $O(V + E)$ \cite{tarjan:1972}. Durante uma DFS, Tarjan mantém dois valores para cada vértice: o índice de descoberta (\textit{disc}) e o menor índice alcançável (\textit{low}). Uma aresta $(u,v)$ é ponte se e somente se $\mathrm{low}[v] > \mathrm{disc}[u]$, indicando que não existe caminho alternativo a partir de $v$ para retornar a um ancestral de $u$ na árvore DFS. Uma vez que todas as pontes são identificadas previamente, o algoritmo de Fleury pode simplesmente consultar um conjunto pré-computado de pontes, evitando cálculos repetidos.
+    \item \textbf{Algoritmo de Tarjan}: Desenvolvido por Robert Tarjan, este algoritmo identifica todas as pontes de um grafo em uma única passagem linear, com complexidade $O(V + E)$ \cite{tarjan:1972}. Durante uma DFS, Tarjan mantém dois valores para cada vértice: o índice de descoberta (\textit{disc}) e o menor índice alcançável (\textit{low}). Uma aresta $(u,v)$ é ponte se e somente se $\mathrm{low}[v] > \mathrm{disc}[u]$, indicando que não existe caminho alternativo a partir de $v$ para retornar a um ancestral de $u$ na árvore DFS. Uma vez que todas as pontes são identificadas previamente, o algoritmo de Fleury pode simplesmente consultar um conjunto pré-computado de pontes, evitando cálculos repetidos.
 \end{enumerate}
 
-A diferença fundamental entre as estratégias reside no \textbf{custo computacional versus pré-processamento}: a abordagem \textit{Naive} investe computação em cada iteração interativa, enquanto Tarjan realiza um investimento inicial único que amortiza o custo ao longo da execução. Para grafos pequenos (centenas de vértices), ambas as estratégias podem apresentar performance comparável. Entretanto, conforme o grafo cresce para milhares ou dezenas de milhares de vértices e principalmente de arestas, a vantagem do método de Tarjan se torna clara.
+A diferença fundamental entre as estratégias reside no custo computacional versus pré-processamento: a abordagem \textit{Naive} investe computação em cada iteração interativa, enquanto Tarjan realiza um investimento inicial único que amortiza o custo ao longo da execução. Para grafos pequenos (centenas de vértices), ambas as estratégias podem apresentar performance comparável. Entretanto, conforme o grafo cresce para milhares ou dezenas de milhares de vértices e principalmente de arestas, a vantagem do método de Tarjan se torna clara.
 
 Essas duas estratégias são comparadas em grafos de diferentes tamanhos (100 a 100.000 vértices) para avaliar empiricamente o impacto na performance geral do algoritmo de Fleury, quantificando a aceleração obtida pela detecção prévia de pontes.
 
@@ -119,7 +122,7 @@ Nesta seção, serão apresentados os conceitos e definições fundamentais que 
 
 \subsection{Grafos e Propriedades Básicas}
 
-Um \textbf{grafo não direcionado} $G = (V, E)$ é definido por um conjunto de vértices $V$ e um conjunto de arestas $E$, onde cada aresta conecta dois vértices distintos \cite{diestel:2017}. O \textbf{grau} de um vértice $v$, denotado $\deg(v)$, é o número de arestas incidentes a $v$. Um grafo é \textbf{conexo} se existe um caminho entre quaisquer dois vértices.
+Um grafo não direcionado $G = (V, E)$ é definido por um conjunto de vértices $V$ e um conjunto de arestas $E$, onde cada aresta conecta dois vértices distintos \cite{diestel:2017}. O grau de um vértice $v$, denotado $\deg(v)$, é o número de arestas incidentes a $v$. Um grafo é conexo se existe um caminho entre quaisquer dois vértices.
 
 \subsection{Circulitos e Caminhos Eulerianos}
 
@@ -182,7 +185,7 @@ A implementação foi realizada em Java, permitindo a seleção de duas estraté
 
 \subsection{Estruturas de Dados}
 
-Os grafos são representados internamente através de uma \textbf{lista de adjacência}: cada vértice mantém uma coleção de vizinhos. Para operações de remoção e consulta rápida de arestas durante a execução do algoritmo de Fleury, utiliza-se também um \textbf{conjunto de arestas} explícito (set), permitindo verificações de existência em tempo $O(\log m)$.
+Os grafos são representados internamente através de uma lista de adjacência: cada vértice mantém uma coleção de vizinhos. Para operações de remoção e consulta rápida de arestas durante a execução do algoritmo de Fleury, utiliza-se também um conjunto de arestas explícito (set), permitindo verificações de existência em tempo $O(\log m)$.
 
 \subsection{FleuryEngine: Núcleo de Execução}
 
