@@ -1,0 +1,1 @@
+00846713	Comparações: 523	Movimentações: 366	TempoTotal: 95533400ns
