@@ -1,0 +1,5 @@
+arquivo,vertices,arestas,caminho_encontrado,distancia_total,arestas_no_caminho,tempo_medio_ms,tempo_min_ms,tempo_max_ms
+grafo-esparso-100.txt,100,199,true,525,11,0.090,0.072,0.121
+grafo-esparso-1000.txt,1000,1999,true,377,10,1.052,0.493,1.454
+grafo-esparso-10000.txt,10000,19999,true,773,14,4.231,3.505,6.206
+grafo-esparso-50000.txt,50000,99999,true,477,21,5.952,5.463,6.355

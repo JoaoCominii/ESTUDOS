@@ -1,0 +1,5 @@
+arquivo,vertices,arestas,caminho_encontrado,distancia_total,arestas_no_caminho,tempo_medio_ms,tempo_min_ms,tempo_max_ms
+grafo-denso-100.txt,100,799,true,91,3,0.023,0.021,0.026
+grafo-denso-1000.txt,1000,7999,true,76,7,0.069,0.053,0.094
+grafo-denso-10000.txt,10000,79999,true,53,5,0.215,0.190,0.283
+grafo-denso-50000.txt,50000,399999,true,127,10,4.711,4.470,5.032
