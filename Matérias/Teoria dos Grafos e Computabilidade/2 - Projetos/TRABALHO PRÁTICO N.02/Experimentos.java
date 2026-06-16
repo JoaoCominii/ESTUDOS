@@ -32,10 +32,13 @@ import java.util.*;
  *   enunciado do trabalho (Tabela 1), e são usados apenas para calcular o
  *   fator de aproximação (FA = raio_obtido / raio_ótimo) de cada método.
  * - Para cada instância, a heurística de Gonzalez é sempre executada. O
- *   método exato é executado apenas para instâncias com n <= 400 e
+ *   método exato é executado apenas para instâncias com n <= LIMITE_N e
  *   abortado (não reportado) caso ultrapasse o limite de tempo definido em
- *   LIMITE_MS, devido à complexidade O(n^2 log n) descrita em
- *   KCentrosExato.java.
+ *   LIMITE_MS, pois o teste de viabilidade do método exato (branch-and-bound
+ *   sobre Set Cover, ver KCentrosExato.java) tem complexidade exponencial
+ *   no pior caso. Na prática, espera-se que o exato termine em tempo
+ *   razoável apenas para as primeiras instâncias (pmed1, pmed2), conforme
+ *   discutido no relatório.
  * - Os resultados de cada instância (n, k, raio ótimo, raio e tempo de
  *   cada método, fator de aproximação) são impressos em formato tabular e
  *   gravados em resultados.csv para posterior análise/plotagem.
@@ -56,6 +59,7 @@ public class Experimentos {
     };
 
     private static final long LIMITE_MS = 300_000; // 5 minutos
+    private static final int LIMITE_N = 200; // tamanho máximo de instância para tentar o exato
 
     public static void main(String[] args) throws IOException {
         String pasta = (args.length > 0) ? args[0] : ".";
@@ -92,16 +96,36 @@ public class Experimentos {
             double tG = (System.currentTimeMillis() - t0) / 1000.0;
             double faG = resG.raio / otimo;
 
-            // --- Exato (apenas para n <= 400, dentro do limite) ---
+            // --- Exato (apenas para n <= LIMITE_N, com timeout de LIMITE_MS) ---
+            // O teste de viabilidade do exato é exponencial no pior caso, então
+            // executamos em uma thread separada e a interrompemos caso exceda
+            // o tempo limite, evitando que o experimento fique bloqueado
+            // indefinidamente em instâncias maiores.
             double raioE = Double.NaN, faE = Double.NaN, tE = Double.NaN;
             String exatoStr = "   ---- -----   -------";
-            if (n <= 400) {
-                t0 = System.currentTimeMillis();
-                KCentrosExato solverE = new KCentrosExato(n, k, dist);
-                KCentrosExato.Result resE = solverE.resolve();
-                tE = (System.currentTimeMillis() - t0) / 1000.0;
-                if (tE * 1000 <= LIMITE_MS) {
-                    raioE = resE.raio;
+            if (n <= LIMITE_N) {
+                final double[][] distFinal = dist;
+                final int nFinal = n, kFinal = k;
+                final KCentrosExato.Result[] resultadoExato = new KCentrosExato.Result[1];
+
+                Thread worker = new Thread(() -> {
+                    KCentrosExato solverE = new KCentrosExato(nFinal, kFinal, distFinal);
+                    resultadoExato[0] = solverE.resolve();
+                });
+
+                long t0e = System.currentTimeMillis();
+                worker.start();
+                try {
+                    worker.join(LIMITE_MS);
+                } catch (InterruptedException ignored) {}
+                tE = (System.currentTimeMillis() - t0e) / 1000.0;
+
+                if (worker.isAlive()) {
+                    // Excedeu o tempo limite: interrompe e descarta o resultado parcial
+                    worker.interrupt();
+                    tE = Double.NaN;
+                } else if (resultadoExato[0] != null) {
+                    raioE = resultadoExato[0].raio;
                     faE = raioE / otimo;
                     exatoStr = String.format("%6.0f %5.2f %9.3f", raioE, faE, tE);
                 }

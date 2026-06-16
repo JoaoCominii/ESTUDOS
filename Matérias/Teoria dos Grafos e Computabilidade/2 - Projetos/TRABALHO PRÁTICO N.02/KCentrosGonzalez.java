@@ -143,8 +143,8 @@ public class KCentrosGonzalez {
             int u = Integer.parseInt(st.nextToken()) - 1;
             int v = Integer.parseInt(st.nextToken()) - 1;
             double w = Double.parseDouble(st.nextToken());
-            distOut[u][v] = Math.min(distOut[u][v], w);
-            distOut[v][u] = Math.min(distOut[v][u], w);
+            distOut[u][v] = w;
+            distOut[v][u] = w;
         }
         br.close();
         return new int[]{n, m, k};
