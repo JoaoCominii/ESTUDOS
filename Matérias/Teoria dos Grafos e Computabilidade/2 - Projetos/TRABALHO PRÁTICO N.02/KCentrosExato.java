@@ -51,9 +51,7 @@ import java.util.*;
  * - NENHUMA heurística é usada na decisão de viabilidade: o resultado
  *   retornado (viável / inviável) é sempre correto, isto é, o algoritmo é
  *   100% exato. O custo é complexidade exponencial no pior caso, por
- *   isso, na prática, só é tratável para instâncias pequenas (tipicamente
- *   pmed1 e pmed2 da OR-Library, o que é o resultado experimental esperado e discutido no
- *   relatório.
+ *   isso, na prática, só é tratável para instâncias pequenas
  *
  * CONFORMIDADE COM AS REFERÊNCIAS:
  * - Segue o esquema de Hochbaum & Shmoys (1985) de reduzir o problema de
