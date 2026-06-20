@@ -127,14 +127,14 @@ public class Experimentos {
                 } else if (resultadoExato[0] != null) {
                     raioE = resultadoExato[0].raio;
                     faE = raioE / otimo;
-                    exatoStr = String.format("%6.0f %5.2f %9.3f", raioE, faE, tE);
+                    exatoStr = String.format("%6.0f %5.2f %9.6f", raioE, faE, tE);
                 }
             }
 
-            System.out.printf("%4d %4d %4d %4d | %s | %6.0f %5.2f %9.4f%n",
+            System.out.printf("%4d %4d %4d %4d | %s | %6.0f %5.2f %9.6f%n",
                     i, n, k, otimo, exatoStr, resG.raio, faG, tG);
 
-            csv.printf(Locale.US, "%d,%d,%d,%d,%.0f,%.4f,%.4f,%.0f,%.4f,%.4f%n",
+            csv.printf(Locale.US, "%d,%d,%d,%d,%.0f,%.4f,%.6f,%.0f,%.4f,%.6f%n",
                     i, n, k, otimo,
                     Double.isNaN(raioE) ? -1 : raioE,
                     Double.isNaN(faE) ? -1 : faE,
