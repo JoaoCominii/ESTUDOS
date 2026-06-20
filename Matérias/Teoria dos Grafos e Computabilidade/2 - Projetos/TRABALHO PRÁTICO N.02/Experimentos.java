@@ -59,7 +59,7 @@ public class Experimentos {
     };
 
     private static final long LIMITE_MS = 300_000; // 5 minutos
-    private static final int LIMITE_N = 200; // tamanho máximo de instância para tentar o exato
+    private static final int LIMITE_N = 300; // tamanho máximo de instância para tentar o exato
 
     public static void main(String[] args) throws IOException {
         String pasta = (args.length > 0) ? args[0] : ".";
@@ -134,7 +134,7 @@ public class Experimentos {
             System.out.printf("%4d %4d %4d %4d | %s | %6.0f %5.2f %9.4f%n",
                     i, n, k, otimo, exatoStr, resG.raio, faG, tG);
 
-            csv.printf("%d,%d,%d,%d,%.0f,%.4f,%.4f,%.0f,%.4f,%.4f%n",
+            csv.printf(Locale.US, "%d,%d,%d,%d,%.0f,%.4f,%.4f,%.0f,%.4f,%.4f%n",
                     i, n, k, otimo,
                     Double.isNaN(raioE) ? -1 : raioE,
                     Double.isNaN(faE) ? -1 : faE,
