@@ -1,0 +1,13 @@
+{
+  "name": "farmaciafinder",
+  "version": "1.0.0",
+  "description": "FarmáciaFinder - WebGIS para localizar farmácias e laboratórios próximos a hospitais com filtros e consultas espaciais",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "node tests/executar-testes.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
