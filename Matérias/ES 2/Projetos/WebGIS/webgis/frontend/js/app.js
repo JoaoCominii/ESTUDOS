@@ -139,6 +139,7 @@ function executarBusca() {
     const hospital = hospitalPorId(f.centroId);
     if (hospital && (!estado.centro || estado.centro.id !== hospital.id)) {
       definirCentro(hospital);
+      mapa.voarPara(estado.centro);
     }
   }
 
