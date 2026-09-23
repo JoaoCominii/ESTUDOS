@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RotaClara — Protótipo de telas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #121A21;
+    --ink-soft: #1C2732;
+    --paper: #F3F5F3;
+    --surface: #FFFFFF;
+    --line: #DDE3E1;
+    --text: #16202A;
+    --text-muted: #5B6B72;
+    --amber: #DE8B22;
+    --amber-ink: #7A4B0F;
+    --rust: #B23A2E;
+    --teal: #2F7A63;
+    --focus: #2A6FA8;
+    --amber-tint: #FBEBD6;
+    --teal-tint: #E1F0EB;
+    --rust-tint: #F6E2DF;
+    --shadow: 0 1px 2px rgba(18,26,33,0.06);
+    --radius: 10px;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --paper: #0F1418;
+      --surface: #171D22;
+      --line: #2A3239;
+      --text: #E8ECEE;
+      --text-muted: #8B98A0;
+      --amber-tint: #3A2A14;
+      --teal-tint: #16302A;
+      --rust-tint: #3A211E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0F1418;
+    --surface: #171D22;
+    --line: #2A3239;
+    --text: #E8ECEE;
+    --text-muted: #8B98A0;
+    --amber-tint: #3A2A14;
+    --teal-tint: #16302A;
+    --rust-tint: #3A211E;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  h1, h2, h3, .num, .navlabel, .brand {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  a { color: inherit; }
+  button { font-family: inherit; }
+
+  /* ---------- App shell ---------- */
+  .shell {
+    display: grid;
+    grid-template-columns: 232px 1fr;
+    min-height: 100vh;
+  }
+  .sidebar {
+    background: var(--ink);
+    color: #E8ECEE;
+    padding: 22px 14px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding-top: calc(22px + env(safe-area-inset-top, 0px));
+  }
+  .brand {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    padding: 0 10px 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+  }
+  .brand .dot { color: var(--amber); }
+  .brand-sub {
+    font-size: 11.5px;
+    color: #8B98A0;
+    padding: 0 10px 22px;
+    font-family: 'Inter', sans-serif;
+  }
+  nav.mainnav { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+  .navitem {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    color: #C7D0D6;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    background: none;
+    text-align: left;
+    width: 100%;
+  }
+  .navitem svg { width: 17px; height: 17px; flex: none; opacity: 0.85; }
+  .navitem:hover { background: var(--ink-soft); color: #fff; }
+  .navitem.active { background: var(--ink-soft); color: #fff; }
+  .navitem.active svg { color: var(--amber); opacity: 1; }
+  .navgroup-label {
+    font-size: 10.5px;
+    text-transform: none;
+    color: #5E6B72;
+    padding: 16px 10px 6px;
+    font-weight: 600;
+  }
+  .sidebar-foot {
+    margin-top: auto;
+    padding: 12px 10px 6px;
+    border-top: 1px solid #263039;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--amber); color: #241505;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12.5px; flex: none;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .who-name { font-size: 12.5px; font-weight: 600; color: #fff; }
+  .who-role { font-size: 11px; color: #8B98A0; }
+
+  .main {
+    padding: 26px 34px 60px;
+    min-width: 0;
+    overflow-x: auto;
+  }
+  .topline {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .topline h1 { font-size: 22px; margin: 0; font-weight: 600; }
+  .topline .meta { font-size: 12.5px; color: var(--text-muted); margin-top: 3px; }
+
+  .btn {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .btn:hover { border-color: #B9C2C0; }
+  .btn.primary {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #241505;
+  }
+  .btn.primary:hover { background: #CB7D19; }
+  .btn.ghost { border: none; background: none; color: var(--focus); padding: 9px 4px; }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ---------- Segmented filter ---------- */
+  .segmented {
+    display: inline-flex;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .segmented button {
+    border: none;
+    background: none;
+    padding: 6px 13px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .segmented button.active { background: var(--ink); color: #fff; }
+
+  /* ---------- Route timeline (hero) ---------- */
+  .timeline-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 22px 18px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow);
+  }
+  .timeline-head {
+    display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
+  }
+  .timeline-head h3 { font-size: 14.5px; margin: 0; font-weight: 600; }
+  .timeline-head .sub { font-size: 12px; color: var(--text-muted); }
+  .route-strip { display: flex; gap: 3px; height: 46px; }
+  .stop {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border-radius: 6px;
+    font-size: 11px; font-weight: 600;
+    color: #241505;
+    min-width: 42px;
+    position: relative;
+  }
+  .stop.partida { background: #EAEDEC; color: var(--text-muted); flex: 6 1 0; }
+  .stop.parada { background: var(--amber); }
+  .stop.parada.p1 { flex: 15 1 0; }
+  .stop.parada.p2 { flex: 10 1 0; }
+  .stop.parada.p3 { flex: 50 1 0; background: var(--rust); color: #fff; }
+  .stop .t { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; }
+  .stop .a { font-size: 9.5px; font-weight: 500; opacity: 0.85; margin-top: 1px; max-width: 92%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+  .route-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--text-muted); }
+  .legend { display: flex; gap: 16px; margin-top: 12px; font-size: 11.5px; color: var(--text-muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
+  /* ---------- KPI row ---------- */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin-bottom: 22px; }
+  .kpi { background: var(--surface); padding: 16px 18px; }
+  .kpi .label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .kpi .num { font-size: 24px; font-weight: 600; }
+  .kpi .delta { font-size: 11.5px; margin-top: 5px; font-weight: 600; }
+  .delta.up { color: var(--rust); }
+  .delta.down { color: var(--teal); }
+
+  /* ---------- Two column grid ---------- */
+  .grid-2 { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; align-items: start; margin-bottom: 22px; }
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .panel h3 { font-size: 14px; margin: 0 0 14px; font-weight: 600; }
+
+  .bars { display: flex; align-items: flex-end; gap: 10px; height: 130px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; gap: 6px; }
+  .bar { width: 100%; max-width: 26px; background: var(--amber); border-radius: 4px 4px 0 0; }
+  .bar.peak { background: var(--rust); }
+  .bar-col .v { font-size: 10.5px; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace;}
+  .bar-col .d { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  .donut-wrap { display: flex; align-items: center; gap: 18px; }
+  .donut-legend { font-size: 12px; }
+  .donut-legend .row { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; }
+  .donut-legend .row .amt { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-muted); padding-left: 14px; }
+
+  /* ---------- Table ---------- */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    text-align: left; font-weight: 600; font-size: 11.5px; color: var(--text-muted);
+    border-bottom: 1px solid var(--line); padding: 0 10px 9px; font-family: 'Inter', sans-serif;
+  }
+  tbody td { padding: 11px 10px; border-bottom: 1px solid var(--line); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--paper); }
+  td.num, th.num { text-align: right; font-family: 'IBM Plex Mono', monospace; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
+  .pill.ok { background: var(--teal-tint); color: var(--teal); }
+  .pill.warn { background: var(--amber-tint); color: var(--amber-ink); }
+  .pill.bad { background: var(--rust-tint); color: var(--rust); }
+  .table-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 6px 4px; box-shadow: var(--shadow); }
+  .table-card-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px 6px; }
+  .table-card-head h3 { font-size: 14px; margin: 0; font-weight: 600; }
+
+  /* ---------- Forms ---------- */
+  .form-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow); max-width: 620px; }
+  .form-card h3 { font-size: 15px; margin: 0 0 4px; font-weight: 600; }
+  .form-card .hint { font-size: 12.5px; color: var(--text-muted); margin: 0 0 18px; }
+  .field { margin-bottom: 15px; }
+  .field label { display: block; font-size: 12.5px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+  .field .fh { display: block; font-size: 11.5px; color: var(--text-muted); margin-top: 5px; }
+  .field input, .field select {
+    width: 100%; padding: 9px 11px; border-radius: 7px; border: 1px solid var(--line);
+    font-size: 13.5px; font-family: 'Inter', sans-serif; background: var(--paper); color: var(--text);
+  }
+  .field input:focus, .field select:focus { outline: 2px solid var(--focus); outline-offset: 1px; border-color: var(--focus); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field-row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .form-actions { display: flex; gap: 10px; margin-top: 18px; }
+  .form-split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+
+  /* points list builder */
+  .stoplist { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .stoprow {
+    display: flex; align-items: center; gap: 10px;
+    border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; background: var(--paper);
+  }
+  .stoprow .n { width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; font-family: 'Space Grotesk', sans-serif;}
+  .stoprow .addr { flex: 1; font-size: 13px; }
+  .stoprow .eta { font-size: 12px; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+  .stoprow .grip { color: var(--text-muted); cursor: grab; font-size: 13px; }
+
+  /* ---------- Phone mock ---------- */
+  .phone-wrap { display: flex; gap: 26px; align-items: flex-start; flex-wrap: wrap; }
+  .phone {
+    width: 300px; border-radius: 30px; background: var(--ink);
+    padding: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    flex: none;
+  }
+  .phone-screen { background: var(--surface); border-radius: 20px; overflow: hidden; min-height: 560px; display: flex; flex-direction: column; }
+  .phone-status { display: flex; justify-content: space-between; padding: 10px 18px 2px; font-size: 11px; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+  .phone-head { padding: 8px 18px 14px; border-bottom: 1px solid var(--line); }
+  .phone-head .greet { font-size: 11.5px; color: var(--text-muted); }
+  .phone-head .name { font-size: 15px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+  .phone-body { padding: 16px 18px; flex: 1; display: flex; flex-direction: column; }
+  .stop-card {
+    background: var(--amber-tint); border: 1px solid #EFCB99; border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 14px;
+  }
+  .stop-card .lbl { font-size: 11px; font-weight: 700; color: var(--amber-ink); text-transform: none; margin-bottom: 6px; }
+  .stop-card .addr { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .stop-card .timer { font-size: 26px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; color: var(--rust); }
+  .stop-card .timer-lbl { font-size: 10.5px; color: var(--text-muted); margin-top: 2px; }
+  .big-btn {
+    width: 100%; padding: 15px; border-radius: 12px; border: none; font-size: 14.5px; font-weight: 700;
+    background: var(--ink); color: #fff; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
+  }
+  .next-list { margin-top: auto; padding-top: 14px; }
+  .next-list .lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; }
+  .next-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 12.5px; }
+  .next-item .n { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--line); font-size: 10px; display: flex; align-items: center; justify-content: center; flex: none; color: var(--text-muted); }
+  .phone-note { max-width: 260px; font-size: 12.5px; color: var(--text-muted); line-height: 1.55; padding-top: 8px; }
+  .phone-note strong { color: var(--text); display: block; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { position: relative; height: auto; flex-direction: row; overflow-x: auto; }
+    .brand, .brand-sub, .navgroup-label, .sidebar-foot { display: none; }
+    nav.mainnav { flex-direction: row; }
+    .kpi-row, .grid-2, .form-split, .field-row3 { grid-template-columns: 1fr; }
+    .main { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="brand">RotaClara<span class="dot">•</span></div>
+    <div class="brand-sub">Monitoramento de tempo parado</div>
+
+    <nav class="mainnav">
+      <div class="navgroup-label">Visão geral</div>
+      <button class="navitem active" data-target="painel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Painel
+      </button>
+      <button class="navitem" data-target="historico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M7 3 4 6"/></svg>
+        Histórico
+      </button>
+
+      <div class="navgroup-label">Operação</div>
+      <button class="navitem" data-target="roteiros">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19c4-1 4-6 8-6s4 5 8 6"/><circle cx="4" cy="19" r="1.4" fill="currentColor" stroke="none"/><circle cx="20" cy="19" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="13" r="1.4" fill="currentColor" stroke="none"/></svg>
+        Roteiros
+      </button>
+      <button class="navitem" data-target="pontos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.4 7-11.5A7 7 0 0 0 5 9.5C5 14.6 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.3"/></svg>
+        Pontos
+      </button>
+      <button class="navitem" data-target="registrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="2.5" width="12" height="19" rx="2.4"/><path d="M10 19h4"/></svg>
+        Registrar ponto
+      </button>
+
+      <div class="navgroup-label">Cadastros</div>
+      <button class="navitem" data-target="motoristas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M5.5 16c.6-1.7 1.8-2.5 3-2.5s2.4.8 3 2.5"/><path d="M14.5 10h4M14.5 13h4"/></svg>
+        Motoristas
+      </button>
+      <button class="navitem" data-target="parametros">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h9M17 7h3M4 12h3M9 12h11M4 17h13M19 17h1"/><circle cx="9" cy="7" r="1.8" fill="currentColor" stroke="none"/><circle cx="7" cy="12" r="1.8" fill="currentColor" stroke="none"/><circle cx="17" cy="17" r="1.8" fill="currentColor" stroke="none"/></svg>
+        Parâmetros
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="avatar">AS</div>
+      <div>
+        <div class="who-name">Ana Souza</div>
+        <div class="who-role">Gerente/Coordenadora</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+
+    <!-- ---------- PAINEL / DASHBOARD (RF08, RF06) ---------- -->
+    <section class="screen active" id="painel">
+      <div class="topline">
+        <div>
+          <h1>Painel de tempo parado</h1>
+          <div class="meta">Dados consolidados de todos os motoristas · atualizado às 14:32</div>
+        </div>
+        <div class="segmented">
+          <button class="active">Dia</button>
+          <button>Mês</button>
+          <button>Período</button>
+        </div>
+      </div>
+
+      <div class="timeline-card">
+        <div class="timeline-head">
+          <h3>Roteiro em destaque — Carlos Mendes · Roteiro A · hoje</h3>
+          <span class="sub">4 pontos · 1h15min parado no total</span>
+        </div>
+        <div class="route-strip">
+          <div class="stop partida"><span class="t">08:00</span><span class="a">Seg. Família (partida)</span></div>
+          <div class="stop parada p1"><span class="t">15min</span><span class="a">Rua Peru, 55</span></div>
+          <div class="stop parada p2"><span class="t">10min</span><span class="a">Rua X, 5</span></div>
+          <div class="stop parada p3"><span class="t">50min</span><span class="a">Av. João César</span></div>
+        </div>
+        <div class="route-labels"><span>Início do roteiro</span><span>Ponto final</span></div>
+        <div class="legend">
+          <span><i class="sw" style="background:#EAEDEC"></i>Partida — não conta tempo (RN01)</span>
+          <span><i class="sw" style="background:var(--amber)"></i>Parada dentro do esperado</span>
+          <span><i class="sw" style="background:var(--rust)"></i>Parada acima de 30 min</span>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="label">Tempo parado total (dia)</div>
+          <div class="num">4h 52min</div>
+          <div class="delta up">↑ 12% vs. ontem</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Custo estimado (dia)</div>
+          <div class="num">R$ 268,40</div>
+          <div class="delta down">↓ 4% vs. ontem</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Roteiros concluídos</div>
+          <div class="num">7 <span style="font-size:14px;color:var(--text-muted);font-weight:500;">/ 9</span></div>
+          <div class="delta" style="color:var(--text-muted);">2 em andamento</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Média parada / roteiro</div>
+          <div class="num">27min</div>
+          <div class="delta" style="color:var(--text-muted);">jornada padrão 8h</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>Tempo parado por dia — últimos 7 dias</h3>
+          <div class="bars">
+            <div class="bar-col"><span class="v">38min</span><div class="bar" style="height:58%"></div><span class="d">Seg</span></div>
+            <div class="bar-col"><span class="v">52min</span><div class="bar" style="height:80%"></div><span class="d">Ter</span></div>
+            <div class="bar-col"><span class="v">20min</span><div class="bar" style="height:31%"></div><span class="d">Qua</span></div>
+            <div class="bar-col"><span class="v">65min</span><div class="bar peak" style="height:100%"></div><span class="d">Qui</span></div>
+            <div class="bar-col"><span class="v">44min</span><div class="bar" style="height:68%"></div><span class="d">Sex</span></div>
+            <div class="bar-col"><span class="v">15min</span><div class="bar" style="height:23%"></div><span class="d">Sáb</span></div>
+            <div class="bar-col"><span class="v">5min</span><div class="bar" style="height:8%"></div><span class="d">Dom</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Custo do período por categoria</h3>
+          <div class="donut-wrap">
+            <svg width="108" height="108" viewBox="0 0 42 42">
+              <circle r="15.9" cx="21" cy="21" fill="transparent" stroke="#EAEDEC" stroke-width="6"></circle>
+              <circle r="15.9" cx="21" cy="21" fill="transparent" stroke="var(--amber)" stroke-width="6" stroke-dasharray="62 38" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle r="15.9" cx="21" cy="21" fill="transparent" stroke="var(--rust)" stroke-width="6" stroke-dasharray="20 80" stroke-dashoffset="63" transform="rotate(-90 21 21)"></circle>
+              <circle r="15.9" cx="21" cy="21" fill="transparent" stroke="var(--teal)" stroke-width="6" stroke-dasharray="18 82" stroke-dashoffset="83" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="donut-legend">
+              <div class="row"><i class="sw" style="background:var(--amber)"></i>Combustível <span class="amt">R$ 522</span></div>
+              <div class="row"><i class="sw" style="background:var(--rust)"></i>Tempo parado excedente <span class="amt">R$ 168</span></div>
+              <div class="row"><i class="sw" style="background:var(--teal)"></i>Manutenção estimada <span class="amt">R$ 152</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-card-head">
+          <h3>Roteiros do dia</h3>
+          <button class="btn ghost">Exportar relatório do período →</button>
+        </div>
+        <table>
+          <thead><tr><th>Motorista</th><th>Roteiro</th><th>Pontos</th><th class="num">Tempo parado</th><th class="num">Custo estimado</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Carlos Mendes</td><td>Roteiro A</td><td>4</td><td class="num">1h 15min</td><td class="num">R$ 42,80</td><td><span class="pill warn">Em andamento</span></td></tr>
+            <tr><td>Renata Alves</td><td>Roteiro B</td><td>4</td><td class="num">41min</td><td class="num">R$ 38,10</td><td><span class="pill ok">Concluído</span></td></tr>
+            <tr><td>João Pires</td><td>Roteiro C</td><td>4</td><td class="num">45min</td><td class="num">R$ 40,50</td><td><span class="pill ok">Concluído</span></td></tr>
+            <tr><td>Renata Alves</td><td>Roteiro D</td><td>5</td><td class="num">1h 32min</td><td class="num">R$ 51,20</td><td><span class="pill bad">Acima da média</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------- HISTÓRICO (RF07) ---------- -->
+    <section class="screen" id="historico">
+      <div class="topline">
+        <div>
+          <h1>Histórico de pontos e tempos parados</h1>
+          <div class="meta">Consulta por período, sempre associada ao endereço registrado</div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-bottom:18px;">
+        <div class="field-row3">
+          <div class="field"><label>De</label><input type="date" value="2026-09-15"></div>
+          <div class="field"><label>Até</label><input type="date" value="2026-09-22"></div>
+          <div class="field"><label>Motorista</label>
+            <select><option>Todos os motoristas</option><option>Carlos Mendes</option><option>Renata Alves</option><option>João Pires</option></select>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-card-head"><h3>32 registros encontrados</h3></div>
+        <table>
+          <thead><tr><th>Data</th><th>Motorista</th><th>Ponto</th><th>Endereço</th><th class="num">Chegada</th><th class="num">Saída</th><th class="num">Tempo parado</th></tr></thead>
+          <tbody>
+            <tr><td>22/09</td><td>Carlos Mendes</td><td>2</td><td>Rua Peru, 55</td><td class="num">08:22</td><td class="num">08:37</td><td class="num">15min</td></tr>
+            <tr><td>22/09</td><td>Carlos Mendes</td><td>3</td><td>Rua X, 5</td><td class="num">08:51</td><td class="num">09:01</td><td class="num">10min</td></tr>
+            <tr><td>22/09</td><td>Carlos Mendes</td><td>4</td><td>Av. João César</td><td class="num">09:20</td><td class="num">—</td><td class="num">em aberto</td></tr>
+            <tr><td>21/09</td><td>Renata Alves</td><td>2</td><td>Rua das Acácias, 210</td><td class="num">09:05</td><td class="num">09:18</td><td class="num">13min</td></tr>
+            <tr><td>21/09</td><td>João Pires</td><td>3</td><td>Av. Contorno, 980</td><td class="num">10:40</td><td class="num">11:11</td><td class="num">31min</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------- ROTEIROS (RF04, RN05, RN06) ---------- -->
+    <section class="screen" id="roteiros">
+      <div class="topline">
+        <div>
+          <h1>Montar roteiro diário</h1>
+          <div class="meta">Um roteiro pertence a um único motorista e a uma única data (RN05)</div>
+        </div>
+      </div>
+
+      <div class="form-split">
+        <div class="form-card" style="max-width:none;">
+          <h3>Novo roteiro</h3>
+          <p class="hint">Associe pontos em ordem sequencial — a ordem define o trajeto do dia (RN06).</p>
+
+          <div class="field-row">
+            <div class="field"><label>Data do roteiro</label><input type="date" value="2026-09-23"></div>
+            <div class="field"><label>Motorista / motoboy</label>
+              <select><option>Carlos Mendes — Moto Honda CG</option><option>Renata Alves — Fiorino</option><option>João Pires — Moto Honda CG</option></select>
+            </div>
+          </div>
+
+          <label style="display:block;font-size:12.5px;font-weight:600;margin:16px 0 8px;">Pontos do roteiro, em ordem</label>
+          <div class="stoplist">
+            <div class="stoprow"><span class="grip">⠿</span><span class="n">1</span><span class="addr">Seg. Família — ponto de partida</span><span class="eta">08:00</span></div>
+            <div class="stoprow"><span class="grip">⠿</span><span class="n">2</span><span class="addr">Rua Peru, 55</span><span class="eta">08:20</span></div>
+            <div class="stoprow"><span class="grip">⠿</span><span class="n">3</span><span class="addr">Rua X, 5</span><span class="eta">08:50</span></div>
+            <div class="stoprow"><span class="grip">⠿</span><span class="n">4</span><span class="addr">Av. João César, 340</span><span class="eta">09:15</span></div>
+          </div>
+          <button class="btn" style="margin-bottom:6px;">+ Adicionar ponto ao roteiro</button>
+
+          <div class="form-actions">
+            <button class="btn primary">Salvar roteiro</button>
+            <button class="btn">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Roteiros de hoje</h3>
+          <table>
+            <thead><tr><th>Motorista</th><th class="num">Pontos</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Carlos Mendes</td><td class="num">4</td><td><span class="pill warn">Em andamento</span></td></tr>
+              <tr><td>Renata Alves</td><td class="num">4</td><td><span class="pill ok">Concluído</span></td></tr>
+              <tr><td>João Pires</td><td class="num">4</td><td><span class="pill ok">Concluído</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- PONTOS (RF03) ---------- -->
+    <section class="screen" id="pontos">
+      <div class="topline">
+        <div>
+          <h1>Pontos</h1>
+          <div class="meta">Endereço e coordenadas usados na montagem dos roteiros</div>
+        </div>
+      </div>
+
+      <div class="form-split">
+        <div class="form-card" style="max-width:none;">
+          <h3>Cadastrar ponto</h3>
+          <div class="field"><label>Endereço</label><input type="text" placeholder="Ex.: Rua Peru, 55 — Sion, Belo Horizonte"></div>
+          <div class="field-row">
+            <div class="field"><label>Latitude</label><input type="text" class="mono" placeholder="-19.9420"></div>
+            <div class="field"><label>Longitude</label><input type="text" class="mono" placeholder="-43.9378"></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn primary">Salvar ponto</button>
+            <button class="btn">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="table-card" style="align-self:start;">
+          <div class="table-card-head"><h3>Pontos cadastrados</h3></div>
+          <table>
+            <thead><tr><th>Endereço</th><th class="num">Lat / Long</th></tr></thead>
+            <tbody>
+              <tr><td>Seg. Família</td><td class="num">-19.9245 / -43.9352</td></tr>
+              <tr><td>Rua Peru, 55</td><td class="num">-19.9420 / -43.9378</td></tr>
+              <tr><td>Rua X, 5</td><td class="num">-19.9187 / -43.9401</td></tr>
+              <tr><td>Av. João César, 340</td><td class="num">-19.9033 / -43.9455</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- REGISTRAR PONTO (RF05, mobile) ---------- -->
+    <section class="screen" id="registrar">
+      <div class="topline">
+        <div>
+          <h1>Registrar chegada e saída</h1>
+          <div class="meta">Tela do motorista/motoboy — uso previsto em dispositivo móvel (RNF02)</div>
+        </div>
+      </div>
+
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-status"><span>08:37</span><span>●●● RotaClara</span></div>
+            <div class="phone-head">
+              <div class="greet">Roteiro de hoje</div>
+              <div class="name">Carlos Mendes — Roteiro A</div>
+            </div>
+            <div class="phone-body">
+              <div class="stop-card">
+                <div class="lbl">Ponto 2 de 4</div>
+                <div class="addr">Rua Peru, 55</div>
+                <div class="timer">00:14:52</div>
+                <div class="timer-lbl">tempo parado neste ponto</div>
+              </div>
+              <button class="big-btn">Registrar saída</button>
+
+              <div class="next-list">
+                <div class="lbl">Próximos pontos</div>
+                <div class="next-item"><span class="n">3</span> Rua X, 5</div>
+                <div class="next-item"><span class="n">4</span> Av. João César, 340 — ponto final</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone-note">
+          <strong>Como funciona</strong>
+          Ao chegar em um ponto, o motorista toca em "Registrar chegada"; o cronômetro começa e o tempo parado é calculado automaticamente na saída (RN02).<br><br>
+          O ponto de partida não exibe cronômetro de parada — apenas confirma o início do roteiro (RN01).<br><br>
+          Se o tempo parado passar de 30 minutos, o card muda de âmbar para vermelho, sinalizando um possível gargalo ao gerente no painel.
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- MOTORISTAS (RF01) ---------- -->
+    <section class="screen" id="motoristas">
+      <div class="topline">
+        <div>
+          <h1>Motoristas e motoboys</h1>
+          <div class="meta">Dados usados no roteiro e no cálculo de custo (RN07)</div>
+        </div>
+      </div>
+
+      <div class="form-split">
+        <div class="form-card" style="max-width:none;">
+          <h3>Cadastrar motorista/motoboy</h3>
+          <div class="field"><label>Nome completo</label><input type="text" placeholder="Ex.: Carlos Mendes"></div>
+          <div class="field-row">
+            <div class="field"><label>Telefone</label><input type="text" placeholder="(31) 9 9999-0000"></div>
+            <div class="field"><label>Documento</label><input type="text" placeholder="CPF"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Veículo</label><input type="text" placeholder="Ex.: Moto Honda CG 160"></div>
+            <div class="field"><label>Rendimento (km/litro)</label><input type="text" class="mono" placeholder="35"></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn primary">Salvar motorista</button>
+            <button class="btn">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="table-card" style="align-self:start;">
+          <div class="table-card-head"><h3>Equipe</h3></div>
+          <table>
+            <thead><tr><th>Nome</th><th>Veículo</th><th class="num">Km/l</th></tr></thead>
+            <tbody>
+              <tr><td>Carlos Mendes</td><td>Moto Honda CG</td><td class="num">35</td></tr>
+              <tr><td>Renata Alves</td><td>Fiorino</td><td class="num">11</td></tr>
+              <tr><td>João Pires</td><td>Moto Honda CG</td><td class="num">33</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- PARÂMETROS (RF09, RF10, RN04, RN07) ---------- -->
+    <section class="screen" id="parametros">
+      <div class="topline">
+        <div>
+          <h1>Parâmetros de custo e jornada</h1>
+          <div class="meta">Alteráveis sem mudança de código — critério de aceitação do MVP</div>
+        </div>
+      </div>
+
+      <div class="form-card" style="max-width:640px;">
+        <h3>Parâmetros gerais</h3>
+        <p class="hint">Usados no cálculo automático de custo do roteiro e nos indicadores de tempo parado.</p>
+
+        <div class="field-row">
+          <div class="field"><label>Valor do combustível (R$/litro)</label><input type="text" class="mono" value="6,19"></div>
+          <div class="field"><label>Custo por km (R$)</label><input type="text" class="mono" value="0,42"><span class="fh">Calculado a partir do combustível e do rendimento médio da frota</span></div>
+        </div>
+
+        <div class="field-row">
+          <div class="field"><label>Jornada padrão (horas/dia)</label><input type="text" class="mono" value="8"><span class="fh">Base percentual dos indicadores de tempo parado (RN04)</span></div>
+          <div class="field"><label>Limite de parada sem alerta (min)</label><input type="text" class="mono" value="30"><span class="fh">Acima disso, o ponto é sinalizado no painel</span></div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn primary">Salvar parâmetros</button>
+          <button class="btn">Restaurar padrão</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const navItems = document.querySelectorAll('.navitem');
+  const screens = document.querySelectorAll('.screen');
+  navItems.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navItems.forEach(b => b.classList.remove('active'));
+      screens.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+      document.querySelector('.main').scrollTo(0,0);
+    });
+  });
+
+  document.querySelectorAll('.segmented').forEach(group => {
+    group.querySelectorAll('button').forEach(b => {
+      b.addEventListener('click', () => {
+        group.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+      });
+    });
+  });
+</script>
+</body>
+</html>
