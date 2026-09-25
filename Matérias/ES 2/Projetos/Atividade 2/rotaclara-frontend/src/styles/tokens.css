@@ -1,0 +1,47 @@
+:root {
+  --ink: #121a21;
+  --ink-soft: #1c2732;
+  --paper: #f3f5f3;
+  --surface: #ffffff;
+  --line: #dde3e1;
+  --text: #16202a;
+  --text-muted: #5b6b72;
+  --amber: #de8b22;
+  --amber-ink: #7a4b0f;
+  --rust: #b23a2e;
+  --teal: #2f7a63;
+  --focus: #2a6fa8;
+  --amber-tint: #fbebd6;
+  --teal-tint: #e1f0eb;
+  --rust-tint: #f6e2df;
+  --shadow: 0 1px 2px rgba(18, 26, 33, 0.06);
+  --radius: 10px;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1418;
+    --surface: #171d22;
+    --line: #2a3239;
+    --text: #e8ecee;
+    --text-muted: #8b98a0;
+    --amber-tint: #3a2a14;
+    --teal-tint: #16302a;
+    --rust-tint: #3a211e;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #0f1418;
+  --surface: #171d22;
+  --line: #2a3239;
+  --text: #e8ecee;
+  --text-muted: #8b98a0;
+  --amber-tint: #3a2a14;
+  --teal-tint: #16302a;
+  --rust-tint: #3a211e;
+}
