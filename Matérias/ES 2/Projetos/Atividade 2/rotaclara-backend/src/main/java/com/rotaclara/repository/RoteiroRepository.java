@@ -1,6 +1,7 @@
 package com.rotaclara.repository;
 
 import com.rotaclara.domain.Roteiro;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoteiroRepository extends JpaRepository<Roteiro, String> {
+
+    /** Carrega o grafo usado na resposta e evita lazy loading fora da transação. */
+    @Override
+    @EntityGraph(attributePaths = {"motorista", "pontos", "pontos.ponto"})
+    Optional<Roteiro> findById(String id);
 
     /** RN05 — cada roteiro pertence a um único motorista e a uma única data. */
     Optional<Roteiro> findByMotorista_IdAndData(String motoristaId, LocalDate data);

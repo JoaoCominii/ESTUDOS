@@ -29,7 +29,7 @@ rotaclara:
     secret: "troque-esta-chave-antes-de-ir-para-producao-0123456789"
     expiracao-minutos: 480 # 8h — mesma duração da jornada padrão (RN04)
   cors:
-    origem-permitida: "http://localhost:5173"
+    origem-permitida: "http://localhost:5173,http://localhost:5174"
 
 logging:
   level:

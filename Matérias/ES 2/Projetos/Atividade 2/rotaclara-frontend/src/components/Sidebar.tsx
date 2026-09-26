@@ -13,7 +13,8 @@ function navClass({ isActive }: { isActive: boolean }) {
   return isActive ? "navitem active" : "navitem";
 }
 
-export default function Sidebar() {
+export default function Sidebar({ usuario, onLogout }: { usuario: { nome: string; perfil: string }; onLogout: () => void }) {
+  const perfil = usuario.perfil.toLowerCase();
   return (
     <aside className="sidebar">
       <div className="brand">
@@ -51,11 +52,14 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-foot">
-        <div className="avatar">AS</div>
+        <div className="avatar">{usuario.nome.slice(0, 2).toUpperCase()}</div>
         <div>
-          <div className="who-name">Ana Souza</div>
-          <div className="who-role">Gerente/Coordenadora</div>
+          <div className="who-name">{usuario.nome}</div>
+          <div className="who-role">{perfil}</div>
         </div>
+        <button className="btn ghost" onClick={onLogout} title="Sair da conta" style={{ marginLeft: "auto", padding: "4px 8px" }}>
+          Sair
+        </button>
       </div>
     </aside>
   );

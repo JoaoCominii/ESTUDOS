@@ -18,10 +18,16 @@ export default function App() {
 
   if (!usuario) return <Login onLogin={setUsuario} />;
 
+  function sair() {
+    localStorage.removeItem("rotaclara_token");
+    localStorage.removeItem("rotaclara_usuario");
+    setUsuario(null);
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Layout />}>
+        <Route element={<Layout usuario={usuario} onLogout={sair} />}>
           <Route index element={<Painel />} />
           <Route path="historico" element={<Historico />} />
           <Route path="roteiros" element={<Roteiros />} />

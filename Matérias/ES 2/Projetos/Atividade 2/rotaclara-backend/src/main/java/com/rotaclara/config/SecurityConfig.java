@@ -30,7 +30,7 @@ import java.util.List;
 public class SecurityConfig {
 
     @Value("${rotaclara.cors.origem-permitida}")
-    private String origemPermitida;
+    private String origensPermitidas;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -74,7 +74,7 @@ public class SecurityConfig {
 
     private CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(origemPermitida));
+        config.setAllowedOrigins(List.of(origensPermitidas.split(",")));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 

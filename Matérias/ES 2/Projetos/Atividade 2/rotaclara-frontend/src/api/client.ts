@@ -43,6 +43,7 @@ function mapRoteiro(dto: any): Roteiro {
     id: dto.id,
     data: dto.data,
     motoristaId: dto.motoristaId,
+    motoristaNome: dto.motoristaNome,
     pontos: dto.pontos.map((p: any) => ({
       id: p.id,
       endereco: p.endereco,

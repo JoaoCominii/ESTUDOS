@@ -45,6 +45,7 @@ export interface Roteiro {
   id: string;
   data: string; // ISO date (YYYY-MM-DD) — um roteiro é de uma única data (RN05)
   motoristaId: string; // um roteiro pertence a um único motorista (RN05)
+  motoristaNome?: string;
   pontos: Ponto[]; // ordenados por `ordemNoRoteiro` (RN06)
   distanciaTotalKm: number;
   tempoTotalParadoMinutos: number; // soma dos pontos, exceto a partida (RN03)

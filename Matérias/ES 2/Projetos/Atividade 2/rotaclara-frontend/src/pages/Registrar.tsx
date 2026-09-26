@@ -13,6 +13,8 @@ function formatarCronometro(segundos: number): string {
 
 export default function Registrar() {
   const [roteiro, setRoteiro] = useState<Roteiro | null>(null);
+  const [roteirosDoDia, setRoteirosDoDia] = useState<Roteiro[]>([]);
+  const [roteiroIndex, setRoteiroIndex] = useState(0);
   const [parametro, setParametro] = useState<Parametro>({ valorCombustivelPorLitro: 0, custoPorKm: 0, jornadaPadraoHoras: 8, limiteAlertaParadaMinutos: 30 });
   const [indice, setIndice] = useState(0);
   const [fase, setFase] = useState<Fase>("aguardando_chegada");
@@ -23,7 +25,17 @@ export default function Registrar() {
   useEffect(() => {
     const hoje = new Date().toISOString().slice(0, 10);
     Promise.all([api.listarRoteiros(hoje, hoje), api.buscarParametro()])
-      .then(([roteiros, p]) => { setRoteiro(roteiros[0] ?? null); setParametro(p); })
+      .then(([roteiros, p]) => {
+        const pendentes = roteiros.filter((item) => item.pontos.some((ponto) => !ponto.dataHoraSaida));
+        const primeiro = pendentes[0] ?? roteiros[0] ?? null;
+        const primeiroIndice = primeiro?.pontos.findIndex((ponto) => !ponto.dataHoraSaida) ?? -1;
+        setRoteirosDoDia(pendentes);
+        setRoteiro(primeiro);
+        setRoteiroIndex(0);
+        setIndice(primeiroIndice >= 0 ? primeiroIndice : 0);
+        setFase(primeiro && primeiroIndice >= 0 ? (primeiro.pontos[primeiroIndice].dataHoraChegada ? "parado" : "aguardando_chegada") : "roteiro_concluido");
+        setParametro(p);
+      })
       .catch((e) => setErro(e.message));
   }, []);
 
@@ -47,8 +59,20 @@ export default function Registrar() {
     try {
       const atualizado = await api.registrarSaida(roteiro.id, pontoAtual.id);
       setRoteiro(atualizado);
-      if (indice + 1 >= atualizado.pontos.length) setFase("roteiro_concluido");
-      else { setIndice((i) => i + 1); setSegundos(0); setFase("aguardando_chegada"); }
+      if (indice + 1 >= atualizado.pontos.length) {
+        const proximoIndex = roteiroIndex + 1;
+        const proximo = roteirosDoDia[proximoIndex];
+        if (proximo) {
+          const primeiroPonto = proximo.pontos.findIndex((ponto) => !ponto.dataHoraSaida);
+          setRoteiroIndex(proximoIndex);
+          setRoteiro(proximo);
+          setIndice(primeiroPonto >= 0 ? primeiroPonto : 0);
+          setSegundos(0);
+          setFase(primeiroPonto >= 0 && proximo.pontos[primeiroPonto].dataHoraChegada ? "parado" : "aguardando_chegada");
+        } else {
+          setFase("roteiro_concluido");
+        }
+      } else { setIndice((i) => i + 1); setSegundos(0); setFase("aguardando_chegada"); }
     } catch (e) { setErro(e instanceof Error ? e.message : "Não foi possível registrar saída"); }
   }
 
@@ -60,7 +84,7 @@ export default function Registrar() {
       {roteiro && pontoAtual && <div className="phone-wrap">
         <div className="phone"><div className="phone-screen">
           <div className="phone-status"><span>{new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</span><span>●●● RotaClara</span></div>
-          <div className="phone-head"><div className="greet">Roteiro de hoje</div><div className="name">Motorista {roteiro.motoristaId}</div></div>
+          <div className="phone-head"><div className="greet">Roteiro de hoje</div><div className="name">{roteiro.motoristaNome ?? roteiro.motoristaId}</div></div>
           <div className="phone-body">
             {fase === "roteiro_concluido" ? <div className="stop-card" style={{ background: "var(--teal-tint)", borderColor: "#9FD2C0" }}><div className="lbl" style={{ color: "var(--teal)" }}>Roteiro concluído</div><div className="addr">Todos os {roteiro.pontos.length} pontos foram visitados.</div></div> : <>
               <div className={`stop-card ${alerta ? "alerta" : ""}`}><div className="lbl">Ponto {pontoAtual.ordemNoRoteiro} de {roteiro.pontos.length}</div><div className="addr">{pontoAtual.endereco}</div>
