@@ -8,8 +8,22 @@ PostgreSQL**.
 
 **1. Rodar a aplicação:**
 
-```bash
+Como o caminho local do projeto contém o caractere acentuado `á` em
+`Matérias`, no Windows use uma unidade virtual com caminho ASCII para o
+launcher forkado do Maven:
+
+```powershell
+subst R: "C:\Users\jujuc\OneDrive\Desktop\ESTUDOS\Matérias\ES 2\Projetos\Atividade 2"
+Set-Location R:\rotaclara-backend
 mvn spring-boot:run
+```
+
+Alternativamente, o JAR empacotado pode ser executado diretamente pelo
+caminho original:
+
+```powershell
+mvn package -DskipTests
+java -jar target\rotaclara-backend-0.1.0.jar
 ```
 
 Na primeira execução, o Flyway cria o schema automaticamente

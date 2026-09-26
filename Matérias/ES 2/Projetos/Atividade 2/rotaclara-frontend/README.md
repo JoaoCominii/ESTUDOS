@@ -26,7 +26,8 @@ src/
   components/     Sidebar, Layout, Kpi, Pill, RouteStrip, ícones
   domain/regras.ts  Regras de negócio RN01–RN07 como funções puras
   types/domain.ts   Tipos alinhados ao modelo de dados da especificação
-  data/mock.ts      Dados de exemplo (substituir por chamadas HTTP)
+  api/client.ts     Cliente HTTP tipado, autenticação JWT e endpoints REST
+  data/mock.ts      Utilitários de formatação e valores padrão de fallback
   pages/            Uma página por tela do protótipo:
                      Painel, Historico, Roteiros, Pontos,
                      Registrar, Motoristas, Parametros
@@ -48,22 +49,21 @@ como funções puras em `src/domain/regras.ts`
   Boot) sem tocar nas regras nem nas páginas — as páginas continuam
   chamando as mesmas funções.
 
-## Integração futura com o back-end
+## Integração com o back-end
 
-Hoje `src/data/mock.ts` simula o que virá da API REST. Quando o
-back-end (Java + Spring Boot + PostgreSQL, conforme decidido) estiver
-disponível, a ideia é:
+O frontend usa a API REST do Spring Boot em `http://localhost:8080` por
+padrão. A URL pode ser alterada com `VITE_API_URL`. O fluxo de acesso é:
 
-1. Criar um cliente HTTP (`src/api/client.ts`) com `fetch`.
-2. Trocar as constantes de `mock.ts` por hooks (`useMotoristas()`,
-   `useRoteiros()`, etc.) que chamam a API.
-3. Manter os tipos de `types/domain.ts` como contrato entre front e
-   back (o DTO do Spring Boot deve espelhar esses campos).
+1. Subir o PostgreSQL e o backend com `mvn spring-boot:run`.
+2. Subir o frontend com `npm run dev`.
+3. Entrar com `administrador` / `admin123` (ou um dos usuários de exemplo
+  documentados no README do backend).
+
+As telas de painel, histórico, roteiros, pontos, motoristas, parâmetros e
+registro de chegada/saída usam chamadas reais autenticadas com `Bearer JWT`.
+Os tipos de `types/domain.ts` são adaptados dos DTOs do backend no cliente
+`src/api/client.ts`.
 
 ## Pendências conhecidas
 
-- Autenticação/login e controle de acesso por perfil (RNF04) ainda
-  não implementados — hoje o usuário logado é fixo ("Ana Souza").
 - Exportação de relatório (RF12) é só um botão de exemplo.
-- Os formulários salvam em memória (`useState`) — sem persistência
-  real até a integração com o back-end.

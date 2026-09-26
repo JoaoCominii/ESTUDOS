@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
-import { motoristas, nomeMotorista, roteiros, horaFormatada, tempoParadoFormatado } from "../data/mock";
+import { useEffect, useMemo, useState } from "react";
+import { horaFormatada, tempoParadoFormatado } from "../data/mock";
 import { calcularTempoParadoPonto } from "../domain/regras";
+import { api } from "../api/client";
+import type { Motorista, Roteiro } from "../types/domain";
 
 interface Linha {
   data: string;
@@ -12,14 +14,14 @@ interface Linha {
   tempoParado: string;
 }
 
-function montarLinhas(): Linha[] {
+function montarLinhas(roteiros: Roteiro[], motoristas: Motorista[]): Linha[] {
   const linhas: Linha[] = [];
   for (const roteiro of roteiros) {
     for (const ponto of roteiro.pontos) {
       if (ponto.ordemNoRoteiro === 1) continue; // partida não entra no histórico de paradas
       linhas.push({
         data: new Date(roteiro.data).toLocaleDateString("pt-BR"),
-        motorista: nomeMotorista(roteiro.motoristaId),
+        motorista: motoristas.find((m) => m.id === roteiro.motoristaId)?.nome ?? "—",
         ponto: ponto.ordemNoRoteiro,
         endereco: ponto.endereco,
         chegada: horaFormatada(ponto.dataHoraChegada),
@@ -33,12 +35,24 @@ function montarLinhas(): Linha[] {
 
 export default function Historico() {
   const [motoristaId, setMotoristaId] = useState<string>("todos");
-  const linhas = useMemo(montarLinhas, []);
+  const [inicio, setInicio] = useState("2026-09-15");
+  const [fim, setFim] = useState(new Date().toISOString().slice(0, 10));
+  const [motoristas, setMotoristas] = useState<Motorista[]>([]);
+  const [roteiros, setRoteiros] = useState<Roteiro[]>([]);
+  const [erro, setErro] = useState("");
+
+  useEffect(() => {
+    Promise.all([api.listarMotoristas(), api.listarRoteiros(inicio, fim)])
+      .then(([ms, rs]) => { setMotoristas(ms); setRoteiros(rs); })
+      .catch((e) => setErro(e.message));
+  }, [inicio, fim]);
+
+  const linhas = useMemo(() => montarLinhas(roteiros, motoristas), [roteiros, motoristas]);
 
   const filtradas =
     motoristaId === "todos"
       ? linhas
-      : linhas.filter((l) => l.motorista === nomeMotorista(motoristaId));
+    : linhas.filter((l) => l.motorista === motoristas.find((m) => m.id === motoristaId)?.nome);
 
   return (
     <section>
@@ -50,16 +64,17 @@ export default function Historico() {
           </div>
         </div>
       </div>
+      {erro && <p style={{ color: "var(--rust)" }}>{erro}</p>}
 
       <div className="panel" style={{ marginBottom: 18 }}>
         <div className="field-row3">
           <div className="field">
             <label>De</label>
-            <input type="date" defaultValue="2026-09-15" />
+            <input type="date" value={inicio} onChange={(e) => setInicio(e.target.value)} />
           </div>
           <div className="field">
             <label>Até</label>
-            <input type="date" defaultValue="2026-09-23" />
+            <input type="date" value={fim} onChange={(e) => setFim(e.target.value)} />
           </div>
           <div className="field">
             <label>Motorista</label>

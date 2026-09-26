@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -9,20 +9,12 @@ import {
 import Kpi from "../components/Kpi";
 import Pill from "../components/Pill";
 import RouteStrip from "../components/RouteStrip";
-import { motoristas, nomeMotorista, parametro, roteiros, tempoParadoFormatado } from "../data/mock";
+import { tempoParadoFormatado } from "../data/mock";
+import { api } from "../api/client";
+import type { Motorista, Parametro, Roteiro } from "../types/domain";
 import type { StatusRoteiro } from "../types/domain";
 
 type Recorte = "dia" | "mes" | "periodo";
-
-const tempoPorDia = [
-  { dia: "Seg", minutos: 38 },
-  { dia: "Ter", minutos: 52 },
-  { dia: "Qua", minutos: 20 },
-  { dia: "Qui", minutos: 65 },
-  { dia: "Sex", minutos: 44 },
-  { dia: "Sáb", minutos: 15 },
-  { dia: "Dom", minutos: 5 },
-];
 
 function statusTone(status: StatusRoteiro): "ok" | "warn" | "bad" {
   if (status === "concluido") return "ok";
@@ -38,14 +30,24 @@ function statusLabel(status: StatusRoteiro): string {
 
 export default function Painel() {
   const [recorte, setRecorte] = useState<Recorte>("dia");
-  const roteiroDestaque = roteiros[0];
+  const hoje = new Date().toISOString().slice(0, 10);
+  const [roteiros, setRoteiros] = useState<Roteiro[]>([]);
+  const [motoristas, setMotoristas] = useState<Motorista[]>([]);
+  const [parametro, setParametro] = useState<Parametro>({ valorCombustivelPorLitro: 0, custoPorKm: 0, jornadaPadraoHoras: 8, limiteAlertaParadaMinutos: 30 });
+  const [dashboard, setDashboard] = useState<Awaited<ReturnType<typeof api.dashboard>> | null>(null);
+  const [erro, setErro] = useState("");
 
-  const tempoParadoTotal = roteiros.reduce(
-    (t, r) => t + r.tempoTotalParadoMinutos,
-    0
-  );
-  const custoTotal = roteiros.reduce((t, r) => t + r.custoEstimado, 0);
-  const concluidos = roteiros.filter((r) => r.status === "concluido").length;
+  useEffect(() => {
+    Promise.all([api.dashboard(hoje, hoje), api.listarRoteiros(hoje, hoje), api.listarMotoristas(), api.buscarParametro()])
+      .then(([d, rs, ms, p]) => { setDashboard(d); setRoteiros(rs); setMotoristas(ms); setParametro(p); })
+      .catch((e) => setErro(e.message));
+  }, [hoje]);
+
+  const roteiroDestaque = roteiros[0];
+  const tempoParadoTotal = dashboard?.kpis.tempoParadoTotalMinutos ?? 0;
+  const custoTotal = dashboard?.kpis.custoEstimadoTotal ?? 0;
+  const concluidos = dashboard?.kpis.roteirosConcluidos ?? 0;
+  const tempoPorDia = dashboard?.tempoParadoPorDia.map((p) => ({ dia: new Date(`${p.data}T12:00:00`).toLocaleDateString("pt-BR", { weekday: "short" }), minutos: p.minutos })) ?? [];
 
   return (
     <section>
@@ -69,10 +71,11 @@ export default function Painel() {
         </div>
       </div>
 
-      <div className="timeline-card">
+      {erro && <p style={{ color: "var(--rust)" }}>{erro}</p>}
+      {roteiroDestaque && <div className="timeline-card">
         <div className="timeline-head">
           <h3>
-            Roteiro em destaque — {nomeMotorista(roteiroDestaque.motoristaId)}{" "}
+            Roteiro em destaque — {motoristas.find((m) => m.id === roteiroDestaque.motoristaId)?.nome ?? "—"}{" "}
             · hoje
           </h3>
           <span className="sub">
@@ -100,7 +103,7 @@ export default function Painel() {
             Parada acima de {parametro.limiteAlertaParadaMinutos} min
           </span>
         </div>
-      </div>
+      </div>}
 
       <div className="kpi-row">
         <Kpi
@@ -117,7 +120,7 @@ export default function Painel() {
         />
         <Kpi
           label="Roteiros concluídos"
-          value={`${concluidos} / ${roteiros.length}`}
+          value={`${concluidos} / ${dashboard?.kpis.roteirosTotal ?? 0}`}
           delta={`${roteiros.length - concluidos} em andamento`}
         />
         <Kpi
@@ -188,10 +191,10 @@ export default function Painel() {
             </tr>
           </thead>
           <tbody>
-            {roteiros.map((r) => (
+            {(dashboard?.roteiros ?? []).map((r) => (
               <tr key={r.id}>
-                <td>{nomeMotorista(r.motoristaId)}</td>
-                <td>{r.pontos.length || "—"}</td>
+                <td>{r.motoristaNome}</td>
+                <td>{r.quantidadePontos || "—"}</td>
                 <td className="num">
                   {tempoParadoFormatado(r.tempoTotalParadoMinutos)}
                 </td>
@@ -199,8 +202,8 @@ export default function Painel() {
                   R$ {r.custoEstimado.toFixed(2).replace(".", ",")}
                 </td>
                 <td>
-                  <Pill tone={statusTone(r.status)}>
-                    {statusLabel(r.status)}
+                  <Pill tone={statusTone(r.status.toLowerCase() as StatusRoteiro)}>
+                    {statusLabel(r.status.toLowerCase() as StatusRoteiro)}
                   </Pill>
                 </td>
               </tr>

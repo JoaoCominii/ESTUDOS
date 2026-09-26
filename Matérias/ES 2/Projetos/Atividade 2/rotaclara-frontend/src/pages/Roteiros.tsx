@@ -1,45 +1,53 @@
-import { useState } from "react";
-import { motoristas, nomeMotorista, roteiros } from "../data/mock";
+import { useEffect, useState } from "react";
+import { api } from "../api/client";
+import type { Motorista, Ponto, Roteiro } from "../types/domain";
 import Pill from "../components/Pill";
 
 interface PontoRascunho {
   ordem: number;
-  endereco: string;
-  eta: string;
+  pontoId: string;
 }
 
 const rascunhoInicial: PontoRascunho[] = [
-  { ordem: 1, endereco: "Seg. Família — ponto de partida", eta: "08:00" },
-  { ordem: 2, endereco: "Rua Peru, 55", eta: "08:20" },
-  { ordem: 3, endereco: "Rua X, 5", eta: "08:50" },
-  { ordem: 4, endereco: "Av. João César, 340", eta: "09:15" },
+  { ordem: 1, pontoId: "" }, { ordem: 2, pontoId: "" },
+  { ordem: 3, pontoId: "" }, { ordem: 4, pontoId: "" },
 ];
 
 export default function Roteiros() {
   const [pontos, setPontos] = useState<PontoRascunho[]>(rascunhoInicial);
-  const [data, setData] = useState("2026-09-23");
-  const [motoristaId, setMotoristaId] = useState(motoristas[0]?.id ?? "");
+  const [catalogo, setCatalogo] = useState<Ponto[]>([]);
+  const [motoristas, setMotoristas] = useState<Motorista[]>([]);
+  const [roteiros, setRoteiros] = useState<Roteiro[]>([]);
+  const [data, setData] = useState(new Date().toISOString().slice(0, 10));
+  const [motoristaId, setMotoristaId] = useState("");
+  const [distancia, setDistancia] = useState("1");
+  const [erro, setErro] = useState("");
+
+  useEffect(() => {
+    Promise.all([api.listarMotoristas(), api.listarPontos(), api.listarRoteiros(data, data)])
+      .then(([ms, ps, rs]) => { setMotoristas(ms); setCatalogo(ps); setRoteiros(rs); setMotoristaId(ms[0]?.id ?? ""); })
+      .catch((e) => setErro(e.message));
+  }, [data]);
 
   function adicionarPonto() {
     setPontos((atual) => [
       ...atual,
-      { ordem: atual.length + 1, endereco: "", eta: "" },
+      { ordem: atual.length + 1, pontoId: "" },
     ]);
   }
 
-  function atualizarPonto(ordem: number, campo: "endereco" | "eta", valor: string) {
+  function atualizarPonto(ordem: number, valor: string) {
     setPontos((atual) =>
-      atual.map((p) => (p.ordem === ordem ? { ...p, [campo]: valor } : p))
+      atual.map((p) => (p.ordem === ordem ? { ...p, pontoId: valor } : p))
     );
   }
 
-  function salvar() {
-    // Integração real: POST /roteiros { data, motoristaId, pontos } no back-end.
-    alert(
-      `Roteiro de ${data} para ${nomeMotorista(
-        motoristaId
-      )} salvo com ${pontos.length} pontos (simulado — sem back-end integrado ainda).`
-    );
+  async function salvar() {
+    try {
+      const criado = await api.criarRoteiro({ data, motoristaId, distanciaTotalKm: Number(distancia), pontos: pontos.map(({ pontoId, ordem }) => ({ pontoId, ordem })) });
+      setRoteiros((atual) => [criado, ...atual]);
+      alert("Roteiro salvo com sucesso.");
+    } catch (e) { setErro(e instanceof Error ? e.message : "Não foi possível salvar o roteiro"); }
   }
 
   return (
@@ -52,6 +60,7 @@ export default function Roteiros() {
           </div>
         </div>
       </div>
+      {erro && <p style={{ color: "var(--rust)" }}>{erro}</p>}
 
       <div className="form-split">
         <div className="form-card" style={{ maxWidth: "none" }}>
@@ -69,6 +78,10 @@ export default function Roteiros() {
                 value={data}
                 onChange={(e) => setData(e.target.value)}
               />
+            </div>
+            <div className="field">
+              <label>Distância total (km)</label>
+              <input type="number" min="0.1" step="0.1" value={distancia} onChange={(e) => setDistancia(e.target.value)} />
             </div>
             <div className="field">
               <label>Motorista / motoboy</label>
@@ -100,33 +113,10 @@ export default function Roteiros() {
               <div className="stoprow" key={p.ordem}>
                 <span className="grip">⠿</span>
                 <span className="n">{p.ordem}</span>
-                <input
-                  className="addr"
-                  style={{
-                    border: "none",
-                    background: "none",
-                    fontSize: 13,
-                    padding: 0,
-                  }}
-                  value={p.endereco}
-                  placeholder="Endereço do ponto"
-                  onChange={(e) =>
-                    atualizarPonto(p.ordem, "endereco", e.target.value)
-                  }
-                />
-                <input
-                  className="eta mono"
-                  style={{
-                    border: "none",
-                    background: "none",
-                    width: 56,
-                    padding: 0,
-                    textAlign: "right",
-                  }}
-                  value={p.eta}
-                  placeholder="hh:mm"
-                  onChange={(e) => atualizarPonto(p.ordem, "eta", e.target.value)}
-                />
+                <select className="addr" value={p.pontoId} onChange={(e) => atualizarPonto(p.ordem, e.target.value)}>
+                  <option value="">Selecione o ponto</option>
+                  {catalogo.map((ponto) => <option key={ponto.id} value={ponto.id}>{ponto.endereco}</option>)}
+                </select>
               </div>
             ))}
           </div>
@@ -160,7 +150,7 @@ export default function Roteiros() {
             <tbody>
               {roteiros.map((r) => (
                 <tr key={r.id}>
-                  <td>{nomeMotorista(r.motoristaId)}</td>
+                  <td>{motoristas.find((m) => m.id === r.motoristaId)?.nome ?? "—"}</td>
                   <td className="num">{r.pontos.length || 4}</td>
                   <td>
                     <Pill tone={r.status === "concluido" ? "ok" : "warn"}>

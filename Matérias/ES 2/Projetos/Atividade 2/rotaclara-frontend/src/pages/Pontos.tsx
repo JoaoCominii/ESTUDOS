@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { api } from "../api/client";
 
 interface PontoCadastro {
   id: string;
@@ -7,28 +8,24 @@ interface PontoCadastro {
   longitude: string;
 }
 
-const pontosIniciais: PontoCadastro[] = [
-  { id: "1", endereco: "Seg. Família", latitude: "-19.9245", longitude: "-43.9352" },
-  { id: "2", endereco: "Rua Peru, 55", latitude: "-19.9420", longitude: "-43.9378" },
-  { id: "3", endereco: "Rua X, 5", latitude: "-19.9187", longitude: "-43.9401" },
-  { id: "4", endereco: "Av. João César, 340", latitude: "-19.9033", longitude: "-43.9455" },
-];
-
 export default function Pontos() {
-  const [pontos, setPontos] = useState<PontoCadastro[]>(pontosIniciais);
+  const [pontos, setPontos] = useState<PontoCadastro[]>([]);
   const [endereco, setEndereco] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [erro, setErro] = useState("");
 
-  function salvar() {
+  useEffect(() => {
+    api.listarPontos().then((items) => setPontos(items)).catch((e) => setErro(e.message));
+  }, []);
+
+  async function salvar() {
     if (!endereco.trim()) return;
-    setPontos((atual) => [
-      ...atual,
-      { id: crypto.randomUUID(), endereco, latitude, longitude },
-    ]);
-    setEndereco("");
-    setLatitude("");
-    setLongitude("");
+    try {
+      const criado = await api.criarPonto({ endereco, latitude: Number(latitude), longitude: Number(longitude) });
+      setPontos((atual) => [...atual, criado]);
+      setEndereco(""); setLatitude(""); setLongitude("");
+    } catch (e) { setErro(e instanceof Error ? e.message : "Não foi possível salvar"); }
   }
 
   return (
@@ -41,6 +38,7 @@ export default function Pontos() {
           </div>
         </div>
       </div>
+      {erro && <p style={{ color: "var(--rust)" }}>{erro}</p>}
 
       <div className="form-split">
         <div className="form-card" style={{ maxWidth: "none" }}>

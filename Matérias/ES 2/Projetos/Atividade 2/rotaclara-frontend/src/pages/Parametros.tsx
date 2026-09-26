@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { parametro as parametroInicial } from "../data/mock";
 import { calcularCustoPorKm } from "../domain/regras";
+import { api } from "../api/client";
 
 export default function Parametros() {
   const [valorCombustivel, setValorCombustivel] = useState(
@@ -12,16 +13,31 @@ export default function Parametros() {
     String(parametroInicial.limiteAlertaParadaMinutos)
   );
   const [salvo, setSalvo] = useState(false);
+  const [erro, setErro] = useState("");
+
+  useEffect(() => {
+    api.buscarParametro().then((p) => {
+      setValorCombustivel(String(p.valorCombustivelPorLitro).replace(".", ","));
+      setJornada(String(p.jornadaPadraoHoras));
+      setLimiteAlerta(String(p.limiteAlertaParadaMinutos));
+    }).catch((e) => setErro(e.message));
+  }, []);
 
   const custoPorKmSugerido = calcularCustoPorKm(
     Number(valorCombustivel.replace(",", ".")) || 0,
     Number(rendimentoMedio) || 1
   );
 
-  function salvar() {
-    // Integração real: PUT /parametros no back-end.
-    setSalvo(true);
-    setTimeout(() => setSalvo(false), 2500);
+  async function salvar() {
+    try {
+      await api.atualizarParametro({
+        valorCombustivelPorLitro: Number(valorCombustivel.replace(",", ".")),
+        custoPorKm: custoPorKmSugerido,
+        jornadaPadraoHoras: Number(jornada),
+        limiteAlertaParadaMinutos: Number(limiteAlerta),
+      });
+      setSalvo(true); setTimeout(() => setSalvo(false), 2500);
+    } catch (e) { setErro(e instanceof Error ? e.message : "Não foi possível salvar"); }
   }
 
   return (
@@ -34,6 +50,7 @@ export default function Parametros() {
           </div>
         </div>
       </div>
+      {erro && <p style={{ color: "var(--rust)" }}>{erro}</p>}
 
       <div className="form-card" style={{ maxWidth: 640 }}>
         <h3>Parâmetros gerais</h3>

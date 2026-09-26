@@ -1,14 +1,19 @@
-import { useState } from "react";
-import { motoristas as motoristasIniciais } from "../data/mock";
+import { useEffect, useState } from "react";
+import { api } from "../api/client";
 import type { Motorista } from "../types/domain";
 
 export default function Motoristas() {
-  const [motoristas, setMotoristas] = useState<Motorista[]>(motoristasIniciais);
+  const [motoristas, setMotoristas] = useState<Motorista[]>([]);
+  const [erro, setErro] = useState("");
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [documento, setDocumento] = useState("");
   const [veiculo, setVeiculo] = useState("");
   const [rendimento, setRendimento] = useState("");
+
+  useEffect(() => {
+    api.listarMotoristas().then(setMotoristas).catch((e) => setErro(e.message));
+  }, []);
 
   function limpar() {
     setNome("");
@@ -18,20 +23,13 @@ export default function Motoristas() {
     setRendimento("");
   }
 
-  function salvar() {
+  async function salvar() {
     if (!nome.trim()) return;
-    setMotoristas((atual) => [
-      ...atual,
-      {
-        id: crypto.randomUUID(),
-        nome,
-        telefone,
-        documento,
-        veiculo,
-        rendimentoKmLitro: Number(rendimento) || 0,
-      },
-    ]);
-    limpar();
+    try {
+      const criado = await api.criarMotorista({ nome, telefone, documento, veiculo, rendimentoKmLitro: Number(rendimento) });
+      setMotoristas((atual) => [...atual, criado]);
+      limpar();
+    } catch (e) { setErro(e instanceof Error ? e.message : "Não foi possível salvar"); }
   }
 
   return (
@@ -44,6 +42,7 @@ export default function Motoristas() {
           </div>
         </div>
       </div>
+      {erro && <p style={{ color: "var(--rust)" }}>{erro}</p>}
 
       <div className="form-split">
         <div className="form-card" style={{ maxWidth: "none" }}>

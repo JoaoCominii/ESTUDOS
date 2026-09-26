@@ -7,8 +7,17 @@ import Pontos from "./pages/Pontos";
 import Registrar from "./pages/Registrar";
 import Motoristas from "./pages/Motoristas";
 import Parametros from "./pages/Parametros";
+import { useState } from "react";
+import Login from "./pages/Login";
 
 export default function App() {
+  const [usuario, setUsuario] = useState<{ nome: string; perfil: string } | null>(() => {
+    const salvo = localStorage.getItem("rotaclara_usuario");
+    return salvo ? JSON.parse(salvo) : null;
+  });
+
+  if (!usuario) return <Login onLogin={setUsuario} />;
+
   return (
     <BrowserRouter>
       <Routes>
