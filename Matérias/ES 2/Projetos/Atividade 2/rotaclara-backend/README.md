@@ -7,14 +7,8 @@ PostgreSQL**.
 
 
 **1. Rodar a aplicação:**
-
-Como o caminho local do projeto contém o caractere acentuado `á` em
-`Matérias`, no Windows use uma unidade virtual com caminho ASCII para o
-launcher forkado do Maven:
-
-```powershell
-subst R: "C:\Users\jujuc\OneDrive\Desktop\ESTUDOS\Matérias\ES 2\Projetos\Atividade 2"
-Set-Location R:\rotaclara-backend
+```
+rotaclara-backend
 mvn spring-boot:run
 ```
 

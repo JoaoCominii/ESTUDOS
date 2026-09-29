@@ -102,20 +102,12 @@ As migrations do Flyway criam as tabelas e os dados de demonstração automatica
 
 ## Como executar no Windows
 
-O caminho deste projeto contém o caractere acentuado `á` em `Matérias`. Em alguns ambientes, o launcher forkado do Maven corrompe esse caminho. Para evitar isso, crie uma unidade virtual com caminho ASCII:
-
-```powershell
-subst R: "C:\Users\jujuc\OneDrive\Desktop\ESTUDOS\Matérias\ES 2\Projetos\Atividade 2"
-```
-
-Se a unidade `R:` já existir, não execute o comando novamente.
-
 ### 1. Backend
 
 Abra um terminal e execute:
 
 ```powershell
-cd R:\rotaclara-backend
+cd rotaclara-backend
 mvn spring-boot:run
 ```
 
@@ -132,7 +124,7 @@ Mantenha esse terminal aberto.
 Abra outro terminal:
 
 ```powershell
-cd R:\rotaclara-frontend
+cd rotaclara-frontend
 npm install
 npm run dev
 ```
@@ -156,7 +148,7 @@ http://localhost:8080
 Se o `spring-boot:run` apresentar problema de caminho, execute pelo JAR:
 
 ```powershell
-cd R:\rotaclara-backend
+cd rotaclara-backend
 mvn package -DskipTests
 java -jar target\rotaclara-backend-0.1.0.jar
 ```
@@ -192,14 +184,14 @@ Todas as rotas abaixo exigem o header `Authorization: Bearer <token>`, exceto o 
 ### Backend
 
 ```powershell
-cd R:\rotaclara-backend
+cd rotaclara-backend
 mvn test
 ```
 
 ### Frontend
 
 ```powershell
-cd R:\rotaclara-frontend
+cd rotaclara-frontend
 npm run lint
 npm run build
 ```
@@ -242,15 +234,6 @@ Se a porta 8080 estiver ocupada, não inicie uma segunda instância. Isso normal
 
 Execute o Maven pela unidade virtual `R:` descrita na seção de execução. Esse erro ocorre quando o caminho com acento é corrompido no classpath do processo Java.
 
-### Erro `Port 8080 was already in use`
-
-Verifique o processo responsável:
-
-```powershell
-Get-NetTCPConnection -LocalPort 8080 -State Listen
-```
-
-Se o backend já estiver rodando, apenas reutilize a instância existente. Para encerrá-la, use `Ctrl+C` no terminal correspondente.
 
 ### Erro 403 no frontend
 
@@ -281,4 +264,4 @@ npm run dev
 - [README do backend](rotaclara-backend/README.md)
 - [README do frontend](rotaclara-frontend/README.md)
 - [Especificação de Requisitos](Especificação%20de%20Requisitos%20—%20Trabalho2.pdf)
-- [Protótipo de telas](Protótipo%20de%20telas.html)
+
