@@ -1,0 +1,98 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 7df963f80c854e3a8bfb678b599ac6ff
+      name: Templates/Modules
+  templates:
+    - uuid: 6b567d022b7a421482ce38b44621cba3
+      template: Template Storage Benchmark FIO
+      name: Template Storage Benchmark FIO
+      description: 'Template para coleta de métricas de benchmark de armazenamento via zabbix_sender (Trapper) para a Sprint 2.'
+      groups:
+        - name: Templates/Modules
+      items:
+        - uuid: 8a5d3f200c8b4efaa11234567890abc1
+          name: 'Storage IOPS'
+          type: TRAP
+          key: storage.iops
+          value_type: FLOAT
+          units: 'ops/s'
+          history: 7d
+          trends: 365d
+          description: 'Operações de I/O por segundo geradas pelo teste fio'
+        - uuid: 8a5d3f200c8b4efaa11234567890abc2
+          name: 'Storage Bandwidth'
+          type: TRAP
+          key: storage.bandwidth
+          value_type: FLOAT
+          units: 'MB/s'
+          history: 7d
+          trends: 365d
+          description: 'Taxa de transferência em MB/s'
+        - uuid: 8a5d3f200c8b4efaa11234567890abc3
+          name: 'Storage Latency Avg'
+          type: TRAP
+          key: storage.latency.avg
+          value_type: FLOAT
+          units: ms
+          history: 7d
+          trends: 365d
+          description: 'Latência média de I/O em milissegundos'
+        - uuid: 8a5d3f200c8b4efaa11234567890abc4
+          name: 'Storage Latency p99'
+          type: TRAP
+          key: storage.latency.p99
+          value_type: FLOAT
+          units: ms
+          history: 7d
+          trends: 365d
+          description: 'Percentil 99 da latência (p99) em milissegundos'
+        - uuid: 8a5d3f200c8b4efaa11234567890abc5
+          name: 'Storage Latency p99.9'
+          type: TRAP
+          key: storage.latency.p999
+          value_type: FLOAT
+          units: ms
+          history: 7d
+          trends: 365d
+          description: 'Percentil 99.9 da latência (p99.9) em milissegundos'
+        - uuid: 8a5d3f200c8b4efaa11234567890abc6
+          name: 'Storage Temperature'
+          type: TRAP
+          key: storage.temperature
+          value_type: FLOAT
+          units: '°C'
+          history: 7d
+          trends: 365d
+          description: 'Temperatura do drive reportada em graus Celsius'
+  graphs:
+    - uuid: 7b567d022b7a421482ce38b44621cba1
+      name: 'Storage - IOPS vs Bandwidth'
+      graph_items:
+        - color: 1A7C11
+          item:
+            host: 'Template Storage Benchmark FIO'
+            key: storage.iops
+        - sortorder: '1'
+          color: F63100
+          yaxisside: RIGHT
+          item:
+            host: 'Template Storage Benchmark FIO'
+            key: storage.bandwidth
+    - uuid: 7b567d022b7a421482ce38b44621cba2
+      name: 'Storage - Latências (Média, p99, p99.9)'
+      graph_items:
+        - color: 0040FF
+          item:
+            host: 'Template Storage Benchmark FIO'
+            key: storage.latency.avg
+        - sortorder: '1'
+          color: FF9900
+          item:
+            host: 'Template Storage Benchmark FIO'
+            key: storage.latency.p99
+        - sortorder: '2'
+          color: FF0000
+          item:
+            host: 'Template Storage Benchmark FIO'
+            key: storage.latency.p999

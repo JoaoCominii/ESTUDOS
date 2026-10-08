@@ -1,0 +1,7 @@
+Metrica,Valor,Unidade
+Perfil,Perfil A - Leitura Sequencial 4KB,
+IOPS,695512.60,ops/s
+Throughput,2716.85,MB/s
+Latencia_Media,0.0012,ms
+Latencia_p99,0.0044,ms
+Latencia_p99.9,0.0381,ms

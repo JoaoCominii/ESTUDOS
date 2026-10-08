@@ -1,0 +1,6 @@
+Metrica,Perfil_A_Sequencial,Perfil_B_Aleatorio,Unidade
+IOPS,695512.600000,607999.400120,ops/s
+Throughput,2716.85,2375.00,MB/s
+Latencia_Media,0.0012,0.0012,ms
+Latencia_p99,0.0044,0.0041,ms
+Latencia_p99.9,0.0381,0.0291,ms
