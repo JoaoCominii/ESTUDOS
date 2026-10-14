@@ -49,9 +49,12 @@ O objetivo desta sprint é implementar e validar um primeiro ambiente funcional 
     ├── architecture/                      # Diagramas da arquitetura
     ├── experiments/                       # Saídas brutas em JSON do fio
     │   ├── fio-test-01.json               # Perfil A: Leitura Sequencial
-    │   └── fio-test-02.json               # Perfil B: Leitura Aleatória
+    │   ├── fio-test-02.json               # Perfil B: Leitura Aleatória
+    │   ├── fio-test-03.json               # Perfil C: Escrita Sequencial (128 KB)
+    │   └── fio-test-04-*.json             # Perfil D: Matriz de Concorrência
     ├── results/                           # Resultados consolidados em CSV
     │   ├── experiment-comparison.csv      # Tabela comparativa dos regimes de carga
+    │   ├── profile-d-concurrency.csv      # Métricas da matriz numjobs x iodepth
     │   ├── experiment-01.csv              # Métricas isoladas do Experimento 01
     │   └── experiment-02.csv              # Métricas isoladas do Experimento 02
     ├── screenshots/                       # Prints do Zabbix (hosts, gráficos e dashboards)
@@ -118,7 +121,12 @@ chmod +x run_benchmark.sh
 O script executa automaticamente:
 1. **Perfil A (Leitura Sequencial 4KB):** Roda o `fio`, salva o JSON, extrai métricas com `jq` e envia ao Zabbix.
 2. **Perfil B (Leitura Aleatória 4KB):** Roda o `fio`, salva o JSON, extrai métricas com `jq` e envia ao Zabbix.
-3. **Consolidação:** Gera a tabela comparativa em `docs/results/experiment-comparison.csv`.
+3. **Perfil C (Escrita Sequencial 128KB):** Roda o `fio`, salva o resultado em `docs/experiments/fio-test-03.json` e envia as métricas de escrita ao Zabbix.
+4. **Perfil D (Concorrência):** Repete leitura aleatória de 4KB com `ioengine=libaio` e I/O direto, variando `numjobs` e `iodepth` pela matriz 1, 2, 4 e 8 (16 combinações) sobre o mesmo arquivo de teste. Cada resultado é salvo em um JSON próprio, enviado ao Zabbix e consolidado em `docs/results/profile-d-concurrency.csv`.
+5. **Consolidação:** Gera a tabela comparativa dos Perfis A e B em `docs/results/experiment-comparison.csv`.
+
+Todos os perfis enviam IOPS, banda e latências às mesmas chaves Trapper existentes no Zabbix. Assim, os valores dos Perfis C e D também aparecem no histórico e nos gráficos dessas métricas.
+Os arquivos temporários em `/tmp/fio_benchmarks` são removidos antes da execução e também quando o script termina, inclusive em caso de erro.
 
 ---
 
