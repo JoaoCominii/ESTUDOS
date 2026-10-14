@@ -11,6 +11,12 @@ ZABBIX_PORT="${2:-10051}"
 HOST_NAME="${3:-agente-storage-01}"
 TEST_DIR="/tmp/fio_benchmarks"
 
+cleanup() {
+    rm -rf -- "${TEST_DIR}"
+}
+
+trap cleanup EXIT
+cleanup
 mkdir -p "${TEST_DIR}"
 mkdir -p "docs/experiments"
 mkdir -p "docs/results"
@@ -32,7 +38,7 @@ send_metric() {
 # 1. PERFIL A — Leitura Sequencial (4 KB)
 # ==============================================================================
 echo ""
-echo ">> [1/2] Executando Perfil A: Leitura Sequencial (4 KB, iodepth=1, runtime=5s)..."
+echo ">> [1/4] Executando Perfil A: Leitura Sequencial (4 KB, iodepth=1, runtime=5s)..."
 
 fio --name=perfil_a_seq \
     --directory="${TEST_DIR}" \
@@ -77,7 +83,7 @@ sleep 2
 # 2. PERFIL B — Leitura Aleatória (4 KB)
 # ==============================================================================
 echo ""
-echo ">> [2/2] Executando Perfil B: Leitura Aleatória (4 KB, iodepth=1, runtime=5s)..."
+echo ">> [2/4] Executando Perfil B: Leitura Aleatória (4 KB, iodepth=1, runtime=5s)..."
 
 fio --name=perfil_b_rand \
     --directory="${TEST_DIR}" \
@@ -116,11 +122,97 @@ send_metric "storage.latency.p99" "${P99_MS_B}"
 send_metric "storage.latency.p999" "${P999_MS_B}"
 echo "   ✓ Enviado com sucesso!"
 
-# Limpeza dos arquivos temporários de teste
-rm -rf "${TEST_DIR}"
+# ==============================================================================
+# 3. PERFIL C — Escrita Sequencial (128 KB)
+# ==============================================================================
+echo ""
+echo ">> [3/4] Executando Perfil C: Escrita Sequencial (128 KB, runtime=5s)..."
+
+fio --name=perfil_c_write_seq \
+    --directory="${TEST_DIR}" \
+    --rw=write \
+    --bs=128k \
+    --size=64M \
+    --runtime=5 \
+    --time_based \
+    --ioengine=sync \
+    --output-format=json \
+    --output="docs/experiments/fio-test-03.json"
+
+# Extrai métricas de escrita e envia ao Zabbix
+IOPS_C=$(jq -r '.jobs[0].write.iops' "docs/experiments/fio-test-03.json")
+BW_BYTES_C=$(jq -r '.jobs[0].write.bw_bytes' "docs/experiments/fio-test-03.json")
+BW_MB_C=$(awk -v bw="${BW_BYTES_C}" 'BEGIN { printf "%.2f", bw / 1048576 }')
+LAT_NS_C=$(jq -r '.jobs[0].write.lat_ns.mean' "docs/experiments/fio-test-03.json")
+LAT_MS_C=$(awk -v lat="${LAT_NS_C}" 'BEGIN { printf "%.4f", lat / 1000000 }')
+P99_NS_C=$(jq -r '.jobs[0].write.clat_ns.percentile["99.000000"] // 0' "docs/experiments/fio-test-03.json")
+P99_MS_C=$(awk -v lat="${P99_NS_C}" 'BEGIN { printf "%.4f", lat / 1000000 }')
+P999_NS_C=$(jq -r '.jobs[0].write.clat_ns.percentile["99.900000"] // 0' "docs/experiments/fio-test-03.json")
+P999_MS_C=$(awk -v lat="${P999_NS_C}" 'BEGIN { printf "%.4f", lat / 1000000 }')
+
+echo "   -> Enviando métricas do Perfil C para o Zabbix..."
+send_metric "storage.iops" "${IOPS_C}"
+send_metric "storage.bandwidth" "${BW_MB_C}"
+send_metric "storage.latency.avg" "${LAT_MS_C}"
+send_metric "storage.latency.p99" "${P99_MS_C}"
+send_metric "storage.latency.p999" "${P999_MS_C}"
+echo "   ✓ Enviado com sucesso!"
 
 # ==============================================================================
-# 3. Consolidação de Resultados (CSV para Artigo / Relatório)
+# 4. PERFIL D — Concorrência (variação de numjobs e iodepth)
+# ==============================================================================
+echo ""
+echo ">> [4/4] Executando Perfil D: Concorrência (numjobs e iodepth: 1, 2, 4 e 8)..."
+
+CONCURRENCY_CSV="docs/results/profile-d-concurrency.csv"
+printf "numjobs,iodepth,iops,bw_bytes,bw_mb,latency_avg_ms,p99_ms,p99_9_ms\n" > "${CONCURRENCY_CSV}"
+
+for NUMJOBS in 1 2 4 8; do
+    for IODEPTH in 1 2 4 8; do
+        D_OUTPUT="docs/experiments/fio-test-04-numjobs-${NUMJOBS}-iodepth-${IODEPTH}.json"
+
+        fio --name="perfil_d_j${NUMJOBS}_d${IODEPTH}" \
+            --directory="${TEST_DIR}" \
+            --filename="${TEST_DIR}/profile-d.dat" \
+            --rw=randread \
+            --bs=4k \
+            --size=64M \
+            --runtime=5 \
+            --time_based \
+            --ioengine=libaio \
+            --direct=1 \
+            --numjobs="${NUMJOBS}" \
+            --iodepth="${IODEPTH}" \
+            --group_reporting \
+            --output-format=json \
+            --output="${D_OUTPUT}"
+
+        IOPS_D=$(jq -r '.jobs[0].read.iops' "${D_OUTPUT}")
+        BW_BYTES_D=$(jq -r '.jobs[0].read.bw_bytes' "${D_OUTPUT}")
+        BW_MB_D=$(awk -v bw="${BW_BYTES_D}" 'BEGIN { printf "%.2f", bw / 1048576 }')
+        LAT_NS_D=$(jq -r '.jobs[0].read.lat_ns.mean' "${D_OUTPUT}")
+        LAT_MS_D=$(awk -v lat="${LAT_NS_D}" 'BEGIN { printf "%.4f", lat / 1000000 }')
+        P99_NS_D=$(jq -r '.jobs[0].read.clat_ns.percentile["99.000000"] // 0' "${D_OUTPUT}")
+        P99_MS_D=$(awk -v lat="${P99_NS_D}" 'BEGIN { printf "%.4f", lat / 1000000 }')
+        P999_NS_D=$(jq -r '.jobs[0].read.clat_ns.percentile["99.900000"] // 0' "${D_OUTPUT}")
+        P999_MS_D=$(awk -v lat="${P999_NS_D}" 'BEGIN { printf "%.4f", lat / 1000000 }')
+
+        printf "%s,%s,%s,%s,%s,%s,%s,%s\n" \
+            "${NUMJOBS}" "${IODEPTH}" "${IOPS_D}" "${BW_BYTES_D}" \
+            "${BW_MB_D}" "${LAT_MS_D}" "${P99_MS_D}" "${P999_MS_D}" \
+            >> "${CONCURRENCY_CSV}"
+
+        echo "   -> Enviando métricas do Perfil D (numjobs=${NUMJOBS}, iodepth=${IODEPTH}) ao Zabbix..."
+        send_metric "storage.iops" "${IOPS_D}"
+        send_metric "storage.bandwidth" "${BW_MB_D}"
+        send_metric "storage.latency.avg" "${LAT_MS_D}"
+        send_metric "storage.latency.p99" "${P99_MS_D}"
+        send_metric "storage.latency.p999" "${P999_MS_D}"
+    done
+done
+
+# ==============================================================================
+# 5. Consolidação de Resultados (CSV para Artigo / Relatório)
 # ==============================================================================
 CSV_FILE="docs/results/experiment-comparison.csv"
 cat <<EOF > "${CSV_FILE}"
@@ -147,5 +239,8 @@ echo "=================================================================="
 echo "Arquivos gerados para evidências do artigo:"
 echo " - docs/experiments/fio-test-01.json"
 echo " - docs/experiments/fio-test-02.json"
+echo " - docs/experiments/fio-test-03.json"
+echo " - docs/experiments/fio-test-04-numjobs-*-iodepth-*.json"
+echo " - ${CONCURRENCY_CSV}"
 echo " - ${CSV_FILE}"
 echo "=================================================================="
